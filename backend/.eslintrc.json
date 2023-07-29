@@ -9,6 +9,10 @@
     "rules": {
         "indent": "off",
         "no-trailing-spaces": "off",
-        "quotes": ["error", "double"]
+        "quotes": ["error", "double"],
+        "import/no-extraneous-dependencies": "off",
+        "import/no-unresolved": "off",
+        "import/extensions": "off",
+        "eol-last": "off"
     }
 }

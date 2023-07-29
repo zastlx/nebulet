@@ -23,7 +23,6 @@ export default function setupRoutes(dir: string, app: Application, baseRoute: st
         const methods: methods = route.methods;
 
         methods.forEach((method) => {
-            console.log(method);
             app[method](`/api${fileRoute}`, route[method]);
         });
     });

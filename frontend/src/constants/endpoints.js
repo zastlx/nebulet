@@ -2,9 +2,9 @@ const BASE_URL = "/api";
 
 export const ENDPOINTS = {
     AUTHENTICATION: {
-        LOGIN: `${BASE_URL}/login`,
-        REGISTER: `${BASE_URL}/register`,
-        LOGOUT: `${BASE_URL}/logout`
+        LOGIN: `${BASE_URL}/auth/login`,
+        REGISTER: `${BASE_URL}/auth/register`,
+        LOGOUT: `${BASE_URL}/auth/logout`
     },
     CHAT: {
         MESSAGES: {

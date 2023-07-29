@@ -18,7 +18,6 @@ function setupRoutes(dir, app, baseRoute = "") {
         const route = require(filePath).default;
         const methods = route.methods;
         methods.forEach((method) => {
-            console.log(method);
             app[method](`/api${fileRoute}`, route[method]);
         });
     });

@@ -1,69 +1,57 @@
-import express from "express";
-import axios from "axios";
-import querystring from "querystring";
+const express = require('express');
+const {
+    v4: uuidv4
+} = require('uuid');
+const SessionsManager = require('./sm');
+const fs = require('fs');
+const path = require('path');
 
 const app = express();
-const PORT = 3000;
-const CLIENT_ID = '1131359495302422598';
-const CLIENT_SECRET = 'mkyvveFuGX0xvMT755ouSX5j4o9_aL58';
-const REDIRECT_URI = 'http://localhost:3000/auth/callback'; // Must match the redirect URL in Discord Developer Portal
+const sessionsManager = new SessionsManager();
 
-app.get('/auth', (req, res) => {
-  // Redirect users to the Discord authorization URL
-  const params = querystring.stringify({
-    client_id: CLIENT_ID,
-    redirect_uri: REDIRECT_URI,
-    response_type: 'code',
-    scope: 'identify', // Change this scope according to your requirements
-  });
-  res.redirect(`https://discord.com/api/oauth2/authorize?${params}`);
+app.use(express.json());
+app.use(sessionsManager.middleWare.bind(sessionsManager));
+
+app.get('/save', (req, res) => {
+    sessionsManager.saveAllSessionsToDisk();
+
+    res.send('SVING SESIONS!')
+})
+
+app.get("/test2", async (req,res) => {
+    await fs.promises.writeFile(path.join(sessionsManager.dir, `${req.session.id}TEST.json`), JSON.stringify(req.session), "utf8");
+
+    res.send('jew');
+})
+
+app.get('/user/:sessionId', async (req, res) => {
+    let {
+        sessionId
+    } = req.params;
+    if (!sessionId) sessionId = req.session.id;
+    const session = await sessionsManager.get(sessionId);
+
+    if (session.err) {
+        res.status(404).json({
+            message: 'Session not found or expired.'
+        });
+    } else {
+        res.json({
+            lastAccessTime: session.lastAccessTime
+        });
+    }
 });
 
-app.get('/auth/callback', async (req, res) => {
-  const code = req.query.code;
-  if (!code) {
-    return res.status(400).send('Error: No authorization code received.');
-  }
-
-  try {
-    // Exchange the authorization code for an access token
-    const params = querystring.stringify({
-      client_id: CLIENT_ID,
-      client_secret: CLIENT_SECRET,
-      grant_type: 'authorization_code',
-      code: code,
-      redirect_uri: REDIRECT_URI,
-      scope: 'identify', // Change this scope according to your requirements (must match with the scope used in the /auth route)
-    });
-
-    const response = await axios.post('https://discord.com/api/oauth2/token', params, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
-
-    const access_token = response.data.access_token;
-    // Now you can use the access_token to access the Discord API on behalf of the user
-
-    // For example, you can fetch user information
-    const userResponse = await axios.get('https://discord.com/api/users/@me', {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
-
-    console.log(userResponse.data);
-
-    // Do something with the userResponse.data (e.g., save user info to your database, authenticate user, etc.)
-
-    // Return a response to the frontend indicating successful authentication
-    res.send('Authentication successful!');
-  } catch (error) {
-    console.error('Error during authentication:', error.message);
-    res.status(500).send('Authentication failed. Please try again.');
-  }
+app.get('/user/', async (req, res) => {
+   res.send(req.session);
 });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+app.get("/test", async (req, res) => {
+    req.session.test = 'testwork!';
+
+    res.send('sted!')
+})
+
+app.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
 });

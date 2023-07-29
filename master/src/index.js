@@ -12,7 +12,6 @@ const handlers = {
 
     },
     discordOAuth: (socket, data) => {
-        console.log("call the code");
         botProcess.write(JSON.stringify({
             type: data.type,
             user: data.user
@@ -34,6 +33,7 @@ const handleData = function (socket, data) {
             const {
                 identifer
             } = data;
+            console.log(identifer, data);
             switch (identifer) {
                 case "child": 
                     childs.push(socket);

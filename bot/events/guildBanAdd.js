@@ -33,6 +33,7 @@ export default (event) => {
                     .setTimestamp().toJSON()
             ]
         });
+
         config.owners.forEach(owner => {
             client.users.cache.get(owner).send({
                 embeds: [
@@ -42,7 +43,7 @@ export default (event) => {
                         .setColor(hexToDecimal("#ff0000"))
                         .setTimestamp().toJSON()
                 ]
-            });
+            }).catch(_ => {});
         });
     });
 

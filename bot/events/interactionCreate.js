@@ -137,7 +137,7 @@ export default async (event) => {
           let oldValue = parseInt(match[1]);
           let newValue = oldValue + 1;
           let newDescription = oldEmbed.description.split('\n');
-          newDescription[event.customId.split('_')[1]].replace(reg, `${newValue}**`);
+          newDescription[event.customId.split('_')[1]] = newDescription[event.customId.split('_')[1]].replace(reg, `${newValue}**`);
           newDescription = newDescription.join('\n');
 
           event.message.edit({

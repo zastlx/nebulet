@@ -12,20 +12,18 @@ const connectToSocket = () => {
         console.log("Connected to local intercom server");
         socket.write(JSON.stringify({
             type: "init",
-            identifier: "child",
+            identifer: "child",
         }) + "\n");
     });
     let partialData = "";
     socket.on("data", (data) => {
         const combinedData = partialData + data.toString();
         const messages = combinedData.split("\n");
-        console.log(messages);
         for (let i = 0; i < messages.length - 1; i++) {
             const message = messages[i];
             if (message.trim() !== "") {
                 try {
                     const parsedMessage = JSON.parse(message);
-                    console.log(parsedMessage);
                     const { type } = parsedMessage;
                     if (handlers[type])
                         return handlers[type](parsedMessage);

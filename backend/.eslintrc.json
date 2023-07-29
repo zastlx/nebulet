@@ -22,5 +22,6 @@
         "comma-dangle": "off",
         "@typescript-eslint/ban-ts-comment": "off",
         "consistent-return": "off"
-    }
+    },
+    "ignorePatterns": ["**/*", "!src/**"]
 }

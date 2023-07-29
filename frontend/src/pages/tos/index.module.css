@@ -1,0 +1,35 @@
+
+body {
+    background-image: linear-gradient(45deg, rgba(25, 56, 215, 1) 0%, rgba(154, 28, 203, 1) 50%, rgba(195, 9, 147, 1) 100%);
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+  
+.content {
+    font-size: 16px;
+    margin: 10px 0;
+    color: #e8d1ff;
+    margin: 80px 5% 80px 5%;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: left;
+    color: #ffffff;
+    margin: 85px 0 20px 0;
+    text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.7);
+}
+
+.subheader {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    color: #ffffff;
+    width: 90%;
+    margin: 20px 0 10px 0;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+}

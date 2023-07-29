@@ -1,0 +1,55 @@
+import {
+    SlashCommandBuilder,
+    EmbedBuilder,
+    PermissionFlagsBits,
+    Embed
+} from "discord.js";
+import { db } from "../managers/setup.js";
+import config from "../config.js";
+import axios from "axios";
+
+export default {
+    permissions: [
+        config.roleConfig.Owner,
+        config.roleConfig.Developer,
+        config.roleConfig.Admin
+    ],
+    data: new SlashCommandBuilder()
+        .setName("steal")
+        .setDescription("Steal an emoji from another server.")
+        .addStringOption(o => o.setName('emoji').setDescription(`Insert the emoji to add here.`).setRequired(true))
+        .addStringOption(o => o.setName('server-name').setDescription(`The name for the emoji.`).setRequired(true))
+        .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuildExpressions),
+    
+    async execute(interaction) {
+        let emoji = interaction.options.getString('emoji').trim();
+        let name = interaction.options.getString('server-name');
+
+        let id = emoji.match(/\d{15,}/g)?.[0];
+        if (!id) return interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                .setDescription(`What kind of idiot tries to steal default emojis?`)
+            ],
+            ephemeral: true
+        });
+
+        let type = await axios.get(`https://cdn.discordapp.com/emojis/${id}.gif`).then((r) => 'gif').catch(e => 'png');
+        let emojiURL = `https://cdn.discordapp.com/emojis/${id}.${type}?quality=lossless`;
+
+        let addedEmoji = await interaction.guild.emojis.create({
+            attachment: emojiURL,
+            name
+        });
+
+        console.log(addedEmoji);
+
+        interaction.reply({
+            embeds: [
+                new EmbedBuilder()
+                .setDescription(`# Added! ${addedEmoji.animated ? `<a:${addedEmoji.name}:${addedEmoji.id}>` : `<:${addedEmoji.name}:${addedEmoji.id}>`}`)
+            ],
+            ephemeral: true
+        })
+    }
+}

@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700|Titan+One|Creepster|Satisfy|Eczar:700');
+
+.link {
+    color: blue;
+    text-decoration: none;
+}
+
+.blook {
+    height: 160px;
+    margin: auto 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button {
+    font-weight: 300;
+    padding: 1vh 3vw;
+    outline: #fff solid 0.35vh;
+    border-radius: 0.35vh;
+    cursor: pointer;
+    font-size: 3vh;
+    transition: all 0.2s;
+  }
+
+body {
+    font-family: nunito;
+}

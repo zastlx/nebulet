@@ -1,123 +1,134 @@
 import path from "path";
 import fs from "fs";
-import ids from "../utils/ids.js";
-
-interface Session {
-    userid: string;
-    lastAccessTime: number;
-}
-
-interface SessionCache {
-    [sid: string]: Session;
-}
+import {
+    v4 as uuidv4
+} from "uuid";
 
 class SessionsManager {
+    memcache: {
+        [key: string]: any
+    };
     dir: string;
-    private memcache: SessionCache = {};
-
-    private static readonly timeout = 30 * 60 * 1000;
+    timeout: number;
 
     constructor() {
-        this.dir = path.join(__dirname, '..', 'sessions');
+        this.dir = path.join(process.cwd(), "sessions");
+        this.memcache = {};
 
+        this.timeout = 30 * 60 * 1000;
         this.startCleanupInterval();
 
-        setInterval(async () => {
-            try {
-                console.log('String periodic backup.');
-                await this.saveAllSessionsToDisk();
-                console.log('Periodic backup completed.');
-              } catch (error) {
-                console.error('Error performing periodic backup:', error);
-              }
-        }, SessionsManager.timeout);
+        let isCleanupInProgress = false;
+
+        const cleanup = async () => {
+            if (isCleanupInProgress) {
+                return;
+            }
+
+            isCleanupInProgress = true;
+
+            console.log("[SessionManager] Shutdown initiated. Saving sessions to disk...");
+            await this.saveAllSessionsToDisk();
+
+            isCleanupInProgress = false;
+        };
 
         process.on("exit", async () => {
-            console.log('[SessionManager] Shutdown initiated. Saving sessions to disk...');
-            await this.saveAllSessionsToDisk();
-            console.log('[SessionManager] Sessions saved. Exiting...');
+            await cleanup();
+            console.log("[SessionManager] Cleanup completed. Exiting process.");
+        });
+
+        process.on("SIGINT", async () => {
+            await cleanup();
+            console.log("[SessionManager] Cleanup completed. Exiting process.");
+            process.kill(process.pid, 9);
         });
     }
 
-    public async saveAllSessionsToDisk() {
+    async saveAllSessionsToDisk() {
         for (const sessionId in this.memcache) {
-            const session = this.memcache[sessionId];
-            await this.writeSessionToDisk(session, sessionId);
+            await this.writeSessionToDisk(sessionId);
         }
     }
 
-    public async writeSessionToDisk(session: Session, sid: string) {
-        try {
-            const sPath = path.join(this.dir, `${sid}.json`);
-            await fs.promises.writeFile(sPath, JSON.stringify(session), 'utf8');
-        } catch (error) {
-            console.error('Error writing session to disk:', error);
-        }
+    async writeSessionToDisk(sid: string) {
+        await fs.promises.writeFile(path.join(this.dir, `${sid}.json`), JSON.stringify(this.memcache[sid]), "utf8");
     }
 
-    private startCleanupInterval() {
+    startCleanupInterval() {
         const cleanup = () => {
             const now = Date.now();
             for (const sessionId in this.memcache) {
                 const session = this.memcache[sessionId];
                 if (this.isSessionInactive(session, now)) {
+                    this.writeSessionToDisk(sessionId);
                     delete this.memcache[sessionId];
                 }
             }
-            setTimeout(cleanup, SessionsManager.timeout / 2); // Schedule the next cleanup
+            setTimeout(cleanup, this.timeout / 2); // Schedule the next cleanup
         };
-    
-        setTimeout(cleanup, SessionsManager.timeout / 2); // Initial cleanup
-    }
-    
-    private isSessionInactive(session: Session, currentTime: number): boolean {
-        return currentTime - session.lastAccessTime >= SessionsManager.timeout;
-    }
-    
 
-    async create(uid: string) {
-        const sid = ids.session();
+        setTimeout(cleanup, this.timeout / 2); // Initial cleanup
+    }
+
+    isSessionInactive(session: {
+        lastAccessTime: number
+    }, currentTime: number) {
+        return currentTime - session.lastAccessTime >= this.timeout;
+    }
+
+    create() {
+        const sid = uuidv4();
         this.memcache[sid] = {
-            userid: uid,
-            lastAccessTime: Date.now()
-        }
+            id: sid,
+            lastAccessTime: Date.now(),
+        };
 
-        return this.memcache[sid];
+        return sid;
     }
 
     async get(sid: string) {
         try {
             if (this.memcache[sid]) {
                 this.memcache[sid].lastAccessTime = Date.now();
-                return this.memcache[sid]
+            } else {
+                const sPath = path.join(this.dir, `${sid}.json`);
+                const fileContent = await fs.promises.readFile(sPath, "utf8");
+                const session = JSON.parse(fileContent);
+                session.lastAccessTime = Date.now();
+                this.memcache[sid] = session;
             }
-
-            const sPath = path.join(this.dir, `${sid}.json`);
-
-            // @ts-ignore
-            const file: Session = JSON.parse(await fs.readFile(sPath, "utf8"));
-            file.lastAccessTime = Date.now();
-            this.memcache[sid] = file;
 
             return this.memcache[sid];
         } catch (error) {
             console.log(error);
             return {
-                err: true
+                err: true,
             };
         }
     }
 
-    async isValid(sid: string) {
-        if (this.memcache[sid]) return true;
+    async middleWare(req: any, res: any, next: any) {
+        let SID = req.headers["authorization"];
+        let session = (await this.get(SID));
 
-        try {
-            const sPath = path.join(this.dir, `${sid}.json`);
-            // @ts-ignore
-            await fs.access(sPath, fs.constants.F_OK);
-            return true;
-        } catch {
-            return false;
+        if (session.err) {
+            SID = this.create();
+            session = this.memcache[SID];
         }
+
+        req.session = new Proxy(session, {
+            set: (target: any, property: any, value: any) => {
+                target[property] = value;
+                this.memcache[SID][property] = value; // Use SID instead of session.id to update the session in the memcache
+                return true;
+            },
+        });
+
+        next();
     }
 }
+
+const sessionsManager = new SessionsManager();
+
+export default sessionsManager;

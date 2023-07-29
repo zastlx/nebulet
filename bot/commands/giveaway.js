@@ -3,7 +3,7 @@ import {
     EmbedBuilder,
     ModalBuilder,
     TextInputBuilder,
-    TextInputStyle,
+    TextInputStyle, // 
     ActionRowBuilder
 } from "discord.js";
 import { db } from "../managers/setup.js";

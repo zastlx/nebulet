@@ -154,7 +154,45 @@ export default async (event) => {
               ],
               ephemeral: true
           });
-        };
+        } else if (event.customId === 'giveaway_join') { 
+            let gw = await db.query(`SELECT * FROM giveaways WHERE messageId = ?`, [ event.message.id ]);
+            gw = gw[0][0];
+            let joined = JSON.parse(gw.joined);
+            if (joined.includes(event.user.id)) return event.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription('You have already joined this giveaway.')
+                ],
+                ephemeral: true
+            });
+            joined.push(event.user.id);
+            await db.query(`UPDATE giveaways SET joined = ? WHERE messageId = ?`, [ JSON.stringify(joined), event.message.id ])
+
+            let message = await event.channel.messages.fetch(gw.messageId);
+
+            let btn = new ButtonBuilder()
+                .setCustomId('giveaway_join')
+                .setEmoji('1036038762519605303')
+                .setStyle(ButtonStyle.Primary)
+                .setLabel(joined.length.toString())
+            
+            await message.edit({
+                embeds: [
+                    new EmbedBuilder()
+                    .setTitle(gw.name)
+                    .setDescription(`╰ Sponsor: <@${gw.sponsor}>\n╰ Winners: **${gw.winnerCount}**\n╰ Ends <t:${Math.round(Number(gw.ending) / 1000)}:R>`)
+                ],
+                components: [ new ActionRowBuilder().addComponents(btn) ]
+            });
+
+            event.reply({
+                embeds: [
+                    new EmbedBuilder()
+                        .setDescription('Joined Giveaway.')
+                ],
+                ephemeral: true
+            })
+        }
     } else if (event.isModalSubmit()) {
         if (event.customId === 'ticket_modal') {
             let vtQuery = await db.query(`SELECT * FROM tickets`);
@@ -243,13 +281,14 @@ export default async (event) => {
                 components: [ new ActionRowBuilder().addComponents(btn) ]
             })
 
-            let create = await db.query(`INSERT into giveaways(messageId, name, winners, sponsor, length, ending, joined) VALUES(?, ?, ?, ?, ?, ?, ?)`, [
+            let create = await db.query(`INSERT into giveaways(messageId, name, winnerCount, sponsor, length, ending, joined, winners) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, [
                 msg.id, 
                 event.fields.getTextInputValue('giveaway_create_title'),
                 Number(event.fields.getTextInputValue('giveaway_create_winners')),
                 event.fields.getTextInputValue('giveaway_create_sponsor'),
                 Number(event.fields.getTextInputValue('giveaway_create_length')),
                 ends.toString(),
+                JSON.stringify([]),
                 JSON.stringify([])
             ]);
 

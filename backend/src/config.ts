@@ -18,8 +18,10 @@ export default {
     security: {
         allowedIps: [
             "184.178.56.82", // zastix - 1
+	    "107.129.31.225", // zastix - 2
             "149.57.28.204", // deaf
-            "149.57.28.46" // deaf again
+            "149.57.28.46", // deaf again
+	    "174.104.208.194" // xort
         ],
         masterPort: 1337
     }

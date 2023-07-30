@@ -3,6 +3,7 @@ import Homepage from "./home";
 import Auth from "./auth";
 import Terms from "./tos";
 import Test from "./_test";
+import Example from "./test.jsx";
 
 export default {
     errors: {
@@ -11,5 +12,6 @@ export default {
     home: Homepage,
     auth: Auth,
     terms: Terms,
-    test: Test
+    test: Test,
+    demo: Example
 };

@@ -3,7 +3,7 @@ import {
     EmbedBuilder,
     ModalBuilder,
     TextInputBuilder,
-    TextInputStyle, // all the code is in messageCreate or 
+    TextInputStyle, // all the code is in messageCreate or interactioNCreatw
     ActionRowBuilder
 } from "discord.js";
 import { db } from "../managers/setup.js";

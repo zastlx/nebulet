@@ -12,9 +12,11 @@ const eventFiles = await readdirSync("./events").filter(file => file.endsWith(".
 for (const file of commandFiles) {
     const command = await import(`./commands/${file}`);
     client.commands.set(file.split('.')[0], {
+        file,
         data: command.default.data,
         execute: command.default.execute,
-        permissions: command.default.permissions
+        permissions: command.default.permissions,
+        interactions: command.default.interactions || {}
     });
 }
 
@@ -31,4 +33,4 @@ setTimeout(() => {
 
 client.login(config.token);
 
-process.on('uncaughtException', (err) => console.error(err));
+process.on('uncaughtException', (err) => console.error(err.message));

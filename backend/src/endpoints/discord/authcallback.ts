@@ -1,22 +1,20 @@
 import querystring from "querystring";
 import {
-    Request,
     Response
 } from "express";
+import { sRequest } from "../../declarations/sessions.js";
 import axios from "axios";
 import config from "../../config.js";
 import intercom from "../../managers/intercom.js";
 
 export default {
     methods: ["get"],
-    get: async (req: Request, res: Response) => {
+    get: async (req: sRequest, res: Response) => {
         const {
             code
         } = req.query;
 
-        if (!code) {
-            res.status(400).send("Missing authorization code.");
-        }
+        if (!code) res.status(400).send("Missing authorization code.");
 
         const tokenResponse = await axios.post("https://discord.com/api/oauth2/token", querystring.stringify({
             client_id: config.oauth.discord.cid,

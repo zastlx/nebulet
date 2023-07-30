@@ -104,7 +104,7 @@ class SessionsManager {
     middleWare(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             let SID = req.headers["authorization"];
-            let session = (yield this.get(SID));
+            let session = yield this.get(SID || this.create());
             if (session.err) {
                 SID = this.create();
                 session = this.memcache[SID];

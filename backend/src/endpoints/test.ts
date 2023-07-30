@@ -1,8 +1,10 @@
-import { Request, Response } from "express";
+import { Response } from "express"; 
+import { sRequest } from "../declarations/sessions";
 
 export default {
     methods: ["get"],
-    get: (req: Request, res: Response) => {
-        res.send("NIGER");
+    get: (req: sRequest, res: Response) => {
+        req.session.test = "NIGER?";
+        res.send(req.session);
     }
 };

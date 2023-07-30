@@ -1,6 +1,6 @@
-import { createPool } from "mysql2";
+import { createPool, Pool } from "mysql2";
 import config from "../config.js";
 
-const pool = createPool(config.mysql);
+const pool: Pool = createPool(config.mysql);
 
 export default pool;

@@ -18,5 +18,5 @@ export default {
             ],
             ephemeral: true
         });
-    },
+    }
 }

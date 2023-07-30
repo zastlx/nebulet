@@ -3,6 +3,7 @@ import fs from "fs";
 import {
     Application
 } from "express";
+import { createProxyMiddleware } from "http-proxy-middleware";
 
 /* eslint-disable */
 export default function setupMiddlewares(dir: string, app: Application, baseRoute: string = "") {
@@ -17,6 +18,16 @@ export default function setupMiddlewares(dir: string, app: Application, baseRout
         const middleware = require(filePath).default;
 
         app.use(middleware);
+    });
+    const viteAppProxyMiddleware = createProxyMiddleware({
+        target: "http://localhost:6009",
+        changeOrigin: true,
+    });
+
+    app.use((req, res, next) => {
+        if (req.path.startsWith("/api")) return next();
+    
+        viteAppProxyMiddleware(req, res, next);
     });
 };
 /* eslint-enable */

@@ -110,7 +110,7 @@ class SessionsManager {
 
     async middleWare(req: any, res: any, next: any) {
         let SID = req.headers["authorization"];
-        let session = (await this.get(SID));
+        let session = await this.get(SID || this.create());
 
         if (session.err) {
             SID = this.create();

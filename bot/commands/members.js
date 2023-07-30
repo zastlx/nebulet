@@ -20,5 +20,5 @@ export default {
             ],
             ephemeral: true
         });
-    },
+    }
 }

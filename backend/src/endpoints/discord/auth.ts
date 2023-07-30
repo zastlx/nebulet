@@ -1,13 +1,13 @@
 import querystring from "querystring";
 import {
-    Request,
     Response
 } from "express";
+import { sRequest } from "../../declarations/sessions";
 import config from "../../config";
 
 export default {
     methods: ["get"],
-    get: (req: Request, res: Response) => {
+    get: (req: sRequest, res: Response) => {
         const params = querystring.stringify({
             client_id: config.oauth.discord.cid,
             redirect_uri: "https://nebulet.zastix.club/api/discord/authcallback",

@@ -20,9 +20,8 @@ exports.default = {
     methods: ["get"],
     get: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const { code } = req.query;
-        if (!code) {
+        if (!code)
             res.status(400).send("Missing authorization code.");
-        }
         const tokenResponse = yield axios_1.default.post("https://discord.com/api/oauth2/token", querystring_1.default.stringify({
             client_id: config_js_1.default.oauth.discord.cid,
             client_secret: config_js_1.default.oauth.discord.secret,

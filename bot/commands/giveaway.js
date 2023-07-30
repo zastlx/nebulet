@@ -3,7 +3,7 @@ import {
     EmbedBuilder,
     ModalBuilder,
     TextInputBuilder,
-    TextInputStyle, // 
+    TextInputStyle, // all the code is in messageCreate or 
     ActionRowBuilder
 } from "discord.js";
 import { db } from "../managers/setup.js";
@@ -36,7 +36,7 @@ export default {
 
             const winners = new TextInputBuilder()
                 .setCustomId('giveaway_create_winners')
-                .setLabel('Winners:')
+                .setLabel('Winner Count:')
                 .setStyle(TextInputStyle.Short);
 
             const sponsor = new TextInputBuilder()

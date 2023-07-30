@@ -8,12 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const database_1 = __importDefault(require("../../managers/database"));
 exports.default = {
     methods: ["post"],
     post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        const { username, password } = req.body;
-        //const [result] = await pool.query("SELECT password, ip FROM users WHERE username = ?", [username]);
-        // if (result.length < 1) res.send('test error'):
+        try {
+            const result = (yield database_1.default.query('SELECT * FROM users'))[0];
+            resu;
+        }
+        catch (err) {
+            console.error('Error fetching users:', err);
+            res.status(500).json({
+                error: 'Internal Server Error'
+            });
+        }
     })
 };

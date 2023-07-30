@@ -1,8 +1,7 @@
 import path from "path";
 import fs from "fs";
-import {
-    v4 as uuidv4
-} from "uuid";
+import ids from "../utils/ids";
+
 
 class SessionsManager {
     memcache: {
@@ -78,7 +77,7 @@ class SessionsManager {
     }
 
     create() {
-        const sid = uuidv4();
+        const sid = ids.session();
         this.memcache[sid] = {
             id: sid,
             lastAccessTime: Date.now(),

@@ -6,19 +6,22 @@ import { Routes } from "discord.js";
 import { client, rest } from "./managers/setup.js";
 import socket from "./managers/intercom.js";
 
-const commandFiles = await readdirSync("./commands").filter(file => file.endsWith(".js"));
+const commandFolders = await readdirSync("./commands");
 const eventFiles = await readdirSync("./events").filter(file => file.endsWith(".js"));
 
-for (const file of commandFiles) {
-    const command = await import(`./commands/${file}`);
-    client.commands.set(file.split('.')[0], {
-        file,
-        data: command.default.data,
-        execute: command.default.execute,
-        permissions: command.default.permissions,
-        interactions: command.default.interactions || {}
+for (const folder of commandFolders) {
+    const commandFiles = readdirSync(`./commands/${folder}/`).filter(a => a.endsWith('.js'));
+    commandFiles.forEach(async (file) => {
+        const command = await import(`./commands/${folder}/${file}`)
+        client.commands.set(file.split('.')[0], {
+            file,
+            data: command.default.data,
+            execute: command.default.execute,
+            permissions: command.default.permissions,
+            interactions: command.default.interactions || {}
+        });
     });
-}
+};
 
 for (const file of eventFiles) {
     const event = await import(`./events/${file}`);

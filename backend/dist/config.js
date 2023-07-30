@@ -5,7 +5,7 @@ exports.default = {
     mysql: {
         host: "localhost",
         user: "root",
-        password: "",
+        password: "&+YNL4_Uc7d!cU#Y2kTh*QDzsNGc43DVNVQrzYj8Pgzzkb5LTrSdRjqmDtHfe=RfG=$CH",
         database: "nebulet",
     },
     server: {

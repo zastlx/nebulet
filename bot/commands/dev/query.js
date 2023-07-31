@@ -4,9 +4,11 @@ import {
     ActionRowBuilder,
     ModalBuilder,
     TextInputBuilder,
-    TextInputStyle
+    TextInputStyle,
+    EmbedBuilder
 } from "discord.js";
-import config from "../config.js";
+import config from "../../config.js";
+import { db } from "../../managers/setup.js";
 
 export default {
     permissions: [
@@ -35,5 +37,31 @@ export default {
             );
 
         interaction.showModal(modal);
+    },
+    interactions: {
+        'query_modal': async (event) => {
+            try {
+                let t = await db.query(event.fields.getTextInputValue('query_modal_input'));
+                event.reply({
+                    embeds: [
+                        new EmbedBuilder()
+                        .setDescription('**Input:**\n```' + event.fields.getTextInputValue('query_modal_input') + '```\n**Output:**\n```' + JSON.stringify(t[0][0], null, 2) + '\n```')
+                    ],
+                    ephemeral: event.customId.endsWith('true')
+                })
+            } catch(e) {
+                console.log(e)
+                event.reply({
+                    embeds: [
+                        new EmbedBuilder()
+                        .setDescription('**Input:**\n```' + event.fields.getTextInputValue('query_modal_input') + '```\n**Output:**\n```diff\n- ' + e + '\n```')
+                        .setFooter({
+                            text: 'one or more errors is usually too big a query :)'
+                        })
+                    ],
+                    ephemeral: event.customId.endsWith('true')
+                })
+            }
+        }
     }
 }

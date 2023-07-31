@@ -100,7 +100,6 @@ class SessionsManager {
 
             return this.memcache[sid];
         } catch (error) {
-            console.log(error);
             return {
                 err: true,
             };
@@ -116,10 +115,9 @@ class SessionsManager {
             session = this.memcache[SID];
         }
 
-        req.session = new Proxy(session, {
+        req.session = new Proxy(session || this.memcache[SID], {
             set: (target: any, property: any, value: any) => {
                 target[property] = value;
-                this.memcache[SID][property] = value; // Use SID instead of session.id to update the session in the memcache
                 return true;
             },
         });

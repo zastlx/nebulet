@@ -10,8 +10,8 @@ import {
     TextInputStyle,
     ChannelType
 } from "discord.js";
-import { client, db } from "../managers/setup.js";
-import config from "../config.js";
+import { db } from "../../managers/setup.js";
+import config from "../../config.js";
 
 export default {
     permissions: [

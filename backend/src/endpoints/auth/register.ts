@@ -13,23 +13,24 @@ export default {
     methods: ["post"],
     post: async (req: sRequest, res: Response) => {
         try {
+            if (req.session.user) return res.status(400).send("Your already logged in.");
             const { password, username } = req.body;
 
             if (!username || !password) return res.status(400).send("Username and password are required.");
-            if (typeof username !== "string" || typeof password !== "string") return res.status(400).send("Username and password must be strings");
-            if (username.length > 24) return res.status(400).send("Username must be 24 chars or less");
-            if (username.length < 2) return res.status(400).send("Username must be atleast 2 chars long");
-            if (/[^-\]_.a-zA-Z0-9]/.test(username)) return res.status(400).send("Username can not have any special charaters");
-            if (password.length < 10) return res.status(400).send("Password must be atleast 10 chars long");
+            if (typeof username !== "string" || typeof password !== "string") return res.status(400).send("Username and password must be strings.");
+            if (username.length > 16 || username.length < 3) return res.status(400).send("Usernames must be between 3 and 16 characters long.");
+            if (/[^-\]_.a-zA-Z0-9]/.test(username)) return res.status(400).send("Username cannot have any special charaters.");
+            if (password.length < 6) return res.status(400).send("Password must be at least 6 characters long.");
+            if (username === password) return res.status(400).send("Username and password cannot be the same.");
 
             const userCount = (await pool.query<resultCount[]>('SELECT COUNT(*) AS count FROM users WHERE username = ?', [username]))[0];
 
-            if (userCount[0].count > 0) res.status(409).send("Username is already taken");
+            if (userCount[0].count > 0) return res.status(409).send("Username is already taken");
 
             const uId = ids.user();
 
-            pool.query(`INSERT INTO users (
-                Primary,
+            await pool.query(`INSERT INTO users (
+                id,
                 username,
                 discord,
                 password,
@@ -55,7 +56,7 @@ export default {
                 '',
                 ?,
                 '/content/blooks/Astronaut.png',
-                '{}',
+                '[]',
                 '/content/banners/default.png',
                 '{}',
                 2500,
@@ -70,14 +71,17 @@ export default {
                 NULL,
                 '[]',
                 '{}'
-            );`, [uId, username, (await bcrypt.hash(password)), md5.hash(req.ip)])
+            );`, [uId, username, (await bcrypt.hash(password)), md5.hash(req.ip)]);
 
-            
+            req.session.user = uId;
+
+            return res.status(200).send({
+                id: uId,
+                token: req.session.id
+            });
         } catch (err) {
             console.error(err);
-            res.status(500).json({
-                error: 'Internal Server Error'
-            });
+            return res.status(500).send("Internal Server Error");
         }
     }
 }

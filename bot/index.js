@@ -1,10 +1,7 @@
 import config from "./config.js";
-import {
-    readdirSync
-} from "fs";
+import { readdirSync } from "fs";
 import { Routes } from "discord.js";
 import { client, rest } from "./managers/setup.js";
-import socket from "./managers/intercom.js";
 
 const commandFolders = await readdirSync("./commands");
 const eventFiles = await readdirSync("./events").filter(file => file.endsWith(".js"));
@@ -12,13 +9,14 @@ const eventFiles = await readdirSync("./events").filter(file => file.endsWith(".
 for (const folder of commandFolders) {
     const commandFiles = readdirSync(`./commands/${folder}/`).filter(a => a.endsWith('.js'));
     commandFiles.forEach(async (file) => {
-        const command = await import(`./commands/${folder}/${file}`)
+        const command = await import(`./commands/${folder}/${file}`);
         client.commands.set(file.split('.')[0], {
-            file,
             data: command.default.data,
             execute: command.default.execute,
             permissions: command.default.permissions,
-            interactions: command.default.interactions || {}
+            interactions: command.default.interactions || {},
+            category: folder,
+            file
         });
     });
 };
@@ -36,4 +34,4 @@ setTimeout(() => {
 
 client.login(config.token);
 
-process.on('uncaughtException', (err) => console.error(err.message));
+process.on('uncaughtException', (err) => console.log(err));

@@ -23,7 +23,7 @@ export default {
             code: `${code}`,
             redirect_uri: "https://nebulet.zastix.club/api/discord/authcallback",
             scope: "identify",
-        }));
+        })); // deaf coding!
 
         const {
             access_token: accessToken

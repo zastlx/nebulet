@@ -6,6 +6,7 @@ import styles from "./index.module.css";
 import {useEffect, useState} from "react";
 import authStore from "../../stores/AuthStore";
 import APIManager from "../../services/apiManager";
+window.am = APIManager;
 import { ENDPOINTS } from "../../constants/endpoints";
 import { useNavigate } from "react-router-dom";
 import userStore from "../../stores/UserStore";

@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-import { client, db } from "../managers/setup.js";
+import { db } from "../managers/setup.js";
 
 export default async (event) => {
     let query = await db.query(`SELECT * FROM giveaways WHERE winners = ?`, ['[]']);
@@ -19,6 +19,14 @@ export default async (event) => {
         await db.query(`UPDATE giveaways SET winners = ? WHERE messageId = ?`, [ JSON.stringify(winners), gw.messageId ]);
         winners = winners.map(winner => '<@' + winner + '>');
 
+        if (joined.length < gw.winnerCount) return message.reply({
+            embeds: [
+                new EmbedBuilder()
+                .setTitle(`Giveaway Ended!`)
+                .setDescription(`Nobody entered the giveaway.`)
+            ]
+        })
+
         message.reply({
             embeds: [
                 new EmbedBuilder()
@@ -26,5 +34,5 @@ export default async (event) => {
                 .setDescription(`Winner${gw.winnerCount > 1 ? 's' : ''}: ${winners.join(' ')}! <:giveaway:1135228169687937064>\nPlease DM the host, <@${gw.sponsor}>, for your prize.`)
             ]
         })
-    })
+    });
 }

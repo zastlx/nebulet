@@ -21,6 +21,9 @@ class UniqueIDGenerator {
 const idGen = new UniqueIDGenerator();
 exports.default = {
     session: () => {
-        return node_crypto_1.default.randomBytes(16).toString("hex");
+        return node_crypto_1.default.randomBytes(32).toString("hex");
+    },
+    user: () => {
+        return idGen.generate(25);
     }
 };

@@ -1,11 +1,9 @@
 import {
     SlashCommandBuilder,
     EmbedBuilder,
-    PermissionFlagsBits,
-    Embed
+    PermissionFlagsBits
 } from "discord.js";
-import { db } from "../managers/setup.js";
-import config from "../config.js";
+import config from "../../config.js";
 import axios from "axios";
 
 export default {
@@ -34,7 +32,7 @@ export default {
             ephemeral: true
         });
 
-        let type = await axios.get(`https://cdn.discordapp.com/emojis/${id}.gif`).then((r) => 'gif').catch(e => 'png');
+        let type = await axios.get(`https://cdn.discordapp.com/emojis/${id}.gif`).then(() => 'gif').catch(() => 'png');
         let emojiURL = `https://cdn.discordapp.com/emojis/${id}.${type}?quality=lossless`;
 
         let addedEmoji = await interaction.guild.emojis.create({

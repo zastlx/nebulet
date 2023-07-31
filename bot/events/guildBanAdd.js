@@ -1,6 +1,5 @@
-import config from "../config.js"
+import config from "../config.js";
 import { AuditLogEvent, EmbedBuilder } from "discord.js";
-import hexToDecimal from "../utils/hexToDecimal.js";
 import { client } from "../managers/setup.js";
 
 export default (event) => {
@@ -29,7 +28,7 @@ export default (event) => {
                 new EmbedBuilder()
                     .setTitle("You have been quarantined!")
                     .setDescription(`You have been quarantined in ${event.guild.name} for banning ${event.user.tag}.`)
-                    .setColor(hexToDecimal("#ff0000"))
+                    .setColor("#ff0000")
                     .setTimestamp().toJSON()
             ]
         });
@@ -40,7 +39,7 @@ export default (event) => {
                     new EmbedBuilder()
                         .setTitle("Quarantine")
                         .setDescription(`${executor.user.tag} has been quarantined for banning ${event.user.tag} in ${event.guild.name}.`)
-                        .setColor(hexToDecimal("#ff0000"))
+                        .setColor("#ff0000")
                         .setTimestamp().toJSON()
                 ]
             }).catch(_ => {});

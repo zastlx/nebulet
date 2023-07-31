@@ -29,7 +29,7 @@ exports.default = {
             code: `${code}`,
             redirect_uri: "https://nebulet.zastix.club/api/discord/authcallback",
             scope: "identify",
-        }));
+        })); // deaf coding!
         const { access_token: accessToken } = tokenResponse.data;
         const userResponse = yield axios_1.default.get("https://discord.com/api/users/@me", {
             headers: {

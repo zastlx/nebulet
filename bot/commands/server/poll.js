@@ -5,8 +5,8 @@ import {
     ButtonStyle,
     ActionRowBuilder
 } from "discord.js";
-import { db } from "../managers/setup.js";
-import config from "../config.js";
+import { db } from "../../managers/setup.js";
+import config from "../../config.js";
 
 export default {
     permissions: [
@@ -68,43 +68,63 @@ export default {
                 .setDescription(opts.map((opt, index) => {
                     return `:${fix(index + 1)}: — ${opt} — **0**`;
                 }).join('\n'))
+                .setFooter({
+                    text: 'creator: @' + interaction.user.username
+                })
             ],
             components: [actionRow]
         });
 
-        await db.query(`INSERT INTO polls(voted, msgId) VALUES (?, ?)`, [JSON.stringify([]), message.id]);
+        await db.query(`INSERT INTO polls(msgId, options, votes) VALUES (?, ?, ?)`, [message.id, JSON.stringify(opts), JSON.stringify({})]);
     },
     interactions: {
         'poll_': async (event) => {
             let sqlData = await db.query(`SELECT * FROM polls WHERE msgId = ?`, [event.message.id]);
             sqlData = sqlData[0][0];
-            sqlData.voted = JSON.parse(sqlData.voted);
-            if (sqlData.voted.includes(event.user.id)) return event.reply({
+            sqlData.votes = JSON.parse(sqlData.votes);
+            sqlData.options = JSON.parse(sqlData.options);
+
+            if (Object.keys(sqlData.votes).includes(event.user.id) && sqlData.votes[event.user.id] === event.customId.split('_')[1]) return event.reply({
                 embeds: [
                     new EmbedBuilder()
-                    .setDescription(`You have already voted.`)
+                    .setDescription(`You have already voted for this option.`)
                 ],
                 ephemeral: true
             });
-            sqlData.voted.push(event.user.id);
-            await db.query(`UPDATE polls SET voted = ? WHERE msgId = ?`, [JSON.stringify(sqlData.voted), sqlData.msgId]);
 
-            let oldEmbed = event.message.embeds[0];
+            sqlData.votes[event.user.id] = event.customId.split('_')[1];
+            await db.query(`UPDATE polls SET votes = ? WHERE msgId = ?`, [JSON.stringify(sqlData.votes), sqlData.msgId]);
 
-            let reg = /(\d+)\*\*/;
-            let match = oldEmbed.description.split('\n')[event.customId.split('_')[1]].match(reg);
+            const actionRow = new ActionRowBuilder();
 
-            let oldValue = parseInt(match[1]);
-            let newValue = oldValue + 1;
-            let newDescription = oldEmbed.description.split('\n');
-            newDescription[event.customId.split('_')[1]] = newDescription[event.customId.split('_')[1]].replace(reg, `${newValue}**`);
-            newDescription = newDescription.join('\n');
+            sqlData.options.forEach((opt, index) => {
+                if (opt) actionRow.addComponents(
+                    new ButtonBuilder()
+                    .setStyle(ButtonStyle.Secondary)
+                    .setCustomId('poll_' + index)
+                    .setLabel((index + 1).toString())
+                );
+            });
 
-            event.message.edit({
-                embeds: [{
-                    title: oldEmbed.title,
-                    description: newDescription
-                }]
+            const fix = (number) => ['zero', 'one', 'two', 'three', 'four', 'five'][number];
+
+            const voteData = Object.values(sqlData.votes).reduce((acc, a) => {
+                acc[a] = (acc[a] || 0) + 1;
+                return acc;
+            }, {});
+
+            let message = await event.message.edit({
+                embeds: [
+                    new EmbedBuilder()
+                    .setTitle(event.message.embeds[0].title)
+                    .setDescription(sqlData.options.map((opt, index) => {
+                        return `:${fix(index + 1)}: — ${opt} — **${voteData[index.toString()] || 0}**`;
+                    }).join('\n'))
+                    .setFooter({
+                        text: event.message.embeds[0].footer.text
+                    })
+                ],
+                components: [actionRow]
             });
 
             event.reply({

@@ -1,9 +1,6 @@
-import {
-    SlashCommandBuilder,
-    EmbedBuilder
-} from "discord.js";
-import config from "../config.js";
-import { client } from "../managers/setup.js";
+import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { client } from "../../managers/setup.js";
+import config from "../../config.js";
 
 export default {
     permissions: [

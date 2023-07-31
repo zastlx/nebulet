@@ -3,11 +3,14 @@ import {
     EmbedBuilder,
     ModalBuilder,
     TextInputBuilder,
-    TextInputStyle, // all the code is in messageCreate or interactioNCreatw
-    ActionRowBuilder
+    TextInputStyle,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle
 } from "discord.js";
-import { db } from "../managers/setup.js";
-import config from "../config.js";
+import { db } from "../../managers/setup.js";
+import config from "../../config.js";
+import moment from "moment";
 
 export default {
     permissions: [
@@ -139,7 +142,7 @@ export default {
             event.reply({
                 embeds: [
                     new EmbedBuilder()
-                        .setDescription('Joined Giveaway.')
+                        .setDescription('You have joined the giveaway. Good luck!')
                 ],
                 ephemeral: true
             })

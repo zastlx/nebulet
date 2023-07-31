@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const uuid_1 = require("uuid");
+const ids_1 = __importDefault(require("../utils/ids"));
 class SessionsManager {
     constructor() {
         this.dir = path_1.default.join(process.cwd(), "sessions");
@@ -71,7 +71,7 @@ class SessionsManager {
         return currentTime - session.lastAccessTime >= this.timeout;
     }
     create() {
-        const sid = (0, uuid_1.v4)();
+        const sid = ids_1.default.session();
         this.memcache[sid] = {
             id: sid,
             lastAccessTime: Date.now(),
@@ -94,7 +94,6 @@ class SessionsManager {
                 return this.memcache[sid];
             }
             catch (error) {
-                console.log(error);
                 return {
                     err: true,
                 };
@@ -109,10 +108,9 @@ class SessionsManager {
                 SID = this.create();
                 session = this.memcache[SID];
             }
-            req.session = new Proxy(session, {
+            req.session = new Proxy(session || this.memcache[SID], {
                 set: (target, property, value) => {
                     target[property] = value;
-                    this.memcache[SID][property] = value; // Use SID instead of session.id to update the session in the memcache
                     return true;
                 },
             });

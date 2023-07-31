@@ -1,8 +1,5 @@
-import {
-    SlashCommandBuilder,
-    EmbedBuilder
-} from "discord.js";
-import { db } from "../managers/setup.js";
+import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
+import { db } from "../../managers/setup.js";
 
 export default {
     permissions: ['*'],

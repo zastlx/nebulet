@@ -36,7 +36,7 @@ exports.default = {
                 return res.status(400).send("Username and password cannot be the same.");
             const userCount = (yield database_1.default.query('SELECT COUNT(*) AS count FROM users WHERE username = ?', [username]))[0];
             if (userCount[0].count > 0)
-                return res.status(409).send("Username is already taken");
+                return res.status(409).send("Username is already taken.");
             const uId = ids_1.default.user();
             yield database_1.default.query(`INSERT INTO users (
                 id,
@@ -58,7 +58,10 @@ exports.default = {
                 ip,
                 claimed,
                 punishments,
-                settings
+                settings,
+                perms,
+                quests,
+                expeditions
             ) VALUES (
                 ?,
                 ?,
@@ -71,19 +74,21 @@ exports.default = {
                 2500,
                 'Wanderer',
                 '#fff',
-                0,
-                '{"uniqueBlooks":0,"messagesSent":0,"completedTrades":0,"succesfulOffers":0,"expeditions":0}',
+                150,
+                '{"messagesSent":0,"completedTrades":0,"succesfulOffers":0,"expeditions":0}',
                 '[]',
                 '[]',
                 '[]',
                 ?,
                 NULL,
                 '[]',
-                '{}'
+                '{}',
+                '[]',
+                '[]',
+                '[]'
             );`, [uId, username, (yield hashing_1.bcrypt.hash(password)), hashing_1.md5.hash(req.ip)]);
             req.session.user = uId;
             return res.status(200).send({
-                id: uId,
                 token: req.session.id
             });
         }

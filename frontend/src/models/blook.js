@@ -49,7 +49,7 @@ export default class Blook {
 
     }
 
-    isOwned() {
+    async isOwned() {
         return userStore.getLocalUser().blooks[this.id] >= 1;
     }
 

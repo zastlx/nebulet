@@ -34,7 +34,10 @@ const router = createBrowserRouter([
         path: "/demo",
         element: (<pages.demo/>)
     },
-
+    {
+        path: "/stats",
+        element: (<pages.stats/>)
+    }
 ]);
 
 window.global = window; // discord is stupid :/

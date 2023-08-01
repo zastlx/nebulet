@@ -6,10 +6,8 @@ import styles from "./index.module.css";
 import {useEffect, useState} from "react";
 import authStore from "../../stores/AuthStore";
 import APIManager from "../../services/apiManager";
-window.am = APIManager;
 import { ENDPOINTS } from "../../constants/endpoints";
 import { useNavigate } from "react-router-dom";
-import userStore from "../../stores/UserStore";
 
 export default function Auth({type}) {
     const [username, setUsername] = useState("");
@@ -35,11 +33,13 @@ export default function Auth({type}) {
         switch (status) {
             case 200:
                 authStore.authorize(data.token);
-                userStore.init();
                 naviagte("/stats");
                 break;
             case 404:
                 setError("The stars are gone! (404)");
+                break;
+            case 401:
+                authStore.forceLogout();
                 break;
             default:
                 setError(data);
@@ -49,7 +49,9 @@ export default function Auth({type}) {
 
     return (
         <div>
-            <NavBar/>
+            <NavBar authType={type === "login"
+                        ? "Login"
+                        : "Register"}/>
             <Background/>
 
             <div className={styles.container}>

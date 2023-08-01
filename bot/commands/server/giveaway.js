@@ -10,6 +10,7 @@ import {
 } from "discord.js";
 import { db } from "../../managers/setup.js";
 import config from "../../config.js";
+import { check } from "../../managers/giveaway.js";
 import moment from "moment";
 
 export default {
@@ -106,7 +107,9 @@ export default {
                     .setDescription(`Created giveaway.`)
                 ],
                 ephemeral: true
-            })
+            });
+
+            await check();
         },
         'giveaway_join': async (event) => {
             let gw = await db.query(`SELECT * FROM giveaways WHERE messageId = ?`, [ event.message.id ]);

@@ -25,7 +25,7 @@ export default {
 
             const userCount = (await pool.query<resultCount[]>('SELECT COUNT(*) AS count FROM users WHERE username = ?', [username]))[0];
 
-            if (userCount[0].count > 0) return res.status(409).send("Username is already taken");
+            if (userCount[0].count > 0) return res.status(409).send("Username is already taken.");
 
             const uId = ids.user();
 
@@ -49,7 +49,10 @@ export default {
                 ip,
                 claimed,
                 punishments,
-                settings
+                settings,
+                perms,
+                quests,
+                expeditions
             ) VALUES (
                 ?,
                 ?,
@@ -62,21 +65,23 @@ export default {
                 2500,
                 'Wanderer',
                 '#fff',
-                0,
-                '{"uniqueBlooks":0,"messagesSent":0,"completedTrades":0,"succesfulOffers":0,"expeditions":0}',
+                150,
+                '{"messagesSent":0,"completedTrades":0,"succesfulOffers":0,"expeditions":0}',
                 '[]',
                 '[]',
                 '[]',
                 ?,
                 NULL,
                 '[]',
-                '{}'
+                '{}',
+                '[]',
+                '[]',
+                '[]'
             );`, [uId, username, (await bcrypt.hash(password)), md5.hash(req.ip)]);
 
             req.session.user = uId;
 
             return res.status(200).send({
-                id: uId,
                 token: req.session.id
             });
         } catch (err) {

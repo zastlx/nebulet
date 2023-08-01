@@ -4,6 +4,7 @@ import Auth from "./auth";
 import Terms from "./tos";
 import Test from "./_test";
 import Example from "./test.jsx";
+import Stats from "./stats";
 
 export default {
     errors: {
@@ -13,5 +14,6 @@ export default {
     auth: Auth,
     terms: Terms,
     test: Test,
-    demo: Example
+    demo: Example,
+    stats: Stats
 };

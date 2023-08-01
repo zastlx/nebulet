@@ -33,27 +33,29 @@ export default class User {
         this.username = initValue.username;
         this.created = new Date(initValue.created);
         this.avatar = initValue.avatar;
-        this.badges = JSON.parse(initValue.badges);
+        this.badges = initValue.badges;
         this.banner = initValue.banner;
-        this.blooks = JSON.parse(initValue.blooks);
+        this.blooks = initValue.blooks;
         this.shards = initValue.shards;
         this.role = initValue.role;
         this.color = initValue.color;
         this.exp = initValue.exp;
-        this.friends = JSON.parse(initValue.friends);
+        this.friends = initValue.friends;
         this.stats = initValue.stats;
-        this.claimed = JSON.parse(initValue.claimed);
+        this.claimed = initValue.claimed;
 
         if (isLocal) {
-            this.quests = JSON.parse(initValue.quests);
-            this.blocks = JSON.parse(initValue.blocks);
+            this.quests = initValue.quests;
+            this.blocks = initValue.blocks;
             this.claimed = new Date(initValue.claimed);
-            this.punishments = new Date(initValue.punishments);
+            this.punishments = initValue.punishments;
             this.otp = {
                 secret: "",
                 enabled: false
             };
-            this.perms = JSON.parse(initValue.perms);
+            this.perms = initValue.perms;
+            console.log(initValue.expeditions);
+            this.expeditions = initValue.expeditions;
         }
     }
 

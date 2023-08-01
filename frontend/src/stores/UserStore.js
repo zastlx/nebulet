@@ -3,6 +3,7 @@ import { ENDPOINTS } from "../constants/endpoints";
 import APIManager from "../services/apiManager";
 import logManager from "../services/logManager";
 import User from "../models/user";
+import authStore from "./AuthStore";
 
 class UserStore {
     #users = [];
@@ -35,8 +36,31 @@ class UserStore {
         }, {});
     }
 
-    getLocalUser() {
-        return this.#users.find(user => user.isLocal());
+    getLocalUser(dev = false) {
+        if (dev) {
+            return new User({
+                id: "0",
+                username: "zastix",
+                created: "2023-07-31T12:00:00Z",
+                avatar: "/content/blooks/Astronaut.png",
+                badges: "[\"badge1\", \"badge2\"]",
+                banner: "/content/banners/default.png",
+                blooks: "[\"blook1\", \"blook2\"]",
+                shards: 100,
+                role: "Common",
+                color: "#ffcc00",
+                exp: 250,
+                friends: "[\"friend1\", \"friend2\"]",
+                stats: "user_stats",
+                claimed: "[\"claim1\", \"claim2\"]",
+                quests: "[\"quest1\", \"quest2\"]",
+                blocks: "[\"block1\", \"block2\"]",
+                punishments: "[\"punishment1\", \"punishment2\"]",
+                perms: "[\"perm1\", \"perm2\"]",
+              }, true);
+        } else {
+            return this.#users.find(user => user.isLocal());
+        }
     }
 
     addUser(data, isLocal) {
@@ -71,19 +95,23 @@ class UserStore {
     }
 
     async init() {
+        console.trace("init call");
         try {
+            this.loading = true;
             const localUser = this.getLocalUser();
             if (!localUser) {
-                const response = await APIManager.get(ENDPOINTS.USER.PROFILE());
+                const response = await APIManager.get(ENDPOINTS.USER.INFO());
                 const { status, data } = response;
     
                 switch (status) {
                     case 401:
-                        logManager.error(`[UserStore] invalid authorization ${data}`);
-                        throw { status, data };
+                        authStore.forceLogout();
+                        window.location.pathname = "/login";
+                        break;
                     case 200: {
                         const user = new User(data, true);
                         this.#users.push(user);
+                        this.loading = false;
                         break;
                     }
                     default:
@@ -99,4 +127,5 @@ class UserStore {
 }
 
 const userStore = new UserStore();
+window.us = userStore;
 export default userStore;

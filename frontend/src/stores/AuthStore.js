@@ -2,17 +2,18 @@ import { makeObservable, observable, action } from "mobx";
 import APIManager from "../services/apiManager";
 import logManager from "../services/logManager";
 import { ENDPOINTS } from "../constants/endpoints";
+import userStore from "./UserStore";
 
 class AuthStore {
   isAuthenticated = false;
   authToken = null;
 
   constructor() {
-    // Check if a token is already stored in localStorage during initialization
     const storedAuthToken = localStorage.getItem("authToken");
     if (storedAuthToken) {
       this.authToken = storedAuthToken;
       this.isAuthenticated = true;
+      userStore.init();
     }
 
     makeObservable(this, {
@@ -24,8 +25,8 @@ class AuthStore {
   }
 
   async authorize(authToken) {
-    // Save the token in localStorage
     localStorage.setItem("authToken", authToken);
+    userStore.init();
 
     this.authToken = authToken;
     this.isAuthenticated = true;
@@ -65,4 +66,5 @@ class AuthStore {
 }
 
 const authStore = new AuthStore();
+window.as = authStore;
 export default authStore;

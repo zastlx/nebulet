@@ -72,5 +72,5 @@ class API {
 }
 
 const APIManager = new API();
-
+window.apimng = APIManager;
 export default APIManager;

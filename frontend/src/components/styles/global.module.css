@@ -5,12 +5,17 @@
     text-decoration: none;
 }
 
+body::-webkit-scrollbar{
+    display: none;
+  }
+
 .blook {
     height: 160px;
     margin: auto 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    user-select: none;
 }
 
 .button {
@@ -25,4 +30,14 @@
 
 body {
     font-family: nunito;
+}
+
+.blookContainer {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    outline: none;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
 }

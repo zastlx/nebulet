@@ -1,0 +1,164 @@
+.bottomContainer {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    width: 100%;
+    margin: 40px auto 10px;
+}
+
+.right {
+    width: calc(100% - 340px);
+}
+
+.statsContainer {
+    border-radius: 7px;
+    background-color: rgba(82, 3, 84, 0.7);
+    width: 100%;
+    padding: 15px 5px 11px;
+    margin: 40px 0;
+    box-shadow: inset 0 -6px rgba(0, 0, 0, .2);
+    box-sizing: border-box;
+    color: #fff;
+    position: relative;
+}
+
+.containerHeader {
+    position: absolute;
+    top: -28px;
+    left: -10px;
+    height: 45px;
+    background-color: #6b1e9f;
+    padding: 4px 4px 8px;
+    box-shadow: 0 4px rgba(0, 0, 0, .2), inset 0 -4px rgba(0, 0, 0, .2);
+}
+
+.containerHeaderInside {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 15px;
+    border-radius: 5px;
+    text-shadow: -1px -1px 0 #646464, 1px -1px 0 #646464, -1px 1px 0 #646464, 2px 2px 0 #646464;
+    font-family: Titan One, sans-serif;
+    color: #fff;
+    font-size: 26px;
+}
+
+.statsWrapper,
+.topStats {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+
+.containerHeader,
+.customBlookContainer {
+    border-radius: 7px;
+    box-sizing: border-box;
+}
+
+.containerHeaderInside,
+.noBlookContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.noBlookContainer {
+    background-color: rgba(196, 196, 196, 0.3);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 15px;
+}
+
+.noBlookText {
+    font-size: 16px;
+}
+
+.customBlookContainer {
+    width: 100%;
+    background-color: rgba(53, 53, 53, 0.8);
+    color: #fff;
+    padding: 15px;
+    border-radius: 7px;
+    box-shadow: inset 0 -4px rgba(0, 0, 0, .2), 0 4px rgba(0, 0, 0, .2);
+    box-sizing: border-box;
+    margin-top: 20px;
+}
+
+.customBlookTitle {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.customBlookDesc {
+    font-size: 14px;
+}
+
+.customBlookBtn {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background-color: #b400ff;
+    border-radius: 5px;
+    padding: 6px 12px;
+    margin-top: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px rgba(0, 0, 0, .2);
+    transition: background-color 0.3s ease;
+}
+.customBlookBtn:hover {
+    background-color: #9a00cc;
+}
+
+.noCustomBlook {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.left {
+    width: 320px;
+}
+
+@media (max-width: 1150px) {
+.left, .right {
+    width: 100% !important;
+}
+}
+
+.historyContainer {
+    border-radius: 7px;
+    background-color: rgba(82, 3, 84, 0.7);
+    width: 100%;
+    padding: 30px 15px 16px;
+    box-shadow: inset 0 -6px rgba(0,0,0,.2);
+    box-sizing: border-box;
+    position: relative;
+    margin: 40px 0;
+}
+
+.blookContainer {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    outline: none;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.blook {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+    object-fit: contain;
+}

@@ -2,7 +2,6 @@ import { Response } from "express";
 import { sRequest } from "../../declarations/sessions";
 import { UserRow, blookRow } from "../../declarations/mysql";
 import pool from "../../managers/database";
-import { resultCount } from "../../declarations/mysql";
 
 export default {
     methods: ["get", "post"],
@@ -22,7 +21,7 @@ export default {
     post: async (req: sRequest, res: Response) => {
         try {
             if (!req.session.user) return res.status(401).send("Unauthorized");
-            const newProps = req.body;
+            const newProps = req.body;  
             if (!newProps || Object.keys(newProps).length < 1) return res.status(400).send("Invalid body");
 
             if (!Object.keys(newProps).every((key: string) => [
@@ -39,11 +38,11 @@ export default {
                     return res.status(401).send("Unauthorized");
                 }
 
-                if (!user[0].blooks[newProps["avatarBlook"]] || user[0].blooks[newProps["avatarBlook"]] < 1) res.status(403).send("You dont own that blook.")
+                if ((!user[0].blooks[newProps["avatarBlook"]] || user[0].blooks[newProps["avatarBlook"]] < 1) && newProps["avatarBlook"] !== "astronaut") res.status(403).send("You dont own that blook.")
                 
                 await pool.query("UPDATE users SET avatar = ? WHERE id = ?", [blookResult[0].image, req.session.user]);
                 return res.status(200).send({
-                    avatar: blookResult[0]
+                    avatar: blookResult[0].image
                 });
 
             }

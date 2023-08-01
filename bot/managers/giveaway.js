@@ -1,4 +1,9 @@
-import { EmbedBuilder } from "discord.js";
+import {
+    EmbedBuilder,
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle
+} from "discord.js";
 import { client, db } from "../managers/setup.js";
 
 let intervals = [];
@@ -11,6 +16,7 @@ export const check = async () => {
     query[0].forEach(async (giveaway) => {
         intervals.push(setTimeout(async () => {
             let gw = await db.query(`SELECT * FROM giveaways WHERE messageId = ?`, [giveaway.messageId]);
+            gw = gw[0][0];
             if (gw.winners !== '[]') return;
             
             let joined = JSON.parse(gw.joined);

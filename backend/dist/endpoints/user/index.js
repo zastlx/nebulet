@@ -31,21 +31,27 @@ exports.default = {
             if (!req.session.user)
                 return res.status(401).send("Unauthorized");
             const newProps = req.body;
+            if (!newProps || Object.keys(newProps).length < 1)
+                return res.status(400).send("Invalid body");
             if (!Object.keys(newProps).every((key) => [
                 "avatarBlook"
             ].includes(key)))
                 return res.status(400).send("Invalid body keys");
             if (newProps["avatarBlook"]) {
-                const count = (yield database_1.default.query("SELECT COUNT(*) AS count FROM blooks WHERE name = ?", [newProps["avatarBlook"]]))[0];
-                if (count[0].count !== 1)
+                const blookResult = (yield database_1.default.query("SELECT * FROM blooks WHERE name = ?", [newProps["avatarBlook"]]))[0];
+                if (blookResult.length !== 1)
                     return res.status(400).send("That blook doesnt exist.");
                 const user = (yield database_1.default.query("SELECT blooks FROM users WHERE id = ?", [req.session.user]))[0];
                 if (user.length !== 1) {
                     delete req.session.user;
                     return res.status(401).send("Unauthorized");
                 }
-                if (!user[0].blooks[newProps["avatarBlook"]] || user[0].blooks[newProps["avatarBlook"]] < 1)
+                if ((!user[0].blooks[newProps["avatarBlook"]] || user[0].blooks[newProps["avatarBlook"]] < 1) && newProps["avatarBlook"] !== "astronaut")
                     res.status(403).send("You dont own that blook.");
+                yield database_1.default.query("UPDATE users SET avatar = ? WHERE id = ?", [blookResult[0].image, req.session.user]);
+                return res.status(200).send({
+                    avatar: blookResult[0].image
+                });
             }
         }
         catch (e) {

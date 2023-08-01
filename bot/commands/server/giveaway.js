@@ -27,7 +27,7 @@ export default {
         .addSubcommand(o => o.setName('end').setDescription('End a giveaway early.')
             .addStringOption(o => o.setName('message-id').setDescription('The message ID to end.').setRequired(true)))
         .addSubcommand(o => o.setName('active').setDescription('List active giveaways.')
-            .addBooleanOption(o => o.setName('ephemeral').setDescription('Should the list be ephemeral?').setRequired(true)))
+            .addBooleanOption(o => o.setName('ephemeral').setDescription('Should the list be ephemeral?')))
         .addSubcommand(o => o.setName('reroll').setDescription('Reroll a giveaway.')
             .addStringOption(o => o.setName('message-id').setDescription('The message ID to reroll.').setRequired(true))),
     
@@ -36,22 +36,32 @@ export default {
             const title = new TextInputBuilder()
                 .setCustomId('giveaway_create_title')
                 .setLabel('Title:')
-                .setStyle(TextInputStyle.Short);
+                .setStyle(TextInputStyle.Short)
+                .setMaxLength(200);
 
             const winners = new TextInputBuilder()
                 .setCustomId('giveaway_create_winners')
                 .setLabel('Winner Count:')
-                .setStyle(TextInputStyle.Short);
+                .setStyle(TextInputStyle.Short)
+                .setMaxLength(2);
 
             const sponsor = new TextInputBuilder()
                 .setCustomId('giveaway_create_sponsor')
                 .setLabel('Sponsor (discord ID):')
-                .setStyle(TextInputStyle.Short);
+                .setStyle(TextInputStyle.Short)
+                .setMaxLength(20);
             
             const length = new TextInputBuilder()
                 .setCustomId('giveaway_create_length')
                 .setLabel('Length (minutes):')
-                .setStyle(TextInputStyle.Short);
+                .setStyle(TextInputStyle.Short)
+                .setMaxLength(7);
+            
+            const role_req = new TextInputBuilder()
+                .setCustomId('giveaway_create_reqrole')
+                .setLabel('Required role (discord ID):')
+                .setStyle(TextInputStyle.Short)
+                .setMaxLength(20);
 
             let modal = new ModalBuilder()
                 .setTitle('Giveaway Creator')
@@ -64,7 +74,9 @@ export default {
                     new ActionRowBuilder()
                         .addComponents(sponsor),
                     new ActionRowBuilder()
-                        .addComponents(length)
+                        .addComponents(length),
+                    new ActionRowBuilder()
+                        .addComponents(role_req)
                 )
             
             interaction.showModal(modal);
@@ -146,6 +158,29 @@ export default {
                 ],
                 ephemeral: true
             });
+        } else if (interaction.options.getSubcommand() === 'active') {
+            let q = await db.query(`SELECT * FROM giveaways WHERE winners = ?`, ['[]']);
+
+            let active = [];
+            q[0].forEach(g => active.push(`**${g.name}** (sponsor: <@${g.sponsor}>) [[Jump to Message](https://discord.com/channels/1131299260109967431/1134865662884450374/${g.messageId})]`));
+
+            if (!active.length) return interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription(`There are no active giveaways.`)
+                ],
+                ephemeral: true
+            })
+
+            interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setTitle(`Active Giveaways`)
+                    .setDescription(active.join('\n'))
+                    .setTimestamp()
+                ],
+                ephemeral: (interaction.options.getBoolean('ephemeral') === null || interaction.options.getBoolean('ephemeral') ? true : false)
+            })
         }
     },
     interactions: {

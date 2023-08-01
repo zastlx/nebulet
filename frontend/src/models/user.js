@@ -55,7 +55,6 @@ export default class User {
                 enabled: false
             };
             this.perms = initValue.perms;
-            console.log(initValue.expeditions);
             this.expeditions = initValue.expeditions;
         }
     }

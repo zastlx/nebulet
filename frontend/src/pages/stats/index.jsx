@@ -47,7 +47,7 @@ export default function Stats() {
             <SideBar/>
             <Background/>
             <TopRightProfile avatar={userStore.getLocalUser().avatar} username={userStore.getLocalUser().username}/>
-            <Selector close={() => setShowSelector(false)}/>
+           {showSelector &&  <Selector close={() => setShowSelector(false)}/>}
 
             <div className={styles.main}>
                 <div className={styles.fullContainer}>

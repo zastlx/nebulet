@@ -28,7 +28,7 @@ export default function HeaderRow({ setShowSelector, setSelectorType }) {
                         <div className={global.blookContainer}>
                             <Blook
                                 customClass={styles.blook}
-                                src={userStore.getLocalUser().avatar}/>
+                                _src={userStore.getLocalUser().avatar}/>
                         </div>
 
                     </div>

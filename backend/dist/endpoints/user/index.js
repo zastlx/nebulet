@@ -14,7 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const database_1 = __importDefault(require("../../managers/database"));
 exports.default = {
-    methods: ["get"],
+    methods: ["get", "post"],
     get: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!req.session.user)
             return res.status(401).send("Unauthorized");
@@ -25,5 +25,32 @@ exports.default = {
             return res.status(401);
         }
         res.status(200).send(result[0]);
+    }),
+    post: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            if (!req.session.user)
+                return res.status(401).send("Unauthorized");
+            const newProps = req.body;
+            if (!Object.keys(newProps).every((key) => [
+                "avatarBlook"
+            ].includes(key)))
+                return res.status(400).send("Invalid body keys");
+            if (newProps["avatarBlook"]) {
+                const count = (yield database_1.default.query("SELECT COUNT(*) AS count FROM blooks WHERE name = ?", [newProps["avatarBlook"]]))[0];
+                if (count[0].count !== 1)
+                    return res.status(400).send("That blook doesnt exist.");
+                const user = (yield database_1.default.query("SELECT blooks FROM users WHERE id = ?", [req.session.user]))[0];
+                if (user.length !== 1) {
+                    delete req.session.user;
+                    return res.status(401).send("Unauthorized");
+                }
+                if (!user[0].blooks[newProps["avatarBlook"]] || user[0].blooks[newProps["avatarBlook"]] < 1)
+                    res.status(403).send("You dont own that blook.");
+            }
+        }
+        catch (e) {
+            console.error(e);
+            res.status(500).send("Interal Server Error");
+        }
     })
 };

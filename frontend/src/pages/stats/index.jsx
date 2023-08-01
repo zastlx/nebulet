@@ -9,11 +9,15 @@ import authStore from "../../stores/AuthStore";
 import userStore from "../../stores/UserStore";
 import TopRightProfile from "../../components/TopRightProfile";
 import Selector from "./selector";
+import eventManager from "../../services/eventManager";
 
 export default function Stats() {
     const [isUserLoaded, setUserLoaded] = useState(false);
+    /* eslint-disable */
     const [showSelector, setShowSelector] = useState(false);
     const [showSelectorType, setShowSelectorType] = useState();
+    const [dummy, forceUpdate] = useState();
+    /* eslint-enable */
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,30 +25,29 @@ export default function Stats() {
             navigate("/login");
         
         const checkDataLoaded = () => {
-            if (!userStore.loading) {
-                setUserLoaded(true);
-            }
+            if (!userStore.loading) setUserLoaded(true);
         };
 
         checkDataLoaded();
-
         const interval = setInterval(checkDataLoaded, 1);
-
         return () => {
             clearInterval(interval);
         };
     }, []);
 
-    if (!isUserLoaded) {
-        return <div>Loading...</div>;
-    }
+    // event subscriptions
+    useEffect(() => {
+        eventManager.subscribe("LOCAL_USER_UPDATE", () => forceUpdate({}));
+    });
+
+    if (!isUserLoaded) return <div>Loading...</div>;
 
     return (
         <div>
             <SideBar/>
             <Background/>
             <TopRightProfile avatar={userStore.getLocalUser().avatar} username={userStore.getLocalUser().username}/>
-            <Selector/>
+            <Selector close={() => setShowSelector(false)}/>
 
             <div className={styles.main}>
                 <div className={styles.fullContainer}>

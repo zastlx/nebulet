@@ -5,16 +5,16 @@ import APIManager from "../services/apiManager";
 import userStore from "../stores/UserStore";
 
 export default class Blook {
-    id;
     name;
+    displayName;
     image;
     rarity;
     pack;
     value;
 
     constructor(initValue) {
-        this.id = initValue.id;
         this.name = initValue.name;
+        this.displayName = initValue.displayName;
         this.image = initValue.image;
         this.rarity = initValue.rarity;
         this.pack = initValue.pack;
@@ -30,7 +30,7 @@ export default class Blook {
 
     async sell(quantity) {
         const response = await APIManager.post(ENDPOINTS.BLOOKS.SELL, {
-            id: this.id,
+            blook: this.name,
             quantity
         });
         const {
@@ -50,7 +50,7 @@ export default class Blook {
     }
 
     async isOwned() {
-        return userStore.getLocalUser().blooks[this.id] >= 1;
+        return userStore.getLocalUser().blooks[this.name] >= 1;
     }
 
     getAverageValue() {}

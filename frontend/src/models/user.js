@@ -1,5 +1,6 @@
 import { ENDPOINTS } from "../constants/endpoints";
 import APIManager from "../services/apiManager";
+import eventManager from "../services/eventManager";
 import logManager from "../services/logManager";
 
 export default class User {
@@ -27,7 +28,7 @@ export default class User {
     punishments
     */
 
-    constructor(initValue, isLocal) {
+    constructor(initValue, isLocal = false) {
         this.#isLocal = isLocal;
         this.id = initValue.id;
         this.username = initValue.username;
@@ -57,6 +58,16 @@ export default class User {
             console.log(initValue.expeditions);
             this.expeditions = initValue.expeditions;
         }
+    }
+
+    update(newProps) {
+        Object.assign(this, {
+            ...this,
+            ...newProps
+        });
+
+        if (this.#isLocal) eventManager.dispatch("LOCAL_USER_UPDATE");
+        else eventManager.dispatch("USER_UPDATE", { id: this.id, newUser: this });
     }
 
     isLocal() {
@@ -201,3 +212,5 @@ export default class User {
         return this.username === "thonk" || this.username === "zastix";
     }
 }
+
+window.user = User;

@@ -8,7 +8,7 @@ import {
     ButtonBuilder,
     ButtonStyle
 } from "discord.js";
-import { db } from "../../managers/setup.js";
+import { client, db } from "../../managers/setup.js";
 import config from "../../config.js";
 import { check } from "../../managers/giveaway.js";
 import moment from "moment";
@@ -24,12 +24,12 @@ export default {
         .setName("giveaway")
         .setDescription("Manage server giveaways.")
         .addSubcommand(o => o.setName('start').setDescription('Start a giveaway.'))
-        .addSubcommand(o =>o.setName('end').setDescription('End a giveaway early.')
-            .addStringOption(o => o.setName('message-id').setDescription('The message ID to end.')))
+        .addSubcommand(o => o.setName('end').setDescription('End a giveaway early.')
+            .addStringOption(o => o.setName('message-id').setDescription('The message ID to end.').setRequired(true)))
         .addSubcommand(o => o.setName('active').setDescription('List active giveaways.')
-            .addBooleanOption(o => o.setName('ephemeral').setDescription('Should the list be ephemeral?')))
+            .addBooleanOption(o => o.setName('ephemeral').setDescription('Should the list be ephemeral?').setRequired(true)))
         .addSubcommand(o => o.setName('reroll').setDescription('Reroll a giveaway.')
-            .addStringOption(o => o.setName('message-id').setDescription('The message ID to reroll.'))),
+            .addStringOption(o => o.setName('message-id').setDescription('The message ID to reroll.').setRequired(true))),
     
     async execute(interaction) {
         if (interaction.options.getSubcommand() === 'start') {
@@ -68,6 +68,84 @@ export default {
                 )
             
             interaction.showModal(modal);
+        } else if (interaction.options.getSubcommand() === 'end') {
+            let gwquery = await db.query('SELECT * FROM giveaways WHERE messageId = ?', [ interaction.options.getString('message-id') ]);
+            if (!gwquery[0].length) return interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription(`That message ID is not a giveaway.`)
+                ]
+            });
+
+            if (JSON.parse(gwquery[0][0].winners).length) return interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription(`This giveaway has already ended.`)
+                ]
+            })
+
+            let gw = gwquery[0][0];
+
+            let joined = JSON.parse(gw.joined);
+            let joinCount = JSON.parse(gw.joined).length;
+            let winners = [];
+
+            let guild = await client.guilds.fetch('1131299260109967431');
+            let channel = await guild.channels.fetch('1134865662884450374');
+            let message = await channel.messages.fetch(gw.messageId);
+
+            for (let calc = 0; calc < gw.winnerCount; calc++) {
+                let winner = joined[joined.length * Math.random() | 0];
+                joined.splice(joined.indexOf(winner), 1);
+                winners.push(winner || 0);
+            };
+            await db.query(`UPDATE giveaways SET winners = ? WHERE messageId = ?`, [JSON.stringify(winners), gw.messageId]);
+            winners = winners.map(winner => '<@' + winner + '>');
+
+            await db.query(`UPDATE giveaways SET ending = ? WHERE messageId = ?`, [Date.now(), gw.messageId]);
+
+            let btn = new ButtonBuilder()
+                .setCustomId('giveaway_join')
+                .setEmoji('1036038762519605303')
+                .setStyle(ButtonStyle.Secondary)
+                .setLabel(joinCount.toString())
+                .setDisabled(true);
+            let btnRow = new ActionRowBuilder().addComponents(btn);
+
+            message.edit({
+                embeds: [
+                    new EmbedBuilder()
+                    .setTitle(gw.name)
+                    .setDescription(`╰ Sponsor: <@${gw.sponsor}>\n╰ Winners: **${gw.winnerCount}**\n╰ Ends <t:${Math.round(ends / 1000)}:R>`)
+                ],
+                components: [ btnRow ]
+            })
+
+            if (joinCount < gw.winnerCount) {
+                message.reply({
+                    embeds: [
+                        new EmbedBuilder()
+                        .setTitle(`Giveaway Ended!`)
+                        .setDescription(`Not enough people entered the giveaway.`)
+                    ]
+                })
+            } else {
+                message.reply({
+                    embeds: [
+                        new EmbedBuilder()
+                        .setTitle(`Giveaway Ended!`)
+                        .setDescription(`Winner${gw.winnerCount > 1 ? 's' : ''}: ${winners.join(' ')}! <:giveaway:1135228169687937064>\nPlease DM the host, <@${gw.sponsor}>, for your prize.`)
+                    ]
+                })
+            };
+
+            interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription('Ended giveaway.')
+                ],
+                ephemeral: true
+            });
         }
     },
     interactions: {
@@ -90,7 +168,7 @@ export default {
                 components: [ new ActionRowBuilder().addComponents(btn) ]
             })
 
-            let create = await db.query(`INSERT into giveaways(messageId, name, winnerCount, sponsor, length, ending, joined, winners) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, [
+            await db.query(`INSERT into giveaways(messageId, name, winnerCount, sponsor, length, ending, joined, winners) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, [
                 msg.id, 
                 event.fields.getTextInputValue('giveaway_create_title'),
                 Number(event.fields.getTextInputValue('giveaway_create_winners')),

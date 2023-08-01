@@ -59,10 +59,9 @@ export default function SideBar() {
                 <SideBarPage name="Leaderboard" to="/leaderboard" icon={faTrophy}/>
                 <SideBarPage name="Chat" to="/chat" icon={faComment}/>
                 <SideBarPage name="Galaxy" to="/galaxy" icon={faStars}/>
-                <SideBarPage name="Blooks" to="/blooks" icon={faSuitcase}/>
-                <SideBarPage name="Offers" to="/offers" icon={faThumbTack}/>
+                <SideBarPage name="Inventory" to="/inv" icon={faSuitcase}/>
                 <SideBarPage name="Trading Plaza" to="/plaza" icon={faScaleBalanced}/>
-                <SideBarPage name="Staff" to="/panel" icon={faScrewdriverWrench}/>
+                <SideBarPage name="Panel" to="/panel" icon={faScrewdriverWrench}/>
                 <SideBarPage name="Settings" to="/settings" icon={faCog}/>
 
                 <div className={styles.bottomRow}>

@@ -108,9 +108,13 @@ export function handleUserCreate(userRaw) {
     const user = new User(userRaw);
     eventManager.dispatch("USER_CREATE", user);
 }
+
 export function handleUserUpdate(userRaw) {
     const user = new User(userRaw);
-    eventManager.dispatch("USER_UPDATE", user);
+    eventManager.dispatch("USER_UPDATE", {
+        id: user.id,
+        newUser: user
+    });
 }
 export function handleUserDelete(userId) {
     eventManager.dispatch("USER_DELETE", userId);

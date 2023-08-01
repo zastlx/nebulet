@@ -5,6 +5,7 @@ import {
 } from "react-router-dom";
 import pages from "./pages/pages";
 
+
 const router = createBrowserRouter([
     {
         path: "/*",

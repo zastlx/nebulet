@@ -47,7 +47,7 @@ export const ENDPOINTS = {
     },
     BLOOKS: {
         SELL: `${BASE_URL}/blooks/sell`,
-        ALL: `${BASE_URL}/blooks/all`
+        ALL: `${BASE_URL}/blooks/`
     },
     BAZAAR: {
         LISTING: (itemID) => `${BASE_URL}/bazaar/listing/${itemID}`, // put to buy, delete to unlist

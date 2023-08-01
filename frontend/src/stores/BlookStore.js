@@ -1,5 +1,9 @@
 import { makeObservable, action } from "mobx";
 import Blook from "../models/blook";
+import authStore from "./AuthStore";
+import APIManager from "../services/apiManager";
+import { ENDPOINTS } from "../constants/endpoints";
+import logManager from "../services/logManager";
 
 
 class BlookStore {
@@ -24,15 +28,15 @@ class BlookStore {
     this.#blooks.push(blook);
   }
 
-  removeBlook(blookID) {
-    const index = this.#blooks.findIndex((blook) => blook.id === blookID);
+  removeBlook(blookName) {
+    const index = this.#blooks.findIndex((blook) => blook.name === blookName);
     if (index !== -1) {
       this.#blooks.splice(index, 1);
     }
   }
 
-  updateBlook(blookID, updatedblook) {
-    const blookIndex = this.#blooks.findIndex((blook) => blook.id === blookID);
+  updateBlook(blookName, updatedblook) {
+    const blookIndex = this.#blooks.findIndex((blook) => blook.name === blookName);
     if (blookIndex !== -1) {
       this.#blooks[blookIndex] = {
         ...this.#blooks[blookIndex],
@@ -41,13 +45,13 @@ class BlookStore {
     }
   }
 
-  getBlook(blookID) {
-    return this.#blooks.find((blook) => blook.id === blookID);
+  getBlook(blookName) {
+    return this.#blooks.find((blook) => blook.name === blookName);
   }
 
   getBlooks() {
     return this.#blooks.reduce((blookObject, blook) => {
-      blookObject[blook.id] = blook;
+      blookObject[blook.name] = blook;
       return blookObject;
     }, {});
   }
@@ -64,10 +68,25 @@ class BlookStore {
     this.#blooks = [];
   }
 
-  init() {
-    // implement initiation here after API finished
+  async init() {
+    const response = await APIManager.get(ENDPOINTS.BLOOKS.ALL);
+
+    const { status, data } = response;
+
+    switch (status) {
+        case 200:
+            this.#blooks = this.#blooks.concat(data);
+            break;
+        case 401:
+            authStore.forceLogout();
+            break;
+        default:
+            logManager.error(status, data);
+            break;
+    }
   }
 }
 
 const blookStore = new BlookStore();
+if (authStore.isAuthenticated) await blookStore.init();
 export default blookStore;

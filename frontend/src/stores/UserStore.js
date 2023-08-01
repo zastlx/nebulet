@@ -4,6 +4,7 @@ import APIManager from "../services/apiManager";
 import logManager from "../services/logManager";
 import User from "../models/user";
 import authStore from "./AuthStore";
+import eventManager from "../services/eventManager";
 
 class UserStore {
     #users = [];
@@ -22,6 +23,19 @@ class UserStore {
             forEach: action,
             init: action,
             loading: observable,
+        });
+
+        eventManager.subscribe("USER_UPDATE", (payload) => {
+            const index = this.#users.findIndex(user => user.id === payload.id);
+            this.#users[index] = payload.newUser;
+        });
+
+        eventManager.subscribe("USER_DELETE", (payload) => {
+            this.#users.splice(this.#users.findIndex(user => user.id === payload), 1);
+        });
+
+        eventManager.subscribe("USER_CREATE", (payload) => {
+            this.#users.push(payload);
         });
     }
 

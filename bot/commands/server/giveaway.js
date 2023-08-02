@@ -44,23 +44,25 @@ export default {
                 .setLabel('Winner Count:')
                 .setStyle(TextInputStyle.Short)
                 .setMaxLength(2);
-
-            const sponsor = new TextInputBuilder()
-                .setCustomId('giveaway_create_sponsor')
-                .setLabel('Sponsor (discord ID):')
-                .setStyle(TextInputStyle.Short)
-                .setMaxLength(20);
             
             const length = new TextInputBuilder()
                 .setCustomId('giveaway_create_length')
                 .setLabel('Length (minutes):')
                 .setStyle(TextInputStyle.Short)
                 .setMaxLength(7);
+
+            const sponsor = new TextInputBuilder()
+                .setCustomId('giveaway_create_sponsor')
+                .setLabel('Sponsor (discord ID) (optional):')
+                .setStyle(TextInputStyle.Short)
+                .setMaxLength(20)
+                .setRequired(false);
             
             const role_req = new TextInputBuilder()
                 .setCustomId('giveaway_create_reqrole')
-                .setLabel('Required role (discord ID):')
+                .setLabel('Required role (discord ID) (optional):')
                 .setStyle(TextInputStyle.Short)
+                .setRequired(false)
                 .setMaxLength(20);
 
             let modal = new ModalBuilder()
@@ -72,9 +74,9 @@ export default {
                     new ActionRowBuilder()
                         .addComponents(winners),
                     new ActionRowBuilder()
-                        .addComponents(sponsor),
-                    new ActionRowBuilder()
                         .addComponents(length),
+                    new ActionRowBuilder()
+                        .addComponents(sponsor),
                     new ActionRowBuilder()
                         .addComponents(role_req)
                 )
@@ -116,13 +118,21 @@ export default {
 
             await db.query(`UPDATE giveaways SET ending = ? WHERE messageId = ?`, [Date.now(), gw.messageId]);
 
-            let btn = new ButtonBuilder()
+            let joinButton = new ButtonBuilder()
                 .setCustomId('giveaway_join')
                 .setEmoji('1036038762519605303')
                 .setStyle(ButtonStyle.Secondary)
                 .setLabel(joinCount.toString())
                 .setDisabled(true);
-            let btnRow = new ActionRowBuilder().addComponents(btn);
+            
+            let joineesButton = new ButtonBuilder()
+                .setCustomId('giveaway_participants')
+                .setEmoji('1136028218445529108')
+                .setStyle(ButtonStyle.Secondary)
+            
+            let actionRow = new ActionRowBuilder()
+                .addComponents(joinButton)
+                .addComponents(joineesButton)
 
             message.edit({
                 embeds: [
@@ -130,7 +140,7 @@ export default {
                     .setTitle(gw.name)
                     .setDescription(`╰ Sponsor: <@${gw.sponsor}>\n╰ Winners: **${gw.winnerCount}**\n╰ Ends <t:${Math.round(ends / 1000)}:R>`)
                 ],
-                components: [ btnRow ]
+                components: [ actionRow ]
             })
 
             if (joinCount < gw.winnerCount) {
@@ -186,29 +196,45 @@ export default {
     interactions: {
         'giveaway_create': async (event) => {
             let length = Number(event.fields.getTextInputValue('giveaway_create_length'));
-            let ends = moment().add(length, 'minutes').valueOf()
+            let ends = moment().add(length, 'minutes').valueOf();
+            let sponsor = (event.fields.getTextInputValue('giveaway_create_sponsor') !== '') ? event.fields.getTextInputValue('giveaway_create_sponsor') : event.user.id;
 
-            let btn = new ButtonBuilder()
+            let joinButton = new ButtonBuilder()
                 .setCustomId('giveaway_join')
                 .setEmoji('1036038762519605303')
                 .setStyle(ButtonStyle.Primary)
                 .setLabel('0')
             
+            let joineesButton = new ButtonBuilder()
+                .setCustomId('giveaway_participants')
+                .setEmoji('1136028218445529108')
+                .setStyle(ButtonStyle.Secondary)
+            
+            let actionRow = new ActionRowBuilder()
+                .addComponents(joinButton)
+                .addComponents(joineesButton)
+
+            let em = new EmbedBuilder()
+                .setTitle(event.fields.getTextInputValue('giveaway_create_title'))
+                .setDescription(`╰ Sponsor: <@${sponsor}>\n╰ Winners: **${event.fields.getTextInputValue('giveaway_create_winners')}**\n╰ Ends <t:${Math.round(ends / 1000)}:R>`)
+
+            if (event.fields.getTextInputValue('giveaway_create_reqrole') !== '') em.addFields({
+                name: 'Requirements',
+                value: `╰ Role: <@&${event.fields.getTextInputValue('giveaway_create_reqrole')}>`
+            })
+            
             let msg = await event.channel.send({
-                embeds: [
-                    new EmbedBuilder()
-                    .setTitle(event.fields.getTextInputValue('giveaway_create_title'))
-                    .setDescription(`╰ Sponsor: <@${event.fields.getTextInputValue('giveaway_create_sponsor')}>\n╰ Winners: **${event.fields.getTextInputValue('giveaway_create_winners')}**\n╰ Ends <t:${Math.round(ends / 1000)}:R>`)
-                ],
-                components: [ new ActionRowBuilder().addComponents(btn) ]
+                embeds: [ em ],
+                components: [ actionRow ]
             })
 
-            await db.query(`INSERT into giveaways(messageId, name, winnerCount, sponsor, length, ending, joined, winners) VALUES(?, ?, ?, ?, ?, ?, ?, ?)`, [
+            await db.query(`INSERT into giveaways(messageId, name, winnerCount, sponsor, length, rolereq, ending, joined, winners) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
                 msg.id, 
                 event.fields.getTextInputValue('giveaway_create_title'),
                 Number(event.fields.getTextInputValue('giveaway_create_winners')),
-                event.fields.getTextInputValue('giveaway_create_sponsor'),
+                sponsor,
                 Number(event.fields.getTextInputValue('giveaway_create_length')),
+                event.fields.getTextInputValue('giveaway_create_reqrole'),
                 ends.toString(),
                 JSON.stringify([]),
                 JSON.stringify([])
@@ -227,6 +253,7 @@ export default {
         'giveaway_join': async (event) => {
             let gw = await db.query(`SELECT * FROM giveaways WHERE messageId = ?`, [ event.message.id ]);
             gw = gw[0][0];
+
             let joined = JSON.parse(gw.joined);
             if (joined.includes(event.user.id)) return event.reply({
                 embeds: [
@@ -235,30 +262,71 @@ export default {
                 ],
                 ephemeral: true
             });
+
+            if (gw.rolereq !== '' && !event.member.roles.cache.has(gw.rolereq)) return event.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription(`You must have the <@&${gw.rolereq}> role to enter this giveaway.`)
+                ],
+                ephemeral: true
+            })
+
             joined.push(event.user.id);
             await db.query(`UPDATE giveaways SET joined = ? WHERE messageId = ?`, [ JSON.stringify(joined), event.message.id ])
 
             let message = await event.channel.messages.fetch(gw.messageId);
 
-            let btn = new ButtonBuilder()
+            let joinButton = new ButtonBuilder()
                 .setCustomId('giveaway_join')
                 .setEmoji('1036038762519605303')
                 .setStyle(ButtonStyle.Primary)
                 .setLabel(joined.length.toString())
             
+            let joineesButton = new ButtonBuilder()
+                .setCustomId('giveaway_participants')
+                .setEmoji('1136028218445529108')
+                .setStyle(ButtonStyle.Secondary)
+            
+            let actionRow = new ActionRowBuilder()
+                .addComponents(joinButton)
+                .addComponents(joineesButton)
+            
             await message.edit({
-                embeds: [
-                    new EmbedBuilder()
-                    .setTitle(gw.name)
-                    .setDescription(`╰ Sponsor: <@${gw.sponsor}>\n╰ Winners: **${gw.winnerCount}**\n╰ Ends <t:${Math.round(Number(gw.ending) / 1000)}:R>`)
-                ],
-                components: [ new ActionRowBuilder().addComponents(btn) ]
+                components: [ actionRow ]
             });
 
             event.reply({
                 embeds: [
                     new EmbedBuilder()
                         .setDescription('You have joined the giveaway. Good luck!')
+                ],
+                ephemeral: true
+            })
+        },
+        'giveaway_participants': async (event) => {
+            let gw = await db.query(`SELECT * FROM giveaways WHERE messageId = ?`, [ event.message.id ]);
+            gw = gw[0][0];
+
+            let joins = JSON.parse(gw.joined);
+            joins = joins.map(a => `${joins.indexOf(a) + 1}. <@${a}>`);
+
+            if (!joins.length) return event.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription((gw.winners !== '[]') ? 'Nobody joined this giveaway.' : 'Nobody has joined this giveaway.\nYou could be the first!')
+                ],
+                ephemeral: true
+            })
+
+            event.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setTitle('Giveaway Joins')
+                    .setDescription(`${joins.join('\n')}`)
+                    .setFooter({
+                        text: `Total: ${joins.length}`
+                    })
+                    .setTimestamp()
                 ],
                 ephemeral: true
             })

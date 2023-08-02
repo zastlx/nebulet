@@ -5,6 +5,7 @@ import Terms from "./tos";
 import Test from "./_test";
 import Example from "./test.jsx";
 import Stats from "./stats";
+import Logout from "./logout";
 
 export default {
     errors: {
@@ -15,5 +16,6 @@ export default {
     terms: Terms,
     test: Test,
     demo: Example,
-    stats: Stats
+    stats: Stats,
+    logout: Logout
 };

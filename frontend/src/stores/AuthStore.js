@@ -3,6 +3,8 @@ import APIManager from "../services/apiManager";
 import logManager from "../services/logManager";
 import { ENDPOINTS } from "../constants/endpoints";
 import userStore from "./UserStore";
+import blookStore from "./BlookStore";
+import bannerStore from "./BannerStore";
 
 class AuthStore {
   isAuthenticated = false;
@@ -26,10 +28,12 @@ class AuthStore {
 
   async authorize(authToken) {
     localStorage.setItem("authToken", authToken);
-    userStore.init();
-
     this.authToken = authToken;
     this.isAuthenticated = true;
+    await userStore.init();
+    if (blookStore.isInited === false) await blookStore.init();
+    if (bannerStore.isInited === false) await bannerStore.init();
+
   }
 
   async logout() {
@@ -42,8 +46,7 @@ class AuthStore {
 
     switch (status) {
       case 200:
-        // Remove the token from localStorage
-        localStorage.removeItem("authToken");
+        userStore.removeUser(userStore.getLocalUser()?.id);
 
         this.isAuthenticated = false;
         logManager.log("[AuthStore] Successfully logged out");
@@ -57,8 +60,8 @@ class AuthStore {
   }
 
   forceLogout() {
-    // Remove the token from localStorage
     localStorage.removeItem("authToken");
+    userStore.removeUser(userStore.getLocalUser()?.id);
 
     this.isAuthenticated = false;
     this.authToken = null;

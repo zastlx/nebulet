@@ -1,13 +1,13 @@
-import { makeObservable, action } from "mobx";
+import { makeObservable, action, observable } from "mobx";
 import Blook from "../models/blook";
 import authStore from "./AuthStore";
 import APIManager from "../services/apiManager";
 import { ENDPOINTS } from "../constants/endpoints";
 import logManager from "../services/logManager";
 
-
 class BlookStore {
   #blooks = [];
+  isInited = false;
 
   constructor() {
     makeObservable(this, {
@@ -19,7 +19,8 @@ class BlookStore {
       getBlooks: action,
       filter: action,
       forEach: action,
-      init: action
+      init: action,
+      isInited: observable,
     });
   }
 
@@ -75,6 +76,7 @@ class BlookStore {
 
     switch (status) {
         case 200:
+            this.isInited = true;
             this.#blooks = this.#blooks.concat(data);
             break;
         case 401:
@@ -88,5 +90,8 @@ class BlookStore {
 }
 
 const blookStore = new BlookStore();
-if (authStore.isAuthenticated) await blookStore.init();
+/*eslint-disable*/
+try {
+    if (authStore.isAuthenticated && blookStore.isInited === false) await blookStore.init()
+} catch {}
 export default blookStore;

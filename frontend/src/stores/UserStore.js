@@ -109,7 +109,6 @@ class UserStore {
     }
 
     async init() {
-        console.trace("init call");
         try {
             this.loading = true;
             const localUser = this.getLocalUser();
@@ -126,12 +125,15 @@ class UserStore {
                         const user = new User(data, true);
                         this.#users.push(user);
                         this.loading = false;
+                        eventManager.dispatch("LOCAL_USER_INIT");
                         break;
                     }
                     default:
                         logManager.error(`[UserStore] Unknown status code received: ${status}`);
                         throw { status, data };
                 }
+            } else {
+                eventManager.dispatch("LOCAL_USER_INIT");
             }
         } catch (error) {
             logManager.error(`[UserStore] Error occurred during initialization: ${error.message}`);

@@ -18,6 +18,7 @@ export default class User {
     friends;
     stats;
     claimed;
+    banners;
     #isLocal;
 
     /*
@@ -26,6 +27,7 @@ export default class User {
     blocks
     claimed
     punishments
+    banners (unlocked)
     */
 
     constructor(initValue, isLocal = false) {
@@ -46,6 +48,7 @@ export default class User {
         this.claimed = initValue.claimed;
 
         if (isLocal) {
+            this.banners = initValue.banners;
             this.quests = initValue.quests;
             this.blocks = initValue.blocks;
             this.claimed = new Date(initValue.claimed);

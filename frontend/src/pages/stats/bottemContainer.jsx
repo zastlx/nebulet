@@ -42,7 +42,7 @@ export default function BottemContainer() {
             <StatContainer
               title="Successful Offers"
               num={userStore.getLocalUser().stats.succesfulOffers}
-              imgSrc="https://cdn.discordapp.com/attachments/1132777741889056900/1134493913139392583/chat.png"
+              imgSrc="/content/icons/check.png"
             />
             <StatContainer
               title="Completed Expeditions"

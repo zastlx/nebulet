@@ -15,6 +15,7 @@ class API {
         });
 
         this.#instance.interceptors.request.use((config) => {
+            console.log("reqeust", authStore.authToken);
             if (authStore.authToken) config.headers.Authorization = authStore.authToken;
             return config;
         });

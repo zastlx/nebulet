@@ -10,6 +10,8 @@ import userStore from "../../stores/UserStore";
 import TopRightProfile from "../../components/TopRightProfile";
 import Selector from "./selector";
 import eventManager from "../../services/eventManager";
+import blookStore from "../../stores/BlookStore";
+import bannerStore from "../../stores/BannerStore";
 
 export default function Stats() {
     const [isUserLoaded, setUserLoaded] = useState(false);
@@ -21,33 +23,35 @@ export default function Stats() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!authStore.isAuthenticated) 
-            navigate("/login");
-        
-        const checkDataLoaded = () => {
-            if (!userStore.loading) setUserLoaded(true);
-        };
-
-        checkDataLoaded();
-        const interval = setInterval(checkDataLoaded, 1);
-        return () => {
-            clearInterval(interval);
-        };
+        if (!authStore.isAuthenticated) navigate("/login");
+         
+        if (!blookStore.isInited) blookStore.init();
+        if (!bannerStore.isInited) bannerStore.init();
     }, []);
 
     // event subscriptions
     useEffect(() => {
-        eventManager.subscribe("LOCAL_USER_UPDATE", () => forceUpdate({}));
-    });
+        const localUserUpdate = () => forceUpdate({});
+        const localUserInit = () => setUserLoaded(true);
+        const keyPress = (event) => {
+            if (event.key === "Escape") setShowSelector(false);
+        };
+        eventManager.subscribe("LOCAL_USER_UPDATE", localUserUpdate);
+        eventManager.subscribe("KEY_PRESS", keyPress);
+        eventManager.subscribe("LOCAL_USER_INIT", localUserInit);
 
-    if (!isUserLoaded) return <div>Loading...</div>;
+        return () => {
+            eventManager.unsubscribe("LOCAL_USER_UPDATE", localUserUpdate);
+            eventManager.unsubscribe("KEY_PRESS", keyPress);
+            eventManager.unsubscribe("LOCAL_USER_INIT", localUserInit);
+        };
+    }, []);
 
-    return (
-        <div>
+    return (isUserLoaded ? (<div>
             <SideBar/>
             <Background/>
             <TopRightProfile avatar={userStore.getLocalUser().avatar} username={userStore.getLocalUser().username}/>
-           {showSelector &&  <Selector close={() => setShowSelector(false)}/>}
+            {showSelector &&  <Selector type={showSelectorType} close={() => setShowSelector(false)}/>}
 
             <div className={styles.main}>
                 <div className={styles.fullContainer}>
@@ -55,6 +59,5 @@ export default function Stats() {
                     <BottemContainer/>
                 </div>
             </div>
-        </div>
-    );
+        </div>) : (<div>Loading...</div>));
 }

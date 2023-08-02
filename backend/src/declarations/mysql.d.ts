@@ -6,11 +6,17 @@ type UserRow = RowDataPacket & User;
 type resultCount = RowDataPacket & { count: number };
 
 type blookRow = RowDataPacket & {
-    name: string
-    displayName: string
+    name: string;
+    displayName: string;
     image: string;
     rarity: string;
     pack: string;
     price: number;
     chance: number;
 };
+
+type bannerRow = RowDataPacket & {
+    name: string;
+    displayName: string;
+    image: string;
+}

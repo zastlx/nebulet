@@ -32,6 +32,7 @@ export default function Auth({type}) {
 
         switch (status) {
             case 200:
+                console.log(data.token);
                 authStore.authorize(data.token);
                 naviagte("/stats");
                 break;

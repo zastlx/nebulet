@@ -49,6 +49,10 @@ export const ENDPOINTS = {
         SELL: `${BASE_URL}/blooks/sell`,
         ALL: `${BASE_URL}/blooks/`
     },
+    BANNERS: {
+        SELL: `${BASE_URL}/banners/sell`,
+        ALL: `${BASE_URL}/banners/`
+    },
     BAZAAR: {
         LISTING: (itemID) => `${BASE_URL}/bazaar/listing/${itemID}`, // put to buy, delete to unlist
         ITEMS: (item, limit = 25) => `${BASE_URL}/bazaar/item/${item}/limit=${limit}`, // post to add listing, get to return listings

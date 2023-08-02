@@ -23,7 +23,7 @@ for (const folder of commandFolders) {
 
 for (const file of eventFiles) {
     const event = await import(`./events/${file}`);
-    client.on(file.split('.')[0], (data) => event.default(data));
+    client.on(file.split('.')[0], (...args) => event.default(...args));
 }
 
 setTimeout(() => {

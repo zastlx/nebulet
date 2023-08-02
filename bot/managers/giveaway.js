@@ -35,16 +35,24 @@ export const check = async () => {
             await db.query(`UPDATE giveaways SET winners = ? WHERE messageId = ?`, [JSON.stringify(winners), gw.messageId]);
             winners = winners.map(winner => '<@' + winner + '>');
 
-            let btn = new ButtonBuilder()
+            let joinButton = new ButtonBuilder()
                 .setCustomId('giveaway_join')
                 .setEmoji('1036038762519605303')
+                .setStyle(ButtonStyle.Primary)
+                .setLabel(joined.length.toString())
+                .setDisabled(true)
+            
+            let joineesButton = new ButtonBuilder()
+                .setCustomId('giveaway_participants')
+                .setEmoji('1136028218445529108')
                 .setStyle(ButtonStyle.Secondary)
-                .setLabel(joinCount.toString())
-                .setDisabled(true);
-            let btnRow = new ActionRowBuilder().addComponents(btn);
-
+            
+            let actionRow = new ActionRowBuilder()
+                .addComponents(joinButton)
+                .addComponents(joineesButton)
+            
             message.edit({
-                components: [ btnRow ]
+                components: [ actionRow ]
             })
 
             if (joinCount < gw.winnerCount) return message.reply({

@@ -61,7 +61,8 @@ exports.default = {
                 settings,
                 perms,
                 quests,
-                expeditions
+                expeditions,
+                banners
             ) VALUES (
                 ?,
                 ?,
@@ -83,6 +84,7 @@ exports.default = {
                 NULL,
                 '[]',
                 '{}',
+                '[]',
                 '[]',
                 '[]',
                 '[]'

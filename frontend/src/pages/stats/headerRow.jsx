@@ -22,8 +22,8 @@ export default function HeaderRow({ setShowSelector, setSelectorType }) {
             <div className={styles.headerLeft}>
                 <div className={styles.headerLeftRow}>
                     <div onClick={() => {
+                                    setSelectorType("blook");
                                     setShowSelector(true);
-                                    setSelectorType(1); // blook
                                 }} className={styles.headerBlookContainer} role="button">
                         <div className={global.blookContainer}>
                             <Blook
@@ -33,12 +33,13 @@ export default function HeaderRow({ setShowSelector, setSelectorType }) {
 
                     </div>
                     <div className={styles.headerInfo}>
-                        <div className={styles.headerBanner} role="button">
+                        <div
+                            onClick={() => {
+                                setSelectorType("banner"); // banner
+                                setShowSelector(true);
+                            }}
+                            className={styles.headerBanner} role="button">
                             <img
-                                onClick={() => {
-                                    setShowSelector(true);
-                                    setSelectorType(2); // banner
-                                }}
                                 src={userStore.getLocalUser().banner}
                                 alt="Banner"
                                 className={styles.headerBannerBackground}

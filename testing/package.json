@@ -1,19 +1,17 @@
 {
-  "name": "testing2",
+  "name": "testing",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "type": "module",
   "author": "",
+  "type": "module",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.4.0",
     "express": "^4.18.2",
-    "querystring": "^0.2.1",
-    "uuid": "^9.0.0"
+    "uwuifier": "^4.0.5"
   }
 }

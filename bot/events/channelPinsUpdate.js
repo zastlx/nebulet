@@ -8,12 +8,13 @@ export default async (event) => {
         limit: 1
     }).then(async (audit) => {
         const pin = audit.entries.first();
+        const message = await pin.extra.channel.messages.fetch(pin.extra.messageId);
 
         client.channels.fetch(config.channelConfig.audit).then(channel => {
             channel.send({
                 embeds: [
                     new EmbedBuilder()
-                    .setDescription(`${pin.executor} pinned a [message](https://discord.com/channels/${pin.extra.channel.guildId}/${pin.extra.channel.id}/${pin.extra.messageId}) in <#${pin.extra.channel.id}>.`)
+                    .setDescription(`${pin.executor} ${message.pinned ? '' : 'un'}pinned a [message](https://discord.com/channels/${pin.extra.channel.guildId}/${pin.extra.channel.id}/${pin.extra.messageId}) in <#${pin.extra.channel.id}>.`)
                 ]
             });
         });

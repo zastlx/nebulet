@@ -1,6 +1,6 @@
 import { hash, compare } from "bcrypt";
 import crypto from "node:crypto";
-import config from "../config.js";
+import config from "../config";
 
 const bcrypt = {
     hash: async (string: string) => {

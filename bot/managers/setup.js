@@ -12,10 +12,11 @@ const db = mysql.createPool(config.mysql);
 const client = new Client({
     intents: new IntentsBitField(131071)
 });
+
 client.commands = new Collection();
 
 const rest = new REST({
     version: "10"
 }).setToken(config.token);
 
-export { db, rest, client }
+export { db, rest, client };

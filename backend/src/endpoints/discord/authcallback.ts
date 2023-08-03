@@ -2,10 +2,10 @@ import querystring from "querystring";
 import {
     Response
 } from "express";
-import { sRequest } from "../../declarations/sessions.js";
+import { sRequest } from "../../declarations/sessions";
 import axios from "axios";
-import config from "../../config.js";
-import intercom from "../../managers/intercom.js";
+import config from "../../config";
+import intercom from "../../managers/intercom";
 
 export default {
     methods: ["get"],

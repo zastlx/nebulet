@@ -14,7 +14,7 @@ import blookStore from "../../stores/BlookStore";
 import bannerStore from "../../stores/BannerStore";
 
 export default function Stats() {
-    const [isUserLoaded, setUserLoaded] = useState(false);
+    const [isUserLoaded, setUserLoaded] = useState(userStore.getLocalUser() !== undefined);
     /* eslint-disable */
     const [showSelector, setShowSelector] = useState(false);
     const [showSelectorType, setShowSelectorType] = useState();

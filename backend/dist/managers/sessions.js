@@ -17,7 +17,7 @@ const fs_1 = __importDefault(require("fs"));
 const ids_1 = __importDefault(require("../utils/ids"));
 class SessionsManager {
     constructor() {
-        this.dir = path_1.default.join(process.cwd(), "sessions");
+        this.dir = path_1.default.join(__dirname, "..", "..", "sessions");
         this.memcache = {};
         this.timeout = 30 * 60 * 1000;
         this.startCleanupInterval();
@@ -108,6 +108,7 @@ class SessionsManager {
                 SID = this.create();
                 session = this.memcache[SID];
             }
+            // @ts-ignore
             req.session = new Proxy(session || this.memcache[SID], {
                 set: (target, property, value) => {
                     target[property] = value;

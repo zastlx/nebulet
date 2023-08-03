@@ -15,10 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bcrypt = exports.md5 = void 0;
 const bcrypt_1 = require("bcrypt");
 const node_crypto_1 = __importDefault(require("node:crypto"));
-const config_js_1 = __importDefault(require("../config.js"));
+const config_1 = __importDefault(require("../config"));
 const bcrypt = {
     hash: (string) => __awaiter(void 0, void 0, void 0, function* () {
-        return yield (0, bcrypt_1.hash)(string, config_js_1.default.security.saltRounds);
+        return yield (0, bcrypt_1.hash)(string, config_1.default.security.saltRounds);
     }),
     compare: (string, hash) => __awaiter(void 0, void 0, void 0, function* () {
         return yield (0, bcrypt_1.compare)(string, hash);

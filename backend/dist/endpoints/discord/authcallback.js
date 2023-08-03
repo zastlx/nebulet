@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const querystring_1 = __importDefault(require("querystring"));
 const axios_1 = __importDefault(require("axios"));
-const config_js_1 = __importDefault(require("../../config.js"));
-const intercom_js_1 = __importDefault(require("../../managers/intercom.js"));
+const config_1 = __importDefault(require("../../config"));
+const intercom_1 = __importDefault(require("../../managers/intercom"));
 exports.default = {
     methods: ["get"],
     get: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -23,8 +23,8 @@ exports.default = {
         if (!code)
             res.status(400).send("Missing authorization code.");
         const tokenResponse = yield axios_1.default.post("https://discord.com/api/oauth2/token", querystring_1.default.stringify({
-            client_id: config_js_1.default.oauth.discord.cid,
-            client_secret: config_js_1.default.oauth.discord.secret,
+            client_id: config_1.default.oauth.discord.cid,
+            client_secret: config_1.default.oauth.discord.secret,
             grant_type: "authorization_code",
             code: `${code}`,
             redirect_uri: "https://nebulet.zastix.club/api/discord/authcallback",
@@ -36,7 +36,7 @@ exports.default = {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
-        intercom_js_1.default.write(JSON.stringify({
+        intercom_1.default.write(JSON.stringify({
             type: "discordOAuth",
             user: userResponse.data
         }) + "\n");

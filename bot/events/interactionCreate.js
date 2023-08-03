@@ -19,7 +19,7 @@ export default async (event) => {
         }
 
         command.execute(event);
-    } else if (event.isButton() || event.isModalSubmit()) {
+    } else if (event.isButton() || event.isModalSubmit() || event.isStringSelectMenu()) {
         client.commands.forEach(cmd => Object.keys(cmd.interactions).forEach(int => {
             if (event.customId.startsWith(int)) cmd.interactions[int](event);
         }))

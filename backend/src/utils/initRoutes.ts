@@ -1,37 +1,26 @@
-import path from "path";
 import fs from "fs";
+import path from "path";
 import { Application } from "express";
 
 type methods = Array<"get" | "post" | "patch" | "delete" | "put">;
 
-export default function setupRoutes(dir: string, app: Application, baseRoute: string = "") {
-  const files = fs.readdirSync(dir, { withFileTypes: true });
+export default async function setupRoutes(app: Application, baseDir: string = "") {
+    const dir = path.join(__dirname, "..", "endpoints")
+    const currentDir = dir.concat("/".concat(baseDir));
 
-  files.forEach((file) => {
-    const filePath = path.join(dir, file.name);
+    const files = await fs.readdirSync(currentDir);
 
-    if (file.isDirectory()) {
-      // Check if there's an index.ts file in the folder
-      const indexPath = path.join(filePath, "index.js");
-      if (fs.existsSync(indexPath)) {
-        const indexRoute = path.join("/", baseRoute, file.name);
-        const route = require(indexPath).default;
-        const methods: methods = route.methods;
+    for (const file of files) {
+        if (!file.includes(".")) {
+            setupRoutes(app, path.join(baseDir, file)) ;
+            continue;
+        }
 
-        methods.forEach((method) => {
-          app[method](`/api${indexRoute}`, route[method]);
+        const module = (await import(path.join(currentDir, file))).default;
+        const methods: methods = module.methods;
+
+        methods.forEach(method => {
+            app[method](`/api${path.join(currentDir.replace(dir, ""), file).replace(".js", "")}`, module[method]);
         });
-      } else {
-        setupRoutes(filePath, app, path.join(baseRoute, file.name));
-      }
-    } else {
-      const fileRoute = path.join("/", baseRoute, file.name.split(".")[0]);
-      const route = require(filePath).default;
-      const methods: methods = route.methods;
-
-      methods.forEach((method) => {
-        app[method](`/api${fileRoute}`, route[method]);
-      });
     }
-  });
 }

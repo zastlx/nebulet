@@ -1,33 +1,27 @@
-import path from "path";
 import fs from "fs";
-import {
-    Application
-} from "express";
+import path from "path";
+import { Application } from "express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 
-/* eslint-disable */
-export default function setupMiddlewares(dir: string, app: Application, baseRoute: string = "") {
-    const files = fs.readdirSync(dir, {
-        withFileTypes: true
-    });
+export default async function setupRoutes(app: Application, baseDir: string = "") {
+    const dir = path.join(__dirname, "..", "middlewares")
+    const currentDir = dir.concat("/".concat(baseDir));
 
-    files.forEach((file) => {
-        const filePath = path.join(dir, file.name);
-        if (file.isDirectory()) return setupMiddlewares(filePath, app, path.join(baseRoute, file.name));
+    const files = await fs.readdirSync(currentDir);
 
-        const middleware = require(filePath).default;
+    for (const file of files) {
+        if (!file.includes(".")) {
+            setupRoutes(app, path.join(baseDir, file)) ;
+            continue;
+        }
 
-        app.use(middleware);
-    });
+        const module = (await import(path.join(currentDir, file))).default;
+
+        app.use(module);
+    }
+
     const viteAppProxyMiddleware = createProxyMiddleware({
         target: "http://localhost:6009",
         changeOrigin: true,
     });
-
-    app.use((req, res, next) => {
-        if (req.path.startsWith("/api")) return next();
-    
-        viteAppProxyMiddleware(req, res, next);
-    });
-};
-/* eslint-enable */
+}

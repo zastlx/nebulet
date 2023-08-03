@@ -6,7 +6,7 @@ export default {
     permissions: [
         config.roleConfig.Owner,
         config.roleConfig.Developer,
-        config.roleConfig.Admin,
+        config.roleConfig.Administrator,
         config.roleConfig.Moderator
     ],
     data: new SlashCommandBuilder()

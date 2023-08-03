@@ -1,5 +1,5 @@
 {
-  "name": "testing2",
+  "name": "pisspowers",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,9 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.4.0",
-    "express": "^4.18.2",
-    "querystring": "^0.2.1",
-    "uuid": "^9.0.0"
+    "mysql2": "^3.5.2"
   }
 }

@@ -68,7 +68,7 @@ exports.default = {
                 ?,
                 '',
                 ?,
-                '/content/blooks/Astronaut.png',
+                '/content/blooks/astronaut.png',
                 '[]',
                 '/content/banners/default.png',
                 '{}',

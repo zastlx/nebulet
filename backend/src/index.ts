@@ -1,6 +1,4 @@
-import path from "path";
 import express from "express";
-import { createProxyMiddleware } from "http-proxy-middleware";
 // @ts-ignore
 /* eslint-disable */
 import intercom from "./managers/intercom.js";
@@ -15,6 +13,4 @@ app.use(express.json());
 
 app.set("trust proxy", 1);
 
-setupMiddlewares(path.join(__dirname, "/middlewares"), app);
-setupRoutes(path.join(__dirname, "/endpoints"), app);
-app.listen(config.server.port);
+setupMiddlewares(app).then(() => setupRoutes(app).then(() => app.listen(config.server.port)))

@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs";
 import ids from "../utils/ids";
+import { NextFunction, Response, Request } from "express";
 
 
 class SessionsManager {
@@ -11,7 +12,7 @@ class SessionsManager {
     timeout: number;
 
     constructor() {
-        this.dir = path.join(process.cwd(), "sessions");
+        this.dir = path.join(__dirname, "..", "..", "sessions");
         this.memcache = {};
 
         this.timeout = 30 * 60 * 1000;
@@ -106,7 +107,7 @@ class SessionsManager {
         }
     }
 
-    async middleWare(req: any, res: any, next: any) {
+    async middleWare(req: Request, res: Response, next: NextFunction) {
         let SID = req.headers["authorization"];
         let session = await this.get(SID || this.create());
 
@@ -115,6 +116,7 @@ class SessionsManager {
             session = this.memcache[SID];
         }
 
+        // @ts-ignore
         req.session = new Proxy(session || this.memcache[SID], {
             set: (target: any, property: any, value: any) => {
                 target[property] = value;

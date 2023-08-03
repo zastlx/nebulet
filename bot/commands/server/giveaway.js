@@ -17,7 +17,7 @@ export default {
     permissions: [
         config.roleConfig.Owner,
         config.roleConfig.Developer,
-        config.roleConfig.Admin,
+        config.roleConfig.Administrator,
         config.roleConfig.Moderator
     ],
     data: new SlashCommandBuilder()
@@ -87,15 +87,17 @@ export default {
             if (!gwquery[0].length) return interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                    .setDescription(`That message ID is not a giveaway.`)
-                ]
+                    .setDescription(`The specified message ID is not a giveaway.`)
+                ],
+                ephemeral: true
             });
 
             if (JSON.parse(gwquery[0][0].winners).length) return interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                    .setDescription(`This giveaway has already ended.`)
-                ]
+                    .setDescription(`The specified has already ended.`)
+                ],
+                ephemeral: true
             })
 
             let gw = gwquery[0][0];
@@ -191,64 +193,147 @@ export default {
                 ],
                 ephemeral: (interaction.options.getBoolean('ephemeral') === null || interaction.options.getBoolean('ephemeral') ? true : false)
             })
-        }
-    },
-    interactions: {
-        'giveaway_create': async (event) => {
-            let length = Number(event.fields.getTextInputValue('giveaway_create_length'));
-            let ends = moment().add(length, 'minutes').valueOf();
-            let sponsor = (event.fields.getTextInputValue('giveaway_create_sponsor') !== '') ? event.fields.getTextInputValue('giveaway_create_sponsor') : event.user.id;
-
-            let joinButton = new ButtonBuilder()
-                .setCustomId('giveaway_join')
-                .setEmoji('1036038762519605303')
-                .setStyle(ButtonStyle.Primary)
-                .setLabel('0')
-            
-            let joineesButton = new ButtonBuilder()
-                .setCustomId('giveaway_participants')
-                .setEmoji('1136028218445529108')
-                .setStyle(ButtonStyle.Secondary)
-            
-            let actionRow = new ActionRowBuilder()
-                .addComponents(joinButton)
-                .addComponents(joineesButton)
-
-            let em = new EmbedBuilder()
-                .setTitle(event.fields.getTextInputValue('giveaway_create_title'))
-                .setDescription(`╰ Sponsor: <@${sponsor}>\n╰ Winners: **${event.fields.getTextInputValue('giveaway_create_winners')}**\n╰ Ends <t:${Math.round(ends / 1000)}:R>`)
-
-            if (event.fields.getTextInputValue('giveaway_create_reqrole') !== '') em.addFields({
-                name: 'Requirements',
-                value: `╰ Role: <@&${event.fields.getTextInputValue('giveaway_create_reqrole')}>`
-            })
-            
-            let msg = await event.channel.send({
-                embeds: [ em ],
-                components: [ actionRow ]
-            })
-
-            await db.query(`INSERT into giveaways(messageId, name, winnerCount, sponsor, length, rolereq, ending, joined, winners) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
-                msg.id, 
-                event.fields.getTextInputValue('giveaway_create_title'),
-                Number(event.fields.getTextInputValue('giveaway_create_winners')),
-                sponsor,
-                Number(event.fields.getTextInputValue('giveaway_create_length')),
-                event.fields.getTextInputValue('giveaway_create_reqrole'),
-                ends.toString(),
-                JSON.stringify([]),
-                JSON.stringify([])
-            ]);
-
-            event.reply({
+        } else if (interaction.options.getSubcommand() === 'reroll') {
+            let gwquery = await db.query('SELECT * FROM giveaways WHERE messageId = ?', [ interaction.options.getString('message-id') ]);
+            if (!gwquery[0].length) return interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                    .setDescription(`Created giveaway.`)
+                    .setDescription(`The specified message ID is not a giveaway.`)
                 ],
                 ephemeral: true
             });
 
-            await check();
+            let gw = gwquery[0][0];
+
+            if (gw.winners === '[]') return interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription(`The specified giveaway has not ended.\n`)
+                ],
+                ephemeral: true
+            });
+
+            let joined = JSON.parse(gw.joined);
+            let joinCount = JSON.parse(gw.joined).length;
+            let winners = [];
+
+            let guild = await client.guilds.fetch('1131299260109967431');
+            let channel = await guild.channels.fetch('1134865662884450374');
+            let message = await channel.messages.fetch(gw.messageId);
+
+            for (let calc = 0; calc < gw.winnerCount; calc++) {
+                let winner = joined[joined.length * Math.random() | 0];
+                joined.splice(joined.indexOf(winner), 1);
+                winners.push(winner);
+            };
+            await db.query(`UPDATE giveaways SET winners = ? WHERE messageId = ?`, [JSON.stringify(winners), gw.messageId]);
+            winners = winners.map(winner => '<@' + winner + '>');
+
+            if (joinCount < gw.winnerCount) return interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription(`This giveaway cannot be rerolled because nobody entered.`)
+                ],
+                ephemeral: true
+            })
+
+            message.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setTitle(`Giveaway Rerolled!`)
+                    .setDescription(`New Winner${gw.winnerCount > 1 ? 's' : ''}: ${winners.join(' ')}! <:giveaway:1135228169687937064>\nPlease DM the host, <@${gw.sponsor}>, for your prize.`)
+                    .setFooter({
+                        text: 'if this reroll is considered abuse of power, please open a ticket :)'
+                    })
+                ]
+            })
+
+            interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription(`Rerolled giveaway.`)
+                ]
+            })
+        }
+    },
+    interactions: {
+        'giveaway_create': async (event) => {
+            if (isNaN(event.fields.getTextInputValue('giveaway_create_length')) || isNaN(event.fields.getTextInputValue('giveaway_create_winners'))) return event.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription('Please make sure the giveaway length and winners are numbers.')
+                ],
+                ephemeral: true
+            });
+
+            let sponsor = (event.fields.getTextInputValue('giveaway_create_sponsor') !== '') ? event.fields.getTextInputValue('giveaway_create_sponsor') : event.user.id;
+
+            await event.guild.members.fetch(sponsor).then(async () => {
+                let length = Number(event.fields.getTextInputValue('giveaway_create_length'));
+                let ends = moment().add(length, 'minutes').valueOf();
+            
+                let joinButton = new ButtonBuilder()
+                    .setCustomId('giveaway_join')
+                    .setEmoji('1036038762519605303')
+                    .setStyle(ButtonStyle.Primary)
+                    .setLabel('0')
+            
+                let joineesButton = new ButtonBuilder()
+                    .setCustomId('giveaway_participants')
+                    .setEmoji('1136028218445529108')
+                    .setStyle(ButtonStyle.Secondary)
+            
+                let actionRow = new ActionRowBuilder()
+                    .addComponents(joinButton)
+                    .addComponents(joineesButton)
+
+                let em = new EmbedBuilder()
+                    .setTitle(event.fields.getTextInputValue('giveaway_create_title'))
+                    .setDescription(`╰ Sponsor: <@${sponsor}>\n╰ Winners: **${event.fields.getTextInputValue('giveaway_create_winners')}**\n╰ Ends <t:${Math.round(ends / 1000)}:R>`)
+                    .setFooter({
+                        text: 'created by @' + event.user.username
+                    })
+
+                if (event.fields.getTextInputValue('giveaway_create_reqrole') !== '') em.addFields({
+                    name: 'Requirements',
+                    value: `╰ Role: <@&${event.fields.getTextInputValue('giveaway_create_reqrole')}>`
+                })
+            
+                let msg = await event.channel.send({
+                    embeds: [ em ],
+                    components: [ actionRow ]
+                })
+
+                await db.query(`INSERT into giveaways(messageId, name, winnerCount, sponsor, length, rolereq, ending, joined, winners) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)`, [
+                    msg.id, 
+                    event.fields.getTextInputValue('giveaway_create_title'),
+                    Number(event.fields.getTextInputValue('giveaway_create_winners')),
+                    sponsor,
+                    Number(event.fields.getTextInputValue('giveaway_create_length')),
+                    event.fields.getTextInputValue('giveaway_create_reqrole'),
+                    ends.toString(),
+                    JSON.stringify([]),
+                    JSON.stringify([])
+                ]);
+
+                event.reply({
+                    embeds: [
+                        new EmbedBuilder()
+                        .setDescription(`Created giveaway.`)
+                    ],
+                    ephemeral: true
+                });
+
+                await check();
+            }).catch(() => {
+                event.reply({
+                    embeds: [
+                        new EmbedBuilder()
+                        .setDescription(`Please make sure the sponsor is a real member's ID.\nYou can leave it blank and it will default to you.`)
+                    ],
+                    ephemeral: true
+                });
+            });
         },
         'giveaway_join': async (event) => {
             let gw = await db.query(`SELECT * FROM giveaways WHERE messageId = ?`, [ event.message.id ]);

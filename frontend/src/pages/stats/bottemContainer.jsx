@@ -27,7 +27,7 @@ export default function BottemContainer() {
                 "expeditions": 0,
                 "messagesSent": 0,
                 "uniqueBlooks": 0,
-                "completedTrades": 0,
+                "completedTrades":  0,
                 "succesfulOffers": 0
             }
             */

@@ -27,11 +27,11 @@ export default {
         .addStringOption(o => o.setName('option_5').setDescription('Option 5.').setRequired(false)),
 
     async execute(interaction) {
-        if (interaction.channel.id !== '1132671152918122506') {
+        if (interaction.channel.id !== config.channelConfig.polls) {
             return interaction.reply({
                 embeds: [
                     new EmbedBuilder()
-                    .setDescription(`This command is for the <#1132671152918122506> channel.`)
+                    .setDescription(`This command is for the <#${config.channelConfig.polls}> channel.`)
                 ],
                 ephemeral: true
             });

@@ -24,4 +24,10 @@ export default async function setupRoutes(app: Application, baseDir: string = ""
         target: "http://localhost:6009",
         changeOrigin: true,
     });
+
+    app.use((req,res,next) => {
+        if (req.path.startsWith("/api")) return next()
+
+        viteAppProxyMiddleware(req,res,next);
+    });
 }

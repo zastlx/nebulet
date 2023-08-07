@@ -5,6 +5,7 @@ import {
     ButtonStyle
 } from "discord.js";
 import { client, db } from "../managers/setup.js";
+import config from "../config.js";
 
 let intervals = [];
 
@@ -23,8 +24,8 @@ export const check = async () => {
             let joinCount = JSON.parse(gw.joined).length;
             let winners = [];
 
-            let guild = await client.guilds.fetch('1131299260109967431');
-            let channel = await guild.channels.fetch('1134865662884450374');
+            let guild = await client.guilds.fetch(config.guild);
+            let channel = await guild.channels.fetch(config.channelConfig.giveaways);
             let message = await channel.messages.fetch(gw.messageId);
 
             for (let calc = 0; calc < gw.winnerCount; calc++) {
@@ -44,7 +45,7 @@ export const check = async () => {
             
             let joineesButton = new ButtonBuilder()
                 .setCustomId('giveaway_participants')
-                .setEmoji('1136028218445529108')
+                .setEmoji('1137546186572701837')
                 .setStyle(ButtonStyle.Secondary)
             
             let actionRow = new ActionRowBuilder()
@@ -67,7 +68,7 @@ export const check = async () => {
                 embeds: [
                     new EmbedBuilder()
                     .setTitle(`Giveaway Ended!`)
-                    .setDescription(`Winner${gw.winnerCount > 1 ? 's' : ''}: ${winners.join(' ')}! <:giveaway:1135228169687937064>\nPlease DM the host, <@${gw.sponsor}>, for your prize.`)
+                    .setDescription(`Winner${gw.winnerCount > 1 ? 's' : ''}: ${winners.join(' ')}! <:giveaway:1137546182328066068>\nPlease DM the host, <@${gw.sponsor}>, for your prize.`)
                 ]
             })
         }, Number(giveaway.ending) - Date.now()));

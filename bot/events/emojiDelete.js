@@ -3,9 +3,8 @@ import { client } from "../managers/setup.js";
 import config from "../config.js";
 
 export default async (emoji) => {
-    console.log(emoji)
     emoji.guild.fetchAuditLogs({
-        type: AuditLogEvent.EmojiCreate,
+        type: AuditLogEvent.EmojiDelete,
         limit: 1
     }).then(async (audit) => {
         const deletion = audit.entries.first();

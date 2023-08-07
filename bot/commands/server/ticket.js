@@ -95,7 +95,7 @@ export default {
             let channel = await event.guild.channels.create({
                 name: `ticket-${validTickets}`,
                 type: ChannelType.GuildText,
-                parent: '1134801945597583364'
+                parent: config.categoryConfig.tickets
             });
 
             await channel.lockPermissions();
@@ -121,7 +121,7 @@ export default {
             await db.query(`INSERT INTO tickets(channelId, creatorId, closed, initMessageId) VALUES(?, ?, ?, ?)`, [
                 channel.id,
                 event.user.id,
-                false,
+                0,
                 initMessage.id
             ])
 
@@ -183,10 +183,6 @@ export default {
             });
 
             console.log(event.message);
-
-            event.message.edit({
-                content: 'test'
-            })
 
             event.channel.send({
                 embeds: [

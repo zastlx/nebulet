@@ -34,7 +34,7 @@ export default {
             embeds: [
                 new EmbedBuilder()
                 .setTitle('Help Menu')
-                .setDescription('<:blank:1136427277354287186> ➜ Pick a category to get started!')
+                .setDescription('<:blank:1137546180839100476> ➜ Pick a category to get started!')
                 .setColor('#ff6bdc')
                 .setTimestamp()
             ],
@@ -43,6 +43,14 @@ export default {
     },
     interactions: {
         'help_menu': async (interaction) => {
+            if (interaction.message.interaction.user.id !== interaction.user.id) return interaction.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription(`This is not your help menu.\nRun **/help** to get your own.`)
+                ],
+                ephemeral: true
+            })
+
             let commands = client.commands
                 .filter(a => a.permissions.some(permission => interaction.member.roles.cache.has(permission)) || a.permissions.includes('*'))
                 .filter(a => a.category === interaction.values[0]);
@@ -68,7 +76,7 @@ export default {
 
             interaction.reply({
                 ephemeral: true
-            }).catch(e => {})
+            }).catch(e => {});
         }
     }
 }

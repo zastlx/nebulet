@@ -12,12 +12,20 @@ export default async function setupRoutes(app: Application, baseDir: string = ""
 
     for (const file of files) {
         if (!file.includes(".")) {
-            setupRoutes(app, path.join(baseDir, file)) ;
+            setupRoutes(app, path.join(baseDir, file));
             continue;
         }
 
         const module = (await import(path.join(currentDir, file))).default;
         const methods: methods = module.methods;
+        console.log(file, module);
+
+        if (file === "index.js") {
+            methods.forEach(method => {
+                app[method](`/api${path.join(currentDir.replace(dir, ""))}`, module[method]);
+            });
+            return;
+        }
 
         methods.forEach(method => {
             app[method](`/api${path.join(currentDir.replace(dir, ""), file).replace(".js", "")}`, module[method]);

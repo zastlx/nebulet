@@ -55,6 +55,11 @@ function setupRoutes(app, baseDir = "") {
             target: "http://localhost:6009",
             changeOrigin: true,
         });
+        app.use((req, res, next) => {
+            if (req.path.startsWith("/api"))
+                return next();
+            viteAppProxyMiddleware(req, res, next);
+        });
     });
 }
 exports.default = setupRoutes;

@@ -50,7 +50,6 @@ export default {
                     ephemeral: event.customId.endsWith('true')
                 })
             } catch(e) {
-                console.log(e)
                 event.reply({
                     embeds: [
                         new EmbedBuilder()

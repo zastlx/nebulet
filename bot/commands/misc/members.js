@@ -8,14 +8,24 @@ export default {
         .setDescription("Get the server and game member count."),
     
     async execute(interaction) {
-        let gameusers = await db.query(`SELECT COUNT(*) AS zastix_please_stop_using_children FROM users`);
+        let gameusers = await db.query(`SELECT COUNT(*) AS game_users FROM users`);
 
-        return await interaction.reply({
+        await interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                .setDescription(`Server Members: **${interaction.guild.members.cache.filter(member => !member.user.bot).size}**\nGame users: **${gameusers[0][0].zastix_please_stop_using_children}**`)
+                .setDescription(`Server Members: **loading...**\nGame users: **${gameusers[0][0].game_users}**`)
             ],
             ephemeral: true
+        });
+
+        interaction.guild.members.fetch().then(async (memb) => {
+            await interaction.editReply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription(`Server Members: **${memb.filter(member => !member.user.bot).size}**\nGame players: **${gameusers[0][0].game_users}**`)
+                ],
+                ephemeral: true
+            });
         });
     }
 }

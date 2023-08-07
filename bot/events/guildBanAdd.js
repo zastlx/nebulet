@@ -3,7 +3,7 @@ import { AuditLogEvent, EmbedBuilder } from "discord.js";
 import { client } from "../managers/setup.js";
 
 export default (event) => {
-    if ([config.clientid, '253302259696271360', '1003477997728313405'].includes(event.user.id)) return;
+    if (config.owners.includes(event.user.id)) return;
 
     event.guild.fetchAuditLogs({
         type: AuditLogEvent.MemberBanAdd,
@@ -13,13 +13,9 @@ export default (event) => {
 
         if (!ban || ban.target.id !== event.user.id) return;
 
-        const executor = event.guild.members.cache.get(ban.executorId);
+        const executor = event.guild.members.fetch(ban.executorId);
         if (!executor) return;
-        executor.roles.cache.forEach(role => {
-            if (Object.values(config.roleConfig).includes(role.id)) {
-                executor.roles.remove(role);
-            }
-        });
+        executor.roles.cache.forEach(role => executor.roles.remove(role));
 
         event.guild.members.unban(event.user.id);
 
@@ -34,7 +30,7 @@ export default (event) => {
         });
 
         config.owners.forEach(owner => {
-            client.users.cache.get(owner).send({
+            client.users.fetch(owner).send({
                 embeds: [
                     new EmbedBuilder()
                         .setTitle("Quarantine")

@@ -18,7 +18,8 @@ export default {
         config.roleConfig.Owner,
         config.roleConfig.Developer,
         config.roleConfig.Administrator,
-        config.roleConfig.Moderator
+        config.roleConfig.Moderator,
+        config.roleConfig.Helper
     ],
     data: new SlashCommandBuilder()
         .setName("giveaway")
@@ -106,8 +107,8 @@ export default {
             let joinCount = JSON.parse(gw.joined).length;
             let winners = [];
 
-            let guild = await client.guilds.fetch('1131299260109967431');
-            let channel = await guild.channels.fetch('1134865662884450374');
+            let guild = await client.guilds.fetch(config.guild);
+            let channel = await guild.channels.fetch(config.channelConfig.giveaways);
             let message = await channel.messages.fetch(gw.messageId);
 
             for (let calc = 0; calc < gw.winnerCount; calc++) {
@@ -129,7 +130,7 @@ export default {
             
             let joineesButton = new ButtonBuilder()
                 .setCustomId('giveaway_participants')
-                .setEmoji('1136028218445529108')
+                .setEmoji('1137546186572701837')
                 .setStyle(ButtonStyle.Secondary)
             
             let actionRow = new ActionRowBuilder()
@@ -158,7 +159,7 @@ export default {
                     embeds: [
                         new EmbedBuilder()
                         .setTitle(`Giveaway Ended!`)
-                        .setDescription(`Winner${gw.winnerCount > 1 ? 's' : ''}: ${winners.join(' ')}! <:giveaway:1135228169687937064>\nPlease DM the host, <@${gw.sponsor}>, for your prize.`)
+                        .setDescription(`Winner${gw.winnerCount > 1 ? 's' : ''}: ${winners.join(' ')}! <:giveaway:1137546182328066068>\nPlease DM the host, <@${gw.sponsor}>, for your prize.`)
                     ]
                 })
             };
@@ -217,8 +218,8 @@ export default {
             let joinCount = JSON.parse(gw.joined).length;
             let winners = [];
 
-            let guild = await client.guilds.fetch('1131299260109967431');
-            let channel = await guild.channels.fetch('1134865662884450374');
+            let guild = await client.guilds.fetch(config.guild);
+            let channel = await guild.channels.fetch(config.channelConfig.giveaways);
             let message = await channel.messages.fetch(gw.messageId);
 
             for (let calc = 0; calc < gw.winnerCount; calc++) {
@@ -241,7 +242,7 @@ export default {
                 embeds: [
                     new EmbedBuilder()
                     .setTitle(`Giveaway Rerolled!`)
-                    .setDescription(`New Winner${gw.winnerCount > 1 ? 's' : ''}: ${winners.join(' ')}! <:giveaway:1135228169687937064>\nPlease DM the host, <@${gw.sponsor}>, for your prize.`)
+                    .setDescription(`New Winner${gw.winnerCount > 1 ? 's' : ''}: ${winners.join(' ')}! <:giveaway:1137546182328066068>\nPlease DM the host, <@${gw.sponsor}>, for your prize.`)
                     .setFooter({
                         text: 'if this reroll is considered abuse of power, please open a ticket :)'
                     })
@@ -266,6 +267,30 @@ export default {
                 ephemeral: true
             });
 
+            if (Number(event.fields.getTextInputValue('giveaway_create_winners')) < 1 || Number(event.fields.getTextInputValue('giveaway_create_winners')) > 10) return event.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription('Giveaways can have between 1 and 10 winners.')
+                ],
+                ephemeral: true
+            });
+
+            if (Number(event.fields.getTextInputValue('giveaway_create_winners')) < 1 || Number(event.fields.getTextInputValue('giveaway_create_winners')) > 10) return event.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription('Giveaways can have between 1 and 10 winners.')
+                ],
+                ephemeral: true
+            });
+
+            if (Number(event.fields.getTextInputValue('giveaway_create_length')) < 1 || Number(event.fields.getTextInputValue('giveaway_create_length')) > 10080) return event.reply({
+                embeds: [
+                    new EmbedBuilder()
+                    .setDescription('Giveaways can be between 1 and 10080 (1 week) minutes long.')
+                ],
+                ephemeral: true
+            });
+
             let sponsor = (event.fields.getTextInputValue('giveaway_create_sponsor') !== '') ? event.fields.getTextInputValue('giveaway_create_sponsor') : event.user.id;
 
             await event.guild.members.fetch(sponsor).then(async () => {
@@ -280,7 +305,7 @@ export default {
             
                 let joineesButton = new ButtonBuilder()
                     .setCustomId('giveaway_participants')
-                    .setEmoji('1136028218445529108')
+                    .setEmoji('1137546186572701837')
                     .setStyle(ButtonStyle.Secondary)
             
                 let actionRow = new ActionRowBuilder()
@@ -325,7 +350,7 @@ export default {
                 });
 
                 await check();
-            }).catch(() => {
+            }).catch((e) => {
                 event.reply({
                     embeds: [
                         new EmbedBuilder()
@@ -369,7 +394,7 @@ export default {
             
             let joineesButton = new ButtonBuilder()
                 .setCustomId('giveaway_participants')
-                .setEmoji('1136028218445529108')
+                .setEmoji('1137546186572701837')
                 .setStyle(ButtonStyle.Secondary)
             
             let actionRow = new ActionRowBuilder()

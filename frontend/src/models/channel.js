@@ -5,8 +5,8 @@ import userStore from "../stores/UserStore";
 export default class Channel {
     id;
     name;
-    type; // 1 (text) for chat/trade/bot, 2  for offers/events, 3 for dm, 4 for gc, and 5 for trade 
-    desc;
+    type; // 1 - text, 2 - fourms, 3 for dm, 4 for gc
+    description;
     botsAllowed;
     recipients;
     requiredPerms;
@@ -16,7 +16,7 @@ export default class Channel {
         this.id = initValue.id;
         this.name = initValue.name;
         this.type = initValue.type;
-        this.desc = initValue.desc;
+        this.description = initValue.description;
         this.botsAllowed = initValue.botsAllowed;
         this.requiredPerms = JSON.parse(initValue?.requiredPerms) || [];
 

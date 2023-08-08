@@ -5,7 +5,7 @@ import {
     sRequest
 } from "../../declarations/sessions"
 import pool from "../../managers/database"
-import { UserRow } from "../../declarations/mysql"
+import { userRow } from "../../declarations/mysql"
 import { bcrypt, md5 } from "../../utils/hashing"
 
 export default {
@@ -23,7 +23,7 @@ export default {
             if (password.length < 6) return res.status(400).send("Password must be at least 6 characters long.");
             if (username === password) return res.status(400).send("Username and password cannot be the same.");
 
-            const result = (await pool.query<UserRow[]>("SELECT id, password, ip FROM users WHERE username = ?", [username]))[0];
+            const result = (await pool.query<userRow[]>("SELECT id, password, ip FROM users WHERE username = ?", [username]))[0];
 
             if (result.length < 1) return res.status(400).send("There is no account with that username.");
             if (!(await bcrypt.compare(password, result[0].password))) return res.status(400).send("Incorrect password.");

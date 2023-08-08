@@ -1,11 +1,18 @@
 import {
     makeObservable,
-    action
+    action,
+    observable
 } from "mobx";
 import Channel from "../models/channel";
+import APIManager from "../services/apiManager";
+import { ENDPOINTS } from "../constants/endpoints";
+import authStore from "./AuthStore";
+import logManager from "../services/logManager";
 
 class ChannelStore {
     #channels = [];
+    #selectedChannel;
+    isInited = false;
 
     constructor() {
         makeObservable(this, {
@@ -17,6 +24,7 @@ class ChannelStore {
             getChannels: action,
             filter: action,
             forEach: action,
+            isInited: observable
         });
     }
 
@@ -61,8 +69,39 @@ class ChannelStore {
     clearChannels() {
         this.#channels = [];
     }
+
+    getCurrentChannel() {
+        return this.#channels.find((channel) => channel.id === this.#selectedChannel);
+    }
+
+    setCurrentChannel(id) {
+        this.#selectedChannel = id;
+    }
+
+    async init() {
+        const response = await APIManager.get(ENDPOINTS.CHAT.CHANNELS.ALL);
+    
+        const { status, data } = response;
+    
+        switch (status) {
+            case 200:
+                this.isInited = true;
+                this.#channels = this.#channels.concat(data);
+                break;
+            case 401:
+                authStore.forceLogout();
+                break;
+            default:
+                logManager.error(status, data);
+                break;
+        }
+      }
+
+      getRawChannels() {
+        return this.#channels;
+      }
 }
 
 const channelStore = new ChannelStore();
-
+window.cs = channelStore;
 export default channelStore;

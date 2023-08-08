@@ -31,6 +31,10 @@ const router = createBrowserRouter([
     }, {
         path: "/logout",
         element: (<pages.logout/>)
+    },
+    {
+        path: "/chat",
+        element: (<pages.chat/>)
     }
 ]);
 

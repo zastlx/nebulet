@@ -6,6 +6,7 @@ import Test from "./_test";
 import Example from "./test.jsx";
 import Stats from "./stats";
 import Logout from "./logout";
+import Chat from "./chat";
 
 export default {
     errors: {
@@ -17,5 +18,6 @@ export default {
     test: Test,
     demo: Example,
     stats: Stats,
-    logout: Logout
+    logout: Logout,
+    chat: Chat
 };

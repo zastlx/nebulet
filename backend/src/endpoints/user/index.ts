@@ -1,6 +1,6 @@
 import { Response } from "express"; 
 import { sRequest } from "../../declarations/sessions";
-import { UserRow, bannerRow, blookRow, resultCount } from "../../declarations/mysql";
+import { userRow, bannerRow, blookRow, resultCount } from "../../declarations/mysql";
 import pool from "../../managers/database";
 
 export default {
@@ -8,7 +8,7 @@ export default {
     get: async (req: sRequest, res: Response) => {
         if (!req.session.user) return res.status(401).send("Unauthorized");
 
-        const result = (await pool.query<UserRow[]>("SELECT id, username, discord, created, avatar, badges, banner, blooks, shards, role, color, exp, stats, friends, achievements, blocks, claimed, punishments, settings, quests, perms, expeditions, banners FROM users WHERE id = ?", [req.session.user]))[0];
+        const result = (await pool.query<userRow[]>("SELECT id, username, discord, created, avatar, badges, banner, blooks, shards, role, color, exp, stats, friends, achievements, blocks, claimed, punishments, settings, quests, perms, expeditions, banners FROM users WHERE id = ?", [req.session.user]))[0];
 
         // this should never happen but just in case
         if (result.length !== 1) {
@@ -35,7 +35,7 @@ export default {
                 const blookResult = (await pool.query<blookRow[]>("SELECT * FROM blooks WHERE name = ?", [newProps["avatarBlook"]]))[0];
                 if (blookResult.length !== 1) return res.status(400).send("That blook doesnt exist.");
 
-                const user = (await pool.query<UserRow[]>("SELECT blooks FROM users WHERE id = ?", [req.session.user]))[0];
+                const user = (await pool.query<userRow[]>("SELECT blooks FROM users WHERE id = ?", [req.session.user]))[0];
                 if (user.length !== 1) {
                     delete req.session.user;
                     return res.status(401).send("Unauthorized");

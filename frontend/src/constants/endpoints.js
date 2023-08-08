@@ -14,6 +14,7 @@ export const ENDPOINTS = {
 
         },
         CHANNELS: {
+            ALL: `${BASE_URL}/channels/`,
             MESSAGES: (channelId, limit) => `${BASE_URL}/channels/${channelId}/messages/${limit ? `?limit=${limit}` : ""}`, // get to get messages, post to make message
             SEARCH: (channelId, parameters = {
                 from: "",

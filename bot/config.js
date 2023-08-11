@@ -36,8 +36,9 @@ export default {
         '1118555499319795783' // nebulet.xyz
     ],
     guild: '1063940529739546665',
-    media: {
-        gameLogo: 'https://cdn.discordapp.com/attachments/1136360465333755924/1137941634017927168/neb.png'
+    game: {
+        host: 'https://nebulet.zastix.club',
+        logo: 'https://cdn.discordapp.com/attachments/1136360465333755924/1137941634017927168/neb.png'
     },
     mysql: {
         connectionLimit: 10,

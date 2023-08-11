@@ -1,11 +1,15 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 // config.js
+const env_js_1 = __importDefault(require("./env.js"));
 exports.default = {
     mysql: {
         host: "localhost",
         user: "root",
-        password: "&+YNL4_Uc7d!cU#Y2kTh*QDzsNGc43DVNVQrzYj8Pgzzkb5LTrSdRjqmDtHfe=RfG=$CH",
+        password: env_js_1.default.SQLPASS,
         database: "nebulet",
     },
     server: {
@@ -13,7 +17,7 @@ exports.default = {
     },
     oauth: {
         discord: {
-            secret: "Ox0ppcOOEtRssk4QV6RTBtOaQqN5KrdM",
+            secret: env_js_1.default.SECRET,
             cid: "1131359495302422598"
         }
     },
@@ -27,7 +31,13 @@ exports.default = {
             "97.119.138.122",
             "74.98.231.200",
             "184.88.37.109",
-            "99.11.234.125", // shizuko
+            "99.11.234.125",
+            "174.104.208.194",
+            "0.0.0.0",
+            "127.0.0.1",
+            "localhost",
+            "::1",
+            "::ffff:127.0.0.1"
         ],
         masterPort: 1337,
         saltRounds: 10

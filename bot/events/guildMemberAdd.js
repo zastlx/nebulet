@@ -9,7 +9,7 @@ export default (event) => {
             .setTitle("Welcome!")
             .setDescription(`Welcome to the Nebulet Discord server, <@${event.user.id}>!\n\nPlease read the <#${config.channelConfig.rules}> and <#${config.channelConfig.info}> channels for more information.`)
             .setColor("#ff6bdc")
-            .setThumbnail(config.media.gameLogo)
+            .setThumbnail(config.game.logo)
             .setTimestamp().toJSON()
         ]
     }).catch(_ => { // if they cannot be dmed
@@ -21,7 +21,7 @@ export default (event) => {
                     .setTitle("Welcome!")
                     .setDescription(`Welcome to the Nebulet Discord server, <@${event.user.id}>!\n\nPlease read the <#${config.channelConfig.rules}> and <#${config.channelConfig.info}> channels for more information.`)
                     .setColor("#ff6bdc")
-                    .setThumbnail(config.media.gameLogo)
+                    .setThumbnail(config.game.logo)
                     .setTimestamp().toJSON()
                 ]
             });

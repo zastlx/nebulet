@@ -1,13 +1,13 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito:400,700|Titan+One|Creepster|Satisfy|Eczar:700');
+@import url( 'https://fonts.googleapis.com/css?family=Nunito:400,700|Titan+One|Creepster|Satisfy|Eczar:700');
 
 .link {
     color: blue;
     text-decoration: none;
 }
 
-body::-webkit-scrollbar{
+body::-webkit-scrollbar {
     display: none;
-  }
+}
 
 .blook {
     height: 160px;
@@ -26,7 +26,7 @@ body::-webkit-scrollbar{
     cursor: pointer;
     font-size: 3vh;
     transition: all 0.2s;
-  }
+}
 
 body {
     font-family: nunito;
@@ -40,4 +40,22 @@ body {
     position: relative;
     display: flex;
     justify-content: flex-end;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgba(0,0,0,.1);
+    background-color: rgba(82, 3, 84, 0.4);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(152, 0, 183);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(186, 0, 223);
 }

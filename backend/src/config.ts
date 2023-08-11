@@ -1,9 +1,11 @@
 // config.js
+import env from "./env.js";
+
 export default {
     mysql: {
         host: "localhost",
         user: "root",
-        password: "&+YNL4_Uc7d!cU#Y2kTh*QDzsNGc43DVNVQrzYj8Pgzzkb5LTrSdRjqmDtHfe=RfG=$CH",
+        password: env.SQLPASS,
         database: "nebulet",
     },
     server: {
@@ -11,7 +13,7 @@ export default {
     },
     oauth: {
         discord: {
-            secret: "Ox0ppcOOEtRssk4QV6RTBtOaQqN5KrdM",
+            secret: env.SECRET,
             cid: "1131359495302422598"
         }
     },
@@ -26,6 +28,12 @@ export default {
             "74.98.231.200", // penguin
             "184.88.37.109", // unbloocked
             "99.11.234.125", // shizuko
+            "174.104.208.194", // xot
+            "0.0.0.0",
+            "127.0.0.1",
+            "localhost",
+            "::1",
+            "::ffff:127.0.0.1"
         ],
         masterPort: 1337,
         saltRounds: 10

@@ -11,6 +11,7 @@ function HeaderText({ styles, text, style }) {
     );
 }
 
+
 export default function ChannelSelector({ styles }) {
     return (
         <div className={styles.channelSelectorContainer}>
@@ -19,6 +20,7 @@ export default function ChannelSelector({ styles }) {
                 <div className={styles.channelsContainer}>
                     <div className={styles.channelsHolder}>
                         {channelStore.getRawChannels().filter((channel) => (channel.type === 1 || channel.type === 2 || channel.type === 5).map((channel, _) => {
+                            console.log(channelStore); 
                             return (
                                 <Channel 
                                     key={_}

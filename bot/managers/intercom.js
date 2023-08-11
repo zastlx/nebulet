@@ -1,6 +1,6 @@
 import { Socket } from "net";
 import { EmbedBuilder } from "discord.js";
-import { client } from "./setup.js";
+import { client, db } from "./setup.js";
 import config from "../config.js";
 
 const handlers = {
@@ -8,13 +8,19 @@ const handlers = {
     try {
       let user = (await (await client.guilds.fetch(config.guild)).members.fetch(data.user.id));
       console.log(user);
-      user.roles.remove('1132674117229871135');
-      user.roles.add('1132667144451141663');
+      let query = await db.query(`SELECT * FROM users WHERE discord = ?`, [ user.id ]);
+      if (query[0][0]) return user.send({
+        embeds: [
+          new EmbedBuilder()
+          .setDescription(`You have already linked a Nebulet account to your Discord account.`)
+        ]
+      })
+      user.roles.add(config.roleConfig.Common);
       user.send({
         embeds: [
           new EmbedBuilder()
             .setTitle('Discord Linked!')
-            .setDescription("You've linked your Discord to Nebulet.\nNow, liftoff!")
+            .setDescription("You've linked your Discord to Nebulet.")
             .toJSON()
         ]
       });

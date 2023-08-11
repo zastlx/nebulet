@@ -1,5 +1,4 @@
 import express from "express";
-// @ts-ignore
 /* eslint-disable */
 import intercom from "./managers/intercom.js";
 /* eslint-enable */

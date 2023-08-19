@@ -8,6 +8,7 @@ import APIManager from "../services/apiManager";
 import { ENDPOINTS } from "../constants/endpoints";
 import authStore from "./AuthStore";
 import logManager from "../services/logManager";
+import eventManager from "../services/eventManager";
 
 class ChannelStore {
     #channels = [];
@@ -31,11 +32,13 @@ class ChannelStore {
     addChannel(data) {
         const channel = new Channel(data);
         this.#channels.push(channel);
+        eventManager.dispatch("CHANNEL_STORE_UPDATE");
     }
 
     removeChannel(channelName) {
         const index = this.#channels.findIndex((channel) => channel.name === channelName);
         if (index !== -1) this.#channels.splice(index, 1);
+        eventManager.dispatch("CHANNEL_STORE_UPDATE");
 
     }
 
@@ -44,7 +47,8 @@ class ChannelStore {
         if (channelIndex !== -1) this.#channels[channelIndex] = {
                 ...this.#channels[channelIndex],
                 ...updatedchannel,
-            };
+        };
+        eventManager.dispatch("CHANNEL_STORE_UPDATE");
     }
 
     getChannel(channelName) {
@@ -68,6 +72,7 @@ class ChannelStore {
 
     clearChannels() {
         this.#channels = [];
+        eventManager.dispatch("CHANNEL_STORE_UPDATE");
     }
 
     getCurrentChannel() {
@@ -76,6 +81,7 @@ class ChannelStore {
 
     setCurrentChannel(id) {
         this.#selectedChannel = id;
+        eventManager.dispatch("CHANNEL_STORE_UPDATE");
     }
 
     async init() {
@@ -87,6 +93,7 @@ class ChannelStore {
             case 200:
                 this.isInited = true;
                 this.#channels = this.#channels.concat(data);
+                eventManager.dispatch("CHANNEL_STORE_INIT");
                 break;
             case 401:
                 authStore.forceLogout();

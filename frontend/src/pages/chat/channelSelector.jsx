@@ -19,7 +19,7 @@ export default function ChannelSelector({ styles }) {
                 <HeaderText styles={styles} text="Channels"/>
                 <div className={styles.channelsContainer}>
                     <div className={styles.channelsHolder}>
-                        {channelStore.getRawChannels().filter((channel) => (channel.type === 1 || channel.type === 2 || channel.type === 5).map((channel, _) => {
+                        {channelStore.getRawChannels().filter((channel) => (channel.type === 1 || channel.type === 2 || channel.type === 5)).map((channel, _) => {
                             console.log(channelStore); 
                             return (
                                 <Channel 
@@ -29,7 +29,7 @@ export default function ChannelSelector({ styles }) {
                                     text={channel.name}
                                 />
                             );
-                        }))}
+                        })}
                     </div>
                 </div>
                 <HeaderText style={{

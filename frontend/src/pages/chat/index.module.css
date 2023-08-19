@@ -30,6 +30,64 @@
     position: relative;
 }
 
+.channelIcon {
+    transform: translate(-6px, 3px);
+}
+
+
+
+@media only screen and (max-width: 650px) {
+    .channelIcon, .channelName {
+        font-size: 3.2vw !important;
+    }
+
+    .channelIcon {
+        transform: unset !important;
+    }
+
+    .channel {
+        flex-flow: column !important;
+        padding-top: 5px !important;
+    }
+
+    .channelSelectorHeaderText {
+        font-size: 4vw !important;
+    }
+
+    .channelSelectorContainer {
+        width: 20% !important;
+    }
+
+    .channelsContainer {
+        height: 40% !important;
+    }
+
+    .chatInputContainer {
+        height: 6.5vh !important;
+    }
+    .chatInput {
+        height: 6vh !important;
+    }
+}
+
+@media only screen and (max-width: 850px) {
+    .chatInputButton {
+        right: 10% !important;
+        z-index: 500000000;
+        left: auto !important;
+    }
+
+    .chatInput {
+        width: 97% !important;
+    }
+
+    .mainContainer {
+        top: 0 !important;
+        left: 50% !important;
+        width: 100% !important;
+    }
+}
+
 .chatContainer {
     width: 88%;
     padding-top: 50px;
@@ -50,7 +108,7 @@
     border-radius: 8px;
     width: 95%;
     background: #30006b;
-    height: 6.5vh;
+    height: 8.5vh;
     margin-left: 2.5%;
     display: flex;
     align-items: center;
@@ -66,9 +124,9 @@
     color: #fff;
     font-weight: 600;
     width: 92.5%;
-    height: 6vh;
+    height: 8vh;
     line-height: 6vh;
-    font-size: 20px;
+    font-size: 28px;
     position: absolute;
     bottom: 2.4%;
     right: 2%;
@@ -148,7 +206,8 @@
 
 .channel {
     margin-top: 10px;
-    width: 90%;
+    display: flex;
+    filter: drop-shadow(0 0 0.5vh rgba(255, 255, 255, 0.7));
     text-align: center;
     user-select: none;
     -ms-user-drag: none;

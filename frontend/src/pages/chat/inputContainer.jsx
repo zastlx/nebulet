@@ -38,9 +38,9 @@ export default function InputContainer({styles}) {
             <div
                 className={styles.chatInputButton}
                 style={{
-                right: "0",
-                left: "auto"
-            }}>
+                    right: "0 !important",
+                    left: "auto !important"
+                }}>
                 <FontAwesomeIcon icon={icons[Math.floor(Math.random() * icons.length)]}/>
             </div>
             <input className={styles.chatInput} placeholder="Message"></input>

@@ -14,6 +14,7 @@ import {
     faFaceSadTear,
     faPlus
 } from "@fortawesome/free-solid-svg-icons";
+
 const icons = [
     faFaceSadCry,
     faFaceRollingEyes,

@@ -49,7 +49,6 @@ function setupRoutes(app, baseDir = "") {
             }
             const module = (yield Promise.resolve(`${path_1.default.join(currentDir, file)}`).then(s => __importStar(require(s)))).default;
             const methods = module.methods;
-            console.log(file, module);
             if (file === "index.js") {
                 methods.forEach(method => {
                     app[method](`/api${path_1.default.join(currentDir.replace(dir, ""))}`, module[method]);

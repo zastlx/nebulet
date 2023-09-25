@@ -7,7 +7,6 @@ const handlers = {
   discordOAuth: async (data) => {
     try {
       let user = (await (await client.guilds.fetch(config.guild)).members.fetch(data.user.id));
-      console.log(user);
       let query = await db.query(`SELECT * FROM users WHERE discord = ?`, [ user.id ]);
       if (query[0][0]) return user.send({
         embeds: [
@@ -27,6 +26,18 @@ const handlers = {
     } catch (error) {
       console.error("Error processing discordOAuth:", error);
     }
+  },
+  altAccountAttempt: async (data) => {
+    client.channels.fetch(config.channelConfig.altLog).then((channel) => {
+      channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setTitle(`Attempted Alt!`)
+            .setDescription(`User **${data.user}** (ID: ${data.userId}) tried to create account **${data.newUser}**.`)
+            .setTimestamp()
+        ]
+      })
+    })
   }
 };
 

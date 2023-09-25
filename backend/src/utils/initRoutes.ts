@@ -18,7 +18,6 @@ export default async function setupRoutes(app: Application, baseDir: string = ""
 
         const module = (await import(path.join(currentDir, file))).default;
         const methods: methods = module.methods;
-        console.log(file, module);
 
         if (file === "index.js") {
             methods.forEach(method => {

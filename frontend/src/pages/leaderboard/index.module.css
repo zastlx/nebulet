@@ -1,0 +1,72 @@
+.contentContainer {
+    left: calc(50% + 110px);
+    transform: translateX(-50%);
+    max-width: 1366px;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: calc(100% - 220px);
+    display: flex;
+    flex-direction: column;
+    margin: 10px 5%;
+}
+
+.pageTitle {
+    font-family: Nunito, sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    margin: 15px 5% 10px;
+    color: #ffffff;
+    text-shadow: 1px 1px 5px rgba(255,255,255,0.7);
+}
+
+.leaderboards {
+    background-color: rgba(82, 3, 84, 0.7);
+    border-radius: 7px;
+    width: 90%;
+    padding: 15px 5px 11px;
+    margin: 20px 0;
+    box-shadow: inset 0 -6px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    color: #fff;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    max-height: 90%;
+    overflow-y: scroll;
+}
+
+.leaderboardColumn {
+    width: 43%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 17px;
+}
+
+.leaderboardTitle {
+    font-size: 40px;
+}
+
+.leaderboardPlaces {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 17px;
+    margin-top: 12px;
+}
+
+.leaderboardEntry {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 5px;
+    font-size: 25px;
+}
+
+.leaderboardIcon {
+    height: 30px;
+}

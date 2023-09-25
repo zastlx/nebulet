@@ -3,9 +3,15 @@ import { faAngleDown, faCog, faSignOutAlt } from "@fortawesome/free-solid-svg-ic
 import styles from "./index.module.css";
 import { Link } from "react-router-dom";
 
-export default function TopRightProfile({ avatar, username })  {
+export default function TopRightProfile({ avatar, username, tokens })  {
   return (
     <div className={styles.topRightRow}>
+      { tokens ? 
+        <div className={styles.tokenContainer}>
+          <img className={styles.tokenIcon} src="/content/icons/shard.png"></img>
+          {tokens}
+        </div>
+      : ""}
       <div className={styles.profileContainer} role="button" tabIndex="0">
         <div className={styles.profileRow}>
           <div className={`${styles.blookContainer} ${styles.profileBlook}`}>

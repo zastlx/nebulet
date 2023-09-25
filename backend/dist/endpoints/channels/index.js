@@ -21,9 +21,9 @@ exports.default = {
         try {
             const channels = (yield database_1.default.query(`
                 SELECT * FROM channels
-                WHERE JSON_CONTAINS(recipients, '"*"', '$')
-                OR JSON_CONTAINS(recipients, ? , '$');
-            `, [req.session.user]))[0];
+                WHERE JSON_CONTAINS(recipients, ?, '$')
+                OR JSON_CONTAINS(recipients, '"*"', '$')
+            `, ['"' + req.session.user + '"']))[0];
             return res.status(200).send(channels);
         }
         catch (e) {

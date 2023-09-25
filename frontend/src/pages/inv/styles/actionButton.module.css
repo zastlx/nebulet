@@ -1,0 +1,67 @@
+.button {
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: filter .25s;
+    width: 180px;
+    margin: 10px;
+}
+
+.shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, .25);
+    transform: translateY(2px);
+    transition: transform .6s cubic-bezier(.3, .7, .4, 1);
+}
+
+.edge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    filter: brightness(.7);
+}
+
+.front {
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    transform: translateY(-4px);
+    transition: transform .6s cubic-bezier(.3, .7, .4, 1);
+}
+
+.buttonContent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    color: #fff;
+    text-shadow: 1px 2px rgba(0,0,0,.2);
+    font-family: Titan One,sans-serif;
+    font-size: 28px;
+}
+
+.buttonImg {
+    width: 28px;
+    height: 28px;
+    margin-right: 7px;
+    margin-top: 3px;
+}

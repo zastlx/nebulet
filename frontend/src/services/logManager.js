@@ -1,17 +1,50 @@
 class LogManager {
-    log(message) {
-        console.log(message);
+    #log;
+    #warn;
+    #error;
+    #clear;
+
+    constructor() {
+        this.#log = console.log;
+        this.#warn = console.warn;
+        this.#error = console.error;
+        this.#clear = console.clear;
+
+        console.log = function () {};
+        console.warn = function () {};
+        console.error = function () {};
+        console.clear = function () {};
     }
 
-    warn(message) {
-        console.warn(message);
+    log(...args) {
+       this.#log(...args);
     }
 
-    error(message) {
-        console.error(message);
+    warn(...args) {
+        this.#warn(...args);
+    }
+
+    error(...args) {
+        this.#error(...args);
+    }
+
+    clear() {
+        this.#clear();
     }
 }
 
 const logManager = new LogManager();
+
+(() => {
+    function printWarn() {
+        // logManager.clear();
+        logManager.log("%cSTOP!", "font-size: 100px;color: red;");
+        logManager.log("%cAnything pasted here could harm your account.", "font-size:30px;");
+        logManager.log("%cIf you don't know what you're doing, close the Console now.", "font-size:22px;");
+    }
+    
+    let _setInterval = setInterval;
+    _setInterval(() => printWarn(), 750);    
+})();
 
 export default logManager;

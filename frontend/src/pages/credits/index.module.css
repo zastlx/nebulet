@@ -1,0 +1,87 @@
+.contentContainer {
+    left: calc(50% + 110px);
+    transform: translateX(-50%);
+    max-width: 1366px;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: calc(100% - 220px);
+    display: flex;
+    flex-direction: column;
+    margin: 10px 5%;
+}
+
+.pageTitle {
+    font-family: Nunito, sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    margin: 15px 5% 10px;
+    color: #ffffff;
+    text-shadow: 1px 1px 5px rgba(255,255,255,0.7);
+}
+
+.roleSelector {
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.role {
+    cursor: pointer;
+}
+
+.divider {
+    width: 80%;
+    margin: 20px auto;
+}
+
+.creditsContainer {
+    background-color: rgba(82, 3, 84, 0.7);
+    border-radius: 7px;
+    width: 90%;
+    padding: 15px 5px 11px;
+    margin: 20px 0;
+    box-shadow: inset 0 -6px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    color: #fff;
+    position: relative;
+}
+
+.creditsBody {
+    width: 90%;
+    margin-left: 5%;
+    display: flex;
+    flex-flow: column;
+    gap: 10px;
+    justify-content: center;
+    text-align: center;
+}
+
+.credit {
+    width: 100%;
+    margin-bottom: 15px;
+    color: white;
+    font-family: nunito;
+    display: flex;
+    flex-flow: column;
+}
+
+.creditUsername {
+    font-size: 38px;
+    font-weight: 700;
+    text-shadow: 1px 1px 5px rgba(255, 255, 255, 0.7);
+}
+
+.creditDesc {
+    font-size: 25px;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7);
+}
+
+.creditError {
+    font-size: 25px;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.7);
+    text-align: center;
+    margin-bottom: 15px;
+}

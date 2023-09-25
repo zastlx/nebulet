@@ -1,9 +1,5 @@
-import {
-    Response
-} from "express"
-import {
-    sRequest
-} from "../../declarations/sessions"
+import { Response } from "express"
+import { sRequest } from "../../declarations/sessions"
 
 export default {
     methods: ["post"],

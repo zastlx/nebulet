@@ -3,10 +3,11 @@ import axios from "axios";
 
 const app = express();
 
-global.gitToken = "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";
+global.gitToken = "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";
+
 app.get("/dev", async (req, res) => {
     try {
-        const url = 'https://api.github.com/repos/zastlx/nebulet2/contents';
+        const url = 'https://api.github.com/repos/zastix-developments-llc/nebulet2/contents';
         const response = await axios.get(url, { headers: {
             Authorization: `token ${global.gitToken}`
         } });
@@ -31,13 +32,14 @@ app.get("/dev", async (req, res) => {
         
         res.json(files);
     } catch (error) {
+        console.log(error)
         res.sendStatus(500);
     }
 });
 
 app.get("/*", async (req, res) => {
     try {
-        const fileUrl = `https://raw.githubusercontent.com/zastlx/nebulet2/main${req.path === "/" ? "/index.html" : req.path}`;
+        const fileUrl = `https://raw.githubusercontent.com/zastix-developments-llc/nebulet2/main${req.path === "/" ? "/index.html" : req.path}`;
         const response = await axios.get(fileUrl, { responseType: 'stream', headers: {
             Authorization: `token ${global.gitToken}`
         } });

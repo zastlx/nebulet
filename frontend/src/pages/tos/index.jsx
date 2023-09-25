@@ -5,6 +5,8 @@ import styles from "./index.module.css";
 export default function Terms() {
     return (
         <div >  
+            <title> Terms | Nebulet </title>
+
             <NavBar/>
             <Background/>
 

@@ -10,8 +10,7 @@
     },
     "include": [
         "src/**/*.ts",
-        "src/declarations/sesssions.d.ts" 
-
+        "src/declarations/sesssions.d.ts"
     ],
     "exclude": ["node_modules", "dist"]
 }

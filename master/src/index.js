@@ -17,6 +17,14 @@ const handlers = {
             user: data.user
         }) + "\n");
     },
+    altAccountAttempt: (socket, data) => {
+        botProcess.write(JSON.stringify({
+            type: data.type,
+            user: data.user,
+            userId: data.userId,
+            newUser: data.newUser
+        }) + "\n");
+    }
 };
 
 const handleData = function (socket, data) {

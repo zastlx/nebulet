@@ -8,7 +8,7 @@ import eventManager from "../services/eventManager";
 
 class UserStore {
     #users = [];
-    loading;
+    loading = true;
 
     constructor() {
         makeObservable(this, {
@@ -106,6 +106,11 @@ class UserStore {
 
     forEach(callback) {
         this.#users.forEach(callback);
+    }
+
+    getRandomOwnedBlook() {
+        let selfBlooks = Object.keys(this.getLocalUser().blooks);
+        return selfBlooks[selfBlooks.length * Math.random() | 0];
     }
 
     async init() {

@@ -73,7 +73,6 @@ class SocketManager {
 
     #handleConnect() {
         eventManager.dispatch("SOCKET_CONNECT");
-        logManager.log("[SOCKET] Connecting to socket server");
     }
 
     #handleDisconnect() {

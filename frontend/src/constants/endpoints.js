@@ -6,6 +6,9 @@ export const ENDPOINTS = {
         REGISTER: `${BASE_URL}/auth/register`,
         LOGOUT: `${BASE_URL}/auth/logout`
     },
+    LEADERBOARDS: {
+        URL: `${BASE_URL}/leaderboard`
+    },
     CHAT: {
         MESSAGES: {
             MESSAGE: (channelId, messageId) => `${BASE_URL}/channels/${channelId}/messages/${messageId}/`, // delete to remove, put to edit
@@ -44,7 +47,8 @@ export const ENDPOINTS = {
         }
     },
     MARKET: {
-        OPEN: (packId) => `${BASE_URL}/open/${packId}`
+        PACKS: `${BASE_URL}/packs/`,
+        OPEN: `${BASE_URL}/leaderboard/openPack`
     },
     BLOOKS: {
         SELL: `${BASE_URL}/blooks/sell`,
@@ -68,6 +72,9 @@ export const ENDPOINTS = {
     },
     SOCKETS: {
         URL: "wss://nws.zastix.club/",
+    },
+    PANEL: {
+        PAGES: `${BASE_URL}/panel/pages`
     }
 };
 

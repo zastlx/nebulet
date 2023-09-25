@@ -3,13 +3,11 @@ import {
     PermissionFlagsBits,
     EmbedBuilder
 } from "discord.js";
-import { client } from "../../managers/setup.js";
 import config from "../../config.js";
 
 export default {
     permissions: [
-        config.roleConfig.Owner,
-        config.roleConfig.Developer
+        config.roleConfig.Owner
     ],
     data: new SlashCommandBuilder()
         .setName("eval")

@@ -9,7 +9,6 @@ import axios from "axios";
 export default {
     permissions: [
         config.roleConfig.Owner,
-        config.roleConfig.Developer,
         config.roleConfig.Administrator
     ],
     data: new SlashCommandBuilder()

@@ -2,7 +2,6 @@ export default {
     token: 'MTEzMTM1OTQ5NTMwMjQyMjU5OA.Gbe9h_.ADowBKiSh-mNFOBuytShoOd-iTnO-qf-GZpBhY',
     roleConfig: {
         Owner: '1078072222314418278',
-        Developer: '1137517106724876318',
         Artist: '1137517170432159894',
         Administrator: '1137517306000449556',
         Moderator: '1137517403534786620',
@@ -24,7 +23,8 @@ export default {
         chat: '1137535404300578927',
         suggestions: '1137538666940616805',
         actions: '1137545468033908807',
-        audit: '1137545480268693564'
+        audit: '1137545480268693564',
+        altLog: '1147664017838587905'
     },
     categoryConfig: {
         tickets: '1137539396086792243'

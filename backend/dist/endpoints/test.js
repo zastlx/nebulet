@@ -1,9 +1,0 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = {
-    methods: ["get"],
-    get: (req, res) => {
-        console.log(req.session);
-        res.send(req.session);
-    }
-};

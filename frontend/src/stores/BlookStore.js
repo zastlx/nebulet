@@ -90,6 +90,7 @@ class BlookStore {
 }
 
 const blookStore = new BlookStore();
+window.bs = blookStore;
 /*eslint-disable*/
 try {
     if (authStore.isAuthenticated && blookStore.isInited === false) await blookStore.init()

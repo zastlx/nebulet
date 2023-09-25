@@ -23,14 +23,7 @@ export default function BottemContainer() {
               imgSrc="/content/icons/unlocked.png"
             />
             <StatContainer
-              title="Messages Sent" /* {
-                "expeditions": 0,
-                "messagesSent": 0,
-                "uniqueBlooks": 0,
-                "completedTrades":  0,
-                "succesfulOffers": 0
-            }
-            */
+              title="Messages Sent"
               num={userStore.getLocalUser().stats.messagesSent}
               imgSrc="https://cdn.discordapp.com/attachments/1132777741889056900/1134493913139392583/chat.png"
             />
@@ -55,7 +48,7 @@ export default function BottemContainer() {
       <div className={styles.left}>
         <div className={styles.historyContainer}>
           <div className={styles.containerHeader}>
-            <div className={styles.containerHeaderInside}>History</div>
+            <div className={styles.containerHeaderInside}>Expeditions</div>
           </div>
           {userStore.getLocalUser().expeditions.map((expedition, _) => {
                 return (<HistoryItem key={_} expeditionName={expedition.name} rewards={expedition.rewards} />);

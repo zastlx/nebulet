@@ -16,6 +16,7 @@ import withUserStore from "../../components/HOCs/WithUserStore";
 function Stats() {
     const [showSelector, setShowSelector] = useState(false);
     const [showSelectorType, setShowSelectorType] = useState();
+    const [user, setUser] = useState(userStore.getLocalUser());
 
     // event subscriptions
     useEffect(() => {
@@ -26,7 +27,10 @@ function Stats() {
         return () => subs.forEach((unsub) => unsub());
     }, []);
 
-    return (<div>
+    return (
+        <div>
+            <title>Stats | Nebulet</title>
+
             <SideBar/>
             <Background/>
             <TopRightProfile avatar={userStore.getLocalUser().avatar} username={userStore.getLocalUser().username}/>
@@ -34,11 +38,12 @@ function Stats() {
 
             <div className={styles.main}>
                 <div className={styles.fullContainer}>
-                    <HeaderRow setSelectorType={setShowSelectorType} setShowSelector={setShowSelector}/>
+                    <HeaderRow setSelectorType={setShowSelectorType} setShowSelector={setShowSelector} states={[user, setUser]} />
                     <BottemContainer/>
                 </div>
             </div>
-        </div>);
+        </div>
+    );
 }
 
 export default withAuth(withBannerStore(withBlookStore(withUserStore(Stats))));

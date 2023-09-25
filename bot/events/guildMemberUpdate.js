@@ -9,7 +9,7 @@ export default async (oldMember, newMember) => {
         channel.send({
             embeds: [
                 new EmbedBuilder()
-                .setDescription(`${newMember.user} changed their nickname from **${oldMember.nickname}** to **${newMember.nickname}**.`)
+                .setDescription(`${newMember.user} changed their nickname from **${oldMember.nickname || oldMember.user.username}** to **${newMember.nickname || newMember.user.username}**.`)
             ]
         });
     });

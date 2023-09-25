@@ -1,0 +1,28 @@
+/stats
+    expedition log
+    view stats
+
+/leaderboard
+    add new icons
+
+/chat
+    add functionality
+
+/galaxy
+    add pack opening functionality
+
+/inv
+    add searching
+    make buttons work
+
+/quests
+    add functionality
+
+/plaza
+    add everything
+
+/panel
+    make subpages
+
+/settings
+    add button functionality

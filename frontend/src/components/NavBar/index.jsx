@@ -14,10 +14,3 @@ export default function NavBar({ authType }) {
         </div>
     );
 }
-
-{
-    /*
-    crazy?
-    
-    */
-}

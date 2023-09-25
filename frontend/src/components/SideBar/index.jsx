@@ -1,24 +1,25 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from "./index.module.css";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faChartColumn,
     faScaleBalanced,
     faNewspaper,
     faComment,
     faSuitcase,
-    faThumbTack,
     faScrewdriverWrench,
     faCog,
     faSackDollar,
     faTrophy,
-    faChevronRight
+    faChevronRight,
+    faUsers
 } from "@fortawesome/free-solid-svg-icons";
-import {faDiscord, faTwitter, faYoutube} from "@fortawesome/free-brands-svg-icons";
+import { faDiscord, faYoutube } from "@fortawesome/free-brands-svg-icons";
 import SideBarPage from "./page";
 import SideBarSocial from "./social";
-import {faStars} from "../pirate";
-import {useEffect, useState} from "react";
+import { faStars, faClipboardList } from "../pirate";
+import { useEffect, useState } from "react";
+import userStore from "../../stores/UserStore";
 
 export default function SideBar() {
     const [visible, setVisible] = useState(!window.matchMedia("(max-width: 850px)").matches);
@@ -54,23 +55,22 @@ export default function SideBar() {
                     transform: "translateX(-100%)"
                 }
             }>
-                <div className={styles.logoText}>Nebulet</div>
+                <Link className={styles.logoText} to="/">Nebulet</Link>
                 <SideBarPage name="Stats" to="/stats" icon={faChartColumn}/>
                 <SideBarPage name="Leaderboard" to="/leaderboard" icon={faTrophy}/>
                 <SideBarPage name="Chat" to="/chat" icon={faComment}/>
                 <SideBarPage name="Galaxy" to="/galaxy" icon={faStars}/>
                 <SideBarPage name="Inventory" to="/inv" icon={faSuitcase}/>
+                <SideBarPage name="Quests" to="/quests" icon={faClipboardList}/>
                 <SideBarPage name="Trading Plaza" to="/plaza" icon={faScaleBalanced}/>
-                <SideBarPage name="Panel" to="/panel" icon={faScrewdriverWrench}/>
+                {["Helper", "Moderator", "Admin", "Owner"].includes(userStore.getLocalUser().role) ? <SideBarPage name="Panel" to="/panel" icon={faScrewdriverWrench}/> : ""}
                 <SideBarPage name="Settings" to="/settings" icon={faCog}/>
 
                 <div className={styles.bottomRow}>
-                    <SideBarSocial to="https://discord.gg/pBCNFY6jyh" icon={faDiscord}/>
-                    <SideBarSocial
-                        to="https://www.youtube.com/channel/UCViztqmioa0CoO_n6xgxc-w"
-                        icon={faYoutube}/>
-                    <SideBarSocial to="https://twitter.com/@notzastix" icon={faTwitter}/>
-                    <SideBarSocial icon={faNewspaper}/>
+                    <SideBarSocial data="/credits" icon={faUsers}/>
+                    <SideBarSocial data="https://discord.gg/nebulet-1063940529739546665" icon={faDiscord}/>
+                    <SideBarSocial data="https://www.youtube.com/@nebulet" icon={faYoutube}/>
+                    <SideBarSocial icon={faNewspaper} type="button" />
                 </div>
                 <Link className={styles.storeButton} to="/store">
                     <FontAwesomeIcon className={styles.storeIcon} icon={faSackDollar} />

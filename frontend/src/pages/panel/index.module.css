@@ -1,0 +1,44 @@
+.contentContainer {
+    left: calc(50% + 80px);
+    transform: translateX(-50%);
+    max-width: 1366px;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: calc(100% - 220px);
+    display: flex;
+    flex-direction: column;
+    margin: 10px 5%;
+}
+
+.pageTitle {
+    font-family: Nunito, sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    margin: 15px 5% 10px;
+    color: #ffffff;
+    text-shadow: 1px 1px 5px rgba(255,255,255,0.7);
+}
+
+.welcomeText {
+    font-family: Nunito, sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 5%;
+    color: #ffffff;
+    text-shadow: 1px 1px 5px rgba(255,255,255,0.7);
+}
+
+.quoteText {
+    font-family: Nunito, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 10px 5.5%;
+    color: #a0a0a0;
+}
+
+.panelButtons {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}

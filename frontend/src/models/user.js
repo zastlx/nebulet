@@ -6,6 +6,7 @@ import logManager from "../services/logManager";
 export default class User {
     id;
     username;
+    discord;
     created;
     avatar;
     badges;
@@ -14,6 +15,7 @@ export default class User {
     shards;
     role;
     color;
+    level;
     exp;
     friends;
     stats;
@@ -49,6 +51,7 @@ export default class User {
 
         if (isLocal) {
             this.banners = initValue.banners;
+            this.discord = initValue.discord;
             this.quests = initValue.quests;
             this.blocks = initValue.blocks;
             this.claimed = new Date(initValue.claimed);
@@ -60,6 +63,8 @@ export default class User {
             this.perms = initValue.perms;
             this.expeditions = initValue.expeditions;
         }
+
+        this.level = Math.floor(this.exp / 150);
     }
 
     update(newProps) {

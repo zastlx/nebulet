@@ -12,8 +12,7 @@ import { db } from "../../managers/setup.js";
 
 export default {
     permissions: [
-        config.roleConfig.Owner,
-        config.roleConfig.Developer
+        config.roleConfig.Owner
     ],
     data: new SlashCommandBuilder()
         .setName("query")

@@ -15,6 +15,15 @@ type blookRow = RowDataPacket & {
     chance: number;
 };
 
+type packRow = RowDataPacket & {
+    name: string;
+    level: number;
+    price: number;
+    image: string;
+    background: string;
+    blooks: string;
+}
+
 type bannerRow = RowDataPacket & {
     name: string;
     displayName: string;
@@ -31,3 +40,18 @@ type channelRow = RowDataPacket & {
     requiredPerms: string[];
     owner: string;
 };
+
+type blacklistRow = RowDataPacket & {
+    ip: string;
+    note: string;
+    reason: string;
+}
+
+type plazaRow = RowDataPacket & {
+    id: string;
+    offer: string;
+    type: string;
+    seller: string;
+    buyer: string;
+    bought: string;
+}

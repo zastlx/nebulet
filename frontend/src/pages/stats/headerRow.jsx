@@ -1,36 +1,31 @@
 import styles from "./index.module.css";
 import userStore from "../../stores/UserStore";
 import global from "../../components/styles/global.module.css";
-import { useMemo } from "react";
 import Blook from "../../components/Blook";
 import HeaderButton from "./headerButton";
-import { calcLevelFromXP, calcXPFromLevel } from "../../utils/exp";
 import { faSearch, faComment, faHandshake } from "@fortawesome/free-solid-svg-icons";
+import Modal from "../../components/Modal/main";
 
-export default function HeaderRow({ setShowSelector, setSelectorType }) {
-    const currentXP = userStore.getLocalUser().exp;
-    const requiredXPForCurrentLevel = calcXPFromLevel(calcLevelFromXP(currentXP));
-    const requiredXPForNextLevel = calcXPFromLevel(calcLevelFromXP(currentXP) + 1);
-
-    const scaleXValue = useMemo(() => {
-        const progressInCurrentLevel = currentXP - requiredXPForCurrentLevel;
-        return progressInCurrentLevel / (requiredXPForNextLevel - requiredXPForCurrentLevel);
-    }, [currentXP, requiredXPForCurrentLevel, requiredXPForNextLevel]);
+export default function HeaderRow({ setShowSelector, setSelectorType, states }) {
+    const [ user, setUser ] = states;
 
     return (
         <div className={styles.headerRow}>
             <div className={styles.headerLeft}>
                 <div className={styles.headerLeftRow}>
                     <div onClick={() => {
-                                    setSelectorType("blook");
-                                    setShowSelector(true);
-                                }} className={styles.headerBlookContainer} role="button">
+                        if (user.isLocal()) return ( <Modal title={"Error"} desc={"You must be viewing your own profile to set your Blook."} buttons={[{
+                            text: "Close",
+                            click: (setHidden) => setHidden(true)
+                        }]} /> );
+                        setSelectorType("blook");
+                        setShowSelector(true);
+                    }} className={styles.headerBlookContainer} role="button">
                         <div className={global.blookContainer}>
                             <Blook
                                 customClass={styles.blook}
                                 _src={userStore.getLocalUser().avatar}/>
                         </div>
-
                     </div>
                     <div className={styles.headerInfo}>
                         <div
@@ -56,7 +51,7 @@ export default function HeaderRow({ setShowSelector, setSelectorType }) {
                                 <div
                                     className={styles.levelBarInside}
                                     style={{
-                                    transform: `scaleX(${scaleXValue})`
+                                    transform: `scaleX(${(userStore.getLocalUser().exp % 150)/150})`
                                 }}></div>
                             </div>
                             <div className={styles.levelBarStarContainer}>
@@ -66,7 +61,7 @@ export default function HeaderRow({ setShowSelector, setSelectorType }) {
                                     className={styles.levelStar}
                                     draggable="false"/>
                                 <div className={styles.levelStarText}>
-                                    {calcLevelFromXP(userStore.getLocalUser().exp)}
+                                    {userStore.getLocalUser().level}
                                 </div>
                             </div>
                         </div>
@@ -74,9 +69,28 @@ export default function HeaderRow({ setShowSelector, setSelectorType }) {
 
                 </div>
                 <div className={styles.headerLeftButtons}>
-                    <HeaderButton color="#4441d9" name="View Stats" icon={faSearch}/>
-                    <HeaderButton color="rgb(100,100,255)" name="Chat" icon={faComment}/>
-                    <HeaderButton color="#4997eb" name="Trade" icon={faHandshake}/>
+                    <HeaderButton color="#4441d9" name="View Stats" icon={faSearch} type="button" action={() => {
+                        <Modal title={"View Stats"} inputs={[
+                            {
+                                placeHolder: "Username",
+                                binding: {
+                                    manual: false,
+                                    set: setUser,
+                                    value: ""
+                                }
+                            }
+                        ]} buttons={[{
+                            text: "View",
+                            click: (setHidden) => {
+                                setHidden(true);
+                            }
+                        }, {
+                            text: "View",
+                            click: (setHidden) => setHidden(true)
+                        }]} />;
+                    }}/>
+                    <HeaderButton color="rgb(100,100,255)" name="Chat" icon={faComment} type="link" action="/chat" />
+                    <HeaderButton color="#4997eb" name="Trade" icon={faHandshake} type="link" action="/plaza" />
                 </div>
             </div>
         </div>

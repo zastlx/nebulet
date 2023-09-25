@@ -8,8 +8,6 @@ import setupMiddlewares from "./utils/initMiddlewares.js";
 
 const app = express();
 app.use(express.json());
-
-
 app.set("trust proxy", 1);
 
 setupMiddlewares(app).then(() => setupRoutes(app).then(() => app.listen(config.server.port)))

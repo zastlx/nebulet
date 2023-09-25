@@ -1,5 +1,4 @@
 import axios from "axios";
-import logManager from "./logManager.js";
 import authStore from "../stores/AuthStore.js";
 
 class API {
@@ -15,12 +14,9 @@ class API {
         });
 
         this.#instance.interceptors.request.use((config) => {
-            console.log("reqeust", authStore.authToken);
             if (authStore.authToken) config.headers.Authorization = authStore.authToken;
             return config;
         });
-
-        logManager.log("[API] initlizaed api instance");
     }
 
     get(endpoint) {
@@ -73,5 +69,5 @@ class API {
 }
 
 const APIManager = new API();
-window.apimng = APIManager;
+window.am = APIManager;
 export default APIManager;

@@ -1,10 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import authStore from "../../stores/AuthStore";
+import { useEffect } from "react";
 
 const withAuth = (WrappedComponent) => {
     return function WithAuth(props) {
         const navigate = useNavigate();
-        if (!authStore.isAuthenticated) return navigate("/login");  
+        useEffect(() => {
+            if (!authStore.isAuthenticated) return navigate("/login");  
+        }, [authStore.isAuthenticated]);
 
         return <WrappedComponent {...props}/>;
     };

@@ -13,6 +13,8 @@ import ChannelSelector from "./channelSelector";
 function Chat() {
     return (
         <div>
+            <title>Chat | Nebulet</title>
+            
             <SideBar/>
             <Background/>
             <TopRightProfile avatar={userStore.getLocalUser().avatar} username={userStore.getLocalUser().username}/>

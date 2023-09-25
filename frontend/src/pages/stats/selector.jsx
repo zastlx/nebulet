@@ -14,7 +14,6 @@ export default function Selector({type, close}) {
     return (type === "blook" ? (<BlookSelector close={close}/>) : (<BannerSelector close={close}/>));
 }
 
-
 function BlookSelector({ close }) {
     const navigate = useNavigate();
     const [blooks, setBlooks] = useState(["astronaut", ...Object.keys(userStore.getLocalUser().blooks).filter(key => userStore.getLocalUser().blooks[key] >= 1)]);
@@ -66,7 +65,6 @@ function BlookSelector({ close }) {
                                                     userStore.getLocalUser().update(data);
                                                     break;
                                                 default:
-                                                    console.log(status, data);
                                                     break;
                                             }
         
@@ -130,7 +128,6 @@ function BannerSelector({ close }) {
                                             userStore.getLocalUser().update(data);
                                             break;
                                         default:
-                                            console.log(status, data);
                                             break;
                                     }
 

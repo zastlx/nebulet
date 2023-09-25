@@ -32,17 +32,14 @@ exports.default = {
                 return res.status(401).send("Unauthorized");
             const newProps = req.body;
             if (!newProps || Object.keys(newProps).length < 1)
-                return res.status(400).send("Invalid body");
-            if (!Object.keys(newProps).every((key) => [
-                "avatarBlook",
-                "banner"
-            ].includes(key)))
-                return res.status(400).send("Invalid body keys");
+                return res.status(403).send("Invalid body.");
+            if (!Object.keys(newProps).every((key) => ["avatarBlook", "banner"].includes(key)))
+                return res.status(403).send("Invalid body.");
             const responseData = {};
             if (newProps["avatarBlook"]) {
                 const blookResult = (yield database_1.default.query("SELECT * FROM blooks WHERE name = ?", [newProps["avatarBlook"]]))[0];
-                if (blookResult.length !== 1)
-                    return res.status(400).send("That blook doesnt exist.");
+                if (!blookResult.length)
+                    return res.status(403).send("That blook doesnt exist.");
                 const user = (yield database_1.default.query("SELECT blooks FROM users WHERE id = ?", [req.session.user]))[0];
                 if (user.length !== 1) {
                     delete req.session.user;
@@ -56,7 +53,7 @@ exports.default = {
             if (newProps["banner"]) {
                 const bannerResult = (yield database_1.default.query("SELECT * FROM banners WHERE name = ?", [newProps["banner"]]))[0];
                 if (bannerResult.length !== 1)
-                    return res.status(400).send("That banner doesnt exist.");
+                    return res.status(403).send("That banner doesnt exist.");
                 const hasPlus = (yield database_1.default.query(`SELECT COUNT(*) AS count FROM users WHERE JSON_CONTAINS(perms, '["plus"]') AND id = ?`, [req.session.user]))[0][0].count === 1;
                 if (!hasPlus)
                     return res.status(402).send("You dont have plus.");

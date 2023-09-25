@@ -5,7 +5,6 @@ import config from "../../config.js";
 export default {
     permissions: [
         config.roleConfig.Owner,
-        config.roleConfig.Developer,
         config.roleConfig.Administrator,
         config.roleConfig.Moderator
     ],

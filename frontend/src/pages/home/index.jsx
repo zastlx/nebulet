@@ -8,7 +8,9 @@ import { Link } from "react-router-dom";
 
 export default function Homepage() {
     return (
-        <div >  
+        <div>  
+            <title>Nebulet - the space-themed Blooket Private Server.</title>
+
             <Background size={"70%"} homePage={true}/>
 
             <div className={styles.headerSide}></div>

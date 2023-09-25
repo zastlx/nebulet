@@ -1,0 +1,258 @@
+.contentContainer {
+    left: calc(50% + 80px);
+    transform: translateX(-50%);
+    max-width: 1366px;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: calc(100% - 220px);
+    display: flex;
+    flex-direction: column;
+    margin: 10px 5%;
+}
+
+.pageTitle {
+    font-family: Nunito, sans-serif;
+    font-size: 45px;
+    font-weight: 700;
+    margin: 15px 0 10px;
+    color: #ffffff;
+    text-shadow: 1px 1px 5px rgba(255,255,255,0.7);
+}
+
+.buttonRow {
+    width: 350px;
+    margin-top: 5px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.blooksContainerBackground {
+    position: absolute;
+    top: 140px;
+    height: calc(100% - 240px);
+    width: calc(95% - 470px);
+    border-radius: 10px;
+    background-color: rgba(82, 3, 84, 0.7);
+    padding: 10px 10px 19px;
+    box-shadow: inset 0 -9px rgba(0,0,0,.2), 0 5px rgba(0,0,0,.25);
+}
+
+.blooksContainer {
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.packHolder {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.packTop {
+    margin-bottom: 5px;
+    position: relative;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.packTopBg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-size: 50px 50px;
+    opacity: .15;
+    width: 100%;
+    height: 100%;
+}
+
+.packTopDivider {
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    border-radius: 2px;
+}
+
+.packName {
+    margin: auto 0;
+    font-family: Titan One,sans-serif;
+    color: #fff;
+    text-shadow: 3px 3px rgba(0,0,0,.2);
+    font-size: 26px;
+}
+
+.packBlooks {
+    display: grid;
+    grid-template-columns: repeat(auto-fill,60px);
+    grid-gap: 10px;
+}
+
+.outerBlookContainer {
+    width: 60px;
+    height: 70px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    outline: none;
+    will-change: transform;
+}
+
+.innerBlookContainer {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    outline: none;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.blookImage {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+    object-fit: contain;
+    width: 55px;
+}
+
+.lockedBlook {
+    filter: brightness(0.25);
+    cursor: default;
+}
+
+.blookLock {
+    position: absolute;
+    color: white;
+    font-size: 24px;
+    opacity: .7;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    cursor: default;
+}
+
+.blookQuantity {
+    position: absolute;
+    font-size: 10px;
+    font-family: Titan One,sans-serif;
+    font-size: 12px;
+    -webkit-text-stroke: #3a3a3a 1px;
+    color: #fff;
+    border-radius: 7px;
+    padding: 0 5px;
+    height: 14px;
+    line-height: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    bottom: 2px;
+    left: -2px;
+}
+
+.currentBlookHolder {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 2.5%;
+    width: 400px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.currentBackground {
+    width: 100%;
+    height: 100%;
+}
+
+.currentInfo {
+    position: absolute;
+    top: 15px;
+    left: 5%;
+    width: 90%;
+    font-family: Titan One,sans-serif;
+    color: #fff;
+    text-align: center;
+}
+
+.currentName {
+    text-shadow: 0 3px 3px rgba(0,0,0,.2);
+    width: 100%;
+    height: 50px;
+    text-align: center;
+    font-size: 40px;
+}
+
+.currentRarity {
+    font-size: 30px;
+    -webkit-text-stroke: #3a3a3a 1.5px;
+}
+
+.currentImageContainer {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 85px;
+    left: 105px;
+    width: 190px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    outline: none;
+}
+
+.currentImage {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: contain;
+    object-fit: contain;
+}
+
+.currentOwned {
+    position: absolute;
+    bottom: 15px;
+    left: 5%;
+    width: 90%;
+    font-family: Titan One,sans-serif;
+    color: #fff;
+    text-align: center;
+    font-size: 30px;
+    text-shadow: 0 0 4px rgba(0,0,0,.4);
+}
+
+.currentBottomShadow {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    box-shadow: inset 0 -9px rgba(0,0,0,.2);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.blookActions {
+    position: absolute;
+    top: calc(50% + 220px);
+    right: 2.5%;
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}

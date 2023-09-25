@@ -8,16 +8,13 @@ import authStore from "../../stores/AuthStore";
 import APIManager from "../../services/apiManager";
 import { ENDPOINTS } from "../../constants/endpoints";
 import { useNavigate } from "react-router-dom";
+import eventManager from "../../services/eventManager";
 
 export default function Auth({type}) {
     const [username, setUsername] = useState("");
-    const [password ,setPassword] = useState("");
+    const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const naviagte = useNavigate();
-
-    useEffect(() => {
-        if (authStore.isAuthenticated) return naviagte("/stats");
-    });
 
     function handleChange(e) {
         e.target.name === "password" ? setPassword(e.target.value) : setUsername(e.target.value);
@@ -32,7 +29,6 @@ export default function Auth({type}) {
 
         switch (status) {
             case 200:
-                console.log(data.token);
                 authStore.authorize(data.token);
                 naviagte("/stats");
                 break;
@@ -48,11 +44,19 @@ export default function Auth({type}) {
         }
     }
 
+    useEffect(() => {
+        if (authStore.isAuthenticated) return naviagte("/stats");
+        
+        eventManager.subscribe("KEY_PRESS", (key) => {
+            if (key.key === "Enter") handleClick();
+        });
+    });
+
     return (
         <div>
-            <NavBar authType={type === "login"
-                        ? "Login"
-                        : "Register"}/>
+            <title>{type === "login" ? "Login" : "Register"} | Nebulet</title>
+
+            <NavBar authType={type === "login" ? "Login" : "Register"}/>
             <Background/>
 
             <div className={styles.container}>
@@ -84,7 +88,7 @@ export default function Auth({type}) {
                         className={styles.input}></input>
                 </div>
 
-{/*
+                {/*
                 {type !== "login"
                     ? <div className={styles.discordButton}>
                         <img className={styles.discordIcon} src="/content/discordIcon.jpeg" alt="Discord Icon"></img>

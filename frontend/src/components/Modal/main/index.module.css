@@ -1,0 +1,88 @@
+.modal {
+    display: block;
+    position: fixed;
+    z-index: 15;
+    left: 0;
+    top: 0;
+    font-family: Nunito, sans-serif !important;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffffff !important;
+}
+
+.modal2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 420px;
+    height: auto;
+    background-color: #590094;
+    border-radius: 7px;
+    box-sizing: border-box;
+    padding-bottom: 30px;
+    box-shadow: inset 0 -7px rgba(0, 0, 0, 0.2), 0 0 4px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+
+.modalItems {
+    width: 90%;
+}
+
+.modalDesc {
+    text-align: center;
+    font-weight: 400;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.modalHeader {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 900;
+    margin: 25px 35px 0 35px;
+}
+
+.modalButton {
+    border-radius: 5px;
+    padding-bottom: 5px;
+    box-shadow: 0px -5px rgba(0, 0, 0, 0.2) inset, 0px 0px 4px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    outline: none;
+    user-select: none;
+    padding: 10px 30px;
+    transition: 200ms;
+    background-color: #8700e0;
+}
+
+.modalButtons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-flow: row;
+}
+
+.modalInput {
+    width: 100%;
+    border: none;
+    outline: none;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 25px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-family: nunito !important;
+    color: #ffffff !important;
+    background-color: #40006b;
+    margin-bottom: 20px;
+}

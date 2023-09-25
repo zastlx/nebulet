@@ -1,19 +1,22 @@
 import { ENDPOINTS } from "../constants/endpoints";
 import APIManager from "../services/apiManager";
-import blookStore from "../stores/BlookStore";
 import logManager from "../services/logManager";
 
 export default class Pack {
-    id;
     name;
-    rarity;
+    level;
     price;
+    image;
+    background;
+    blooks;
 
     constructor(initValue) {
-        this.id = initValue.id;
         this.name = initValue.name;
-        this.rarity = initValue.rarity;
+        this.level = initValue.level;
         this.price = initValue.price;
+        this.image = initValue.image;
+        this.background = initValue.background;   
+        this.blooks = initValue.blooks;
     }
 
     update(newProps) {
@@ -41,14 +44,6 @@ export default class Pack {
         } catch (error) {
             throw { error };
         }
-    }
-
-    getName() {
-        return `${this.name} Pack`;
-    }
-
-    getBlooks() {
-        return blookStore.filter(blook => blook.pack === this.id);
     }
 
     canAfford(cur) {

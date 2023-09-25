@@ -40,3 +40,8 @@
     font-family: Nunito, sans-serif;
     color: #3a3a3a;
 }
+
+.mainContainerLink {
+    margin: 10px 30px 20px;
+    cursor: pointer;
+}

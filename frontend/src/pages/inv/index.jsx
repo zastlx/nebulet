@@ -20,6 +20,7 @@ import { faLock } from "@fortawesome/free-solid-svg-icons";
 function Inventory() {
     const [packs, setPacks] = useState(packStore.getPacksArray());
     const [currentBlook, setCurrentBlook] = useState(blookStore.getBlook(userStore.getRandomOwnedBlook() || "astronaut"));
+    const [showingPacks, setShowingPacks] = useState(true);
 
     useEffect(() => {
         if (!userStore.loading) setCurrentBlook(blookStore.getBlook(userStore.getRandomOwnedBlook() || "astronaut"));
@@ -53,7 +54,7 @@ function Inventory() {
     const miscBlooks = Object.keys(blookStore.getBlooks()).filter(a => !packBlooks.includes(a));
 
     return (
-        <div>
+        <>
             <title>Inventory | Nebulet</title>
             
             <SideBar/>
@@ -64,7 +65,7 @@ function Inventory() {
                 <div className={styles.pageTitle}>Inventory</div>
                 <div className={styles.buttonRow}>
                     <HeaderButton color="#4441d9" name="View User Blooks" icon={faSearch} />
-                    <HeaderButton color="#6464ff" name="Hide Packs" icon={faEyeSlash} />                    
+                    <HeaderButton color="#6464ff" name="Hide Packs" icon={faEyeSlash} onClick={() => setShowingPacks(!showingPacks)} />                    
                 </div>
 
                 <div className={styles.blooksContainerBackground}>
@@ -121,8 +122,8 @@ function Inventory() {
                                     })}
                                 </div>
                             </div>
+                        </div>
                     </div>
-                </div>
             </div>
 
             <div className={styles.currentBlookHolder}>
@@ -143,7 +144,7 @@ function Inventory() {
             <div className={styles.blookActions}>
                 <ActionButton color="#3f1171" name="Sell" img="/content/icons/shard.png"></ActionButton>
             </div>
-        </div>
+        </>
     );
 }
 

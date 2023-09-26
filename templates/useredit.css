@@ -1,0 +1,133 @@
+.styles__header___153FZ-camelCase {
+    font-family: Nunito,sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    margin: 15px 5% 10px;
+    color: #ffffff;
+    text-shadow: 1px 1px 5px rgba(255,255,255,0.7);
+}
+.userNamesContainer{
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-flow: column;
+    gap: 10px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+.userNamesContainer::-webkit-scrollbar{
+    display: none;
+}
+.userContainer{
+    width: 80%;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgba(255,255,255,0.7);
+    scale: 1;
+    transition: all .1s;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0,0,0,.7);
+}
+.userContainer:hover{
+    scale: 1.01;
+}
+
+.userPfpContainer{
+    height: 100px;
+    width: auto;
+    position: relative;
+    top: 0;
+    left: 5px;
+}
+  .userPfpImg{
+    filter: drop-shadow(0 0 5px rgba(0,0,0,.7));
+    height: 90%;
+    width: auto;
+    scale: 1;
+  }
+  .userInfo{
+    font-size: 12px;
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    gap: 2px;
+    top: 18px;
+    left: 100px;
+    width: 90%;
+    color: rgba(0,0,0,.7);
+  }
+  .userSearchBarContainer{
+    
+    margin: 15px 20% 10px;
+    position: absolute;
+    border-radius: 5px;
+    background-color: rgba(47, 1, 48, 0.8);
+    width: 20%;
+    height: 35px;
+    top: 10px;
+    right: 100px;
+    display: flex;
+    align-items: center;
+  }
+  .searchIcon{
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: absolute;
+    left: 5px;
+}
+.usersSearchInput{
+    position: absolute;
+    height: 100%;
+    border: none;
+    outline: none;
+    color: white;
+    font-family: nunito;
+    font-size: 15px;
+    line-height: 15px;
+    background-color: transparent;
+    right: 0;
+    width: 87.5%;
+}
+.bottomRightContainer{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: auto;
+    height: 50px;
+    font-size: 20px;
+    display: flex;
+    flex-flow: row;
+    color: white;
+}
+.bottomNavIcon{
+    margin: 0 10px;
+
+}
+.bottomNumberInput{
+    height: 20px;
+    width: 15px;
+    margin: 0 5px;
+    color: white;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    font-family: nunito;
+    font-size: 20px;
+    font-weight: bold;
+}
+.bottomNumberInput::placeholder{
+    color: white;
+}
+@media (max-width: 850px){
+    .userSearchBarContainer{
+        width: 30vw;
+        right: -5vw;
+    }
+}

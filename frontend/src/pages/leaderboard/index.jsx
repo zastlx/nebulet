@@ -48,7 +48,7 @@ function Leaderboard() {
                     <div className={styles.leaderboardColumn}>
                         <div className={styles.leaderboardTitle}>Shards</div>
                         <div className={styles.leaderboardPlaces}>
-                            {leaderboards.tokens?.map((entry, index) => (
+                            {leaderboards.shards?.map((entry, index) => (
                                 <div className={styles.leaderboardEntry} key={Math.round(Math.random() * 1000000).toString()}>
                                     {index < 3 ? <img className={styles.leaderboardIcon} src={
                                         index === 0 ? "https://cdn.discordapp.com/emojis/1087920140416462948.png" :

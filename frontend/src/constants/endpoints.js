@@ -48,7 +48,7 @@ export const ENDPOINTS = {
     },
     MARKET: {
         PACKS: `${BASE_URL}/packs/`,
-        OPEN: `${BASE_URL}/leaderboard/openPack`
+        OPEN: `${BASE_URL}/packs/open`
     },
     BLOOKS: {
         SELL: `${BASE_URL}/blooks/sell`,

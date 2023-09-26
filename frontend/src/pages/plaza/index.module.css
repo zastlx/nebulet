@@ -1,21 +1,185 @@
 .contentContainer {
-    left: calc(50% + 80px);
-    transform: translateX(-50%);
-    max-width: 1366px;
+    max-width: 1266px;
     position: absolute;
     top: 0;
     height: 100%;
     width: calc(100% - 220px);
-    display: flex;
-    flex-direction: column;
-    margin: 10px 5%;
+    left: calc(50% + 110px);
+    transform: translateX(-50%);
 }
 
 .pageTitle {
     font-family: Nunito, sans-serif;
     font-size: 44px;
     font-weight: 700;
-    margin: 15px 5% 10px;
+    margin: 15px 5% 4vh;
     color: #ffffff;
     text-shadow: 1px 1px 5px rgba(255,255,255,0.7);
+}
+
+.innerContainer {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    margin: 10px 5%;
+    flex-direction: row;
+    gap: 10vw;
+}
+
+.leftColumn {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 25vw;
+    gap: 7vh 0;
+}
+
+.sendTradeContainer {
+    width: 100%;
+    background: rgba(39, 3, 84, 0.7);
+    padding: 4vh 2.5vw;
+    border-radius: 10px;
+    box-shadow: inset 0 -8px rgba(0, 0, 0, .2), 0 0 0 rgba(0, 0, 0, .15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.sendTradeInput {
+    width: calc(95% - 15px);
+    background: transparent;
+    border: 2px solid white;
+    border-radius: 5px;
+    padding: 7.5px;
+    text-align: center;
+    outline: none;
+    font-family: 'Nunito';
+    color: white;
+    font-size: 1.75vw;
+}
+
+.sendTradeButton {
+    margin-top: 10px;
+    width: calc(95% - 15px);
+    background: rgb(152, 65, 217);
+    font-family: 'Nunito';
+    padding: 7.5px;
+    color: white;
+    text-align: center;
+    font-size: 1.45vw;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: inset 0 -4px rgba(0, 0, 0, .2), 0 0 0 rgba(0, 0, 0, .15);
+    transition: 0.2s;
+}
+
+.sendTradeButton:hover {
+    transform: scale(1.05);
+}
+
+.dailyLeaderboard {
+    width: 100%;
+    background: rgba(39, 3, 84, 0.7);
+    padding: 2.75vh 1.5vw;
+    border-radius: 10px;
+    box-shadow: inset 0 -8px rgba(0, 0, 0, .2), 0 0 0 rgba(0, 0, 0, .15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+    color: white;
+    text-align: center;
+}
+
+.textHeader {
+    font-size: 2.5vw;
+}
+
+.textBody {
+    font-size: 1.75vw;
+}
+
+.rightColumn {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 35vw;
+    gap: 7vh 0;
+}
+
+.offerSearch {
+    background: rgba(39, 3, 84, 0.7);
+    box-shadow: 0 0 15px rgb(0 0 0 / 70%);
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    padding: 2.75vh 1.5vw;
+    color: white;
+    text-align: center;
+    font-size: 1.5vw;
+    font-family: 'Nunito';
+    width: 100%;
+    transition: 0.2s;
+}
+
+.offerSearch:focus {
+    transform: scale(1.05);
+}
+
+.newOffers {
+    width: 100%;
+    background: rgba(39, 3, 84, 0.7);
+    padding: 2.75vh 1.5vw;
+    border-radius: 10px;
+    box-shadow: inset 0 -8px rgba(0, 0, 0, .2), 0 0 0 rgba(0, 0, 0, .15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-direction: column;
+    color: white;
+    text-align: center;
+}
+
+.offerList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    overflow: auto;
+    cursor: pointer;
+    gap: 2vh 3vw;
+}
+
+.offer {
+    display: flex;
+    height: 13vh;
+    gap: 2vw;
+}
+
+.offerImage {
+    height: 11vh;
+}
+
+.offerContent {
+    display: flex;
+    flex-direction: column;
+}
+
+.offerName {
+    font-size: 4vh;
+}
+
+.offerDetails {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+}
+
+.offerIcon {
+    font-size: 3vh;
+}
+
+.offerIconImage {
+    height: 4vh;
 }

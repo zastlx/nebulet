@@ -126,7 +126,7 @@
     width: 65%;
 }
 
-.tokenContainer {
+.shardContainer {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -145,7 +145,7 @@
     left: 0;
 }
 
-.tokenIcon {
+.shardIcon {
     width: 16px;
     height: 16px;
     margin-right: 7px;

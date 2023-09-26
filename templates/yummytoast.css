@@ -1,0 +1,90 @@
+.toasts{
+  display: block;
+  top: 0;
+  height: calc(100% - 50px);
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+  width: 450px;
+  padding-top: 50px;
+  animation: fadein .75s;
+}
+.toast{
+  height: 125px;
+  width: 100%;
+  position: relative;
+  box-shadow: inset 0 -9px rgba(0, 0, 0, 0.2), 0 5px rgba(0, 0, 0, 0);
+    background-color: rgba(82, 3, 84, 0.7);
+      border-radius: 10px 0px 0px 10px;
+  display: flex;
+  align-items: center;
+}
+.toastImgHolder{
+  position: relative;
+  left: 0;
+  height: 100%;
+  width: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1vw;
+}
+.toastImg{
+  height: 75%;
+  width: auto;
+  margin-right: 10px;
+  filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
+}
+.toastText{
+  height: 100%;
+  width: 65%;
+  right: 0;
+  position: relative;
+  text-align: left;
+}
+.toastTitle{
+  font-family: titan one;
+  color: white;
+  position: absolute;
+  width: 100%;
+  font-size: 35px;
+  line-height: 30px;
+  text-shadow: 0 0 5px rgba(255,255,255,0.7);
+  top: 10px;
+  left: 0;
+}
+.toastDesc{
+  font-family: nunito;
+  color: white;
+  position: absolute;
+  width: 100%;
+  font-size: 17px;
+  line-height: 15px;
+  text-shadow: 0 0 2px rgba(255,255,255,0.7);
+  top: 35px;
+  left: 0;
+  padding-right: 1.5vw;
+}
+.toastTime{
+  color: white;
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  font-size: 12px;
+}
+
+@media(max-width: 850px){
+  .toasts{
+    width: 80vw;
+  }
+}
+@keyframes fadein{
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}

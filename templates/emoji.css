@@ -1,0 +1,80 @@
+.emojiSelector{
+    position: absolute;
+    width: 250px;
+    height: 300px;
+    box-shadow: inset 0 -9px rgba(0, 0, 0, 0.2), 0 5px rgba(0, 0, 0, 0);
+  background-color: rgba(82, 3, 84, 0.7);
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+}
+.emojiContainer{
+    position: absolute;
+    bottom: 0;
+    height: 80%;
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    display: grid;
+    justify-content: center;
+    align-content: flex-start;
+    grid-template-columns: repeat(auto-fill,40px);
+    grid-gap: 7.5px;
+}
+.emojiContainer::-webkit-scrollbar{
+    display: none;
+}
+.emojiHolder{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all .1s linear;
+}
+.emojiHolder:hover{
+    scale: 1.1;
+}
+.emojiHolder:active{
+    scale: .9;
+}
+.emojiImg{
+    height: 95%;
+    width: auto;
+    filter: drop-shadow(0 0 3px rgba(0,0,0,0.7));
+}
+.searchIcon{
+    color: white;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    position: absolute;
+    left: 5px;
+}
+.emojiSearchContainer{
+    position: absolute;
+    border-radius: 5px;
+    background-color: rgba(47, 1, 48, 0.8);
+    width: 95%;
+    height: 35px;
+    top: 10px;
+    display: flex;
+    align-items: center;
+}
+.emojiSearchInput{
+    position: absolute;
+    height: 100%;
+    border: none;
+    outline: none;
+    color: white;
+    font-family: nunito;
+    font-size: 15px;
+    line-height: 15px;
+    background-color: transparent;
+    right: 0;
+    width: 87.5%;
+}

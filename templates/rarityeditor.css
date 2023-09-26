@@ -1,0 +1,57 @@
+.raritiesBox{
+    width: 90%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: inset 0 -9px rgba(0, 0, 0, 0.2), 0 5px rgba(0, 0, 0, 0);
+  background-color: rgba(82, 3, 84, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.raritiesHolder{
+    display: flex;
+    text-align: center;
+    flex-flow: column;
+    justify-content: center;
+    gap: 5px;
+    width: 50%;
+    position: relative;
+    top: 0;
+}
+.rarityText{
+    font-family: titan one;
+    font-size: 40px;
+    -webkit-text-stroke: #3a3a3a 1.5px;
+    cursor: pointer;
+    transition: scale .1s linear;
+}
+.rarityText:hover{
+    scale:1.1;
+}
+.rarityText:active{
+    scale:.9;
+}
+.rarityAdd{
+    position: relative;
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    color: white;
+    font-size: 15px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    transition: scale .1s linear;
+}
+.rarityAdd:hover{
+    scale:1.1;
+}
+.rarityAdd:active{
+    scale:.9;
+}

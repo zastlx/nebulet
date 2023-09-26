@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito:400,700|Titan+One|Creepster|Satisfy|Eczar:700');
+
+text
+
+/*CLASS NAME HERE*/
+  {
+  font-size: 40px
+    /*PUT UR FONT SIZE HERE*/
+  ;
+  background: -webkit-linear-gradient(45deg, rgba(25, 56, 215, 1) 0%, rgba(154, 28, 203, 1) 50%, rgba(195, 9, 147, 1) 100%);
+
+  background-position: center;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: Titan One, sans-serif;
+  -webkit-text-stroke: #d6d6d6 1.5px;
+}
+
+p {
+  font-size: 40px;
+  font-family: Titan One, sans-serif;
+  -webkit-text-stroke: #d6d6d6 1.5px;
+  animation: bean 3s ease infinite;
+}
+
+@keyframes bean {
+  0% {
+    color: rgba(25, 56, 215, 1);
+  }
+
+  33% {
+    color: rgba(154, 28, 203, 1);
+  }
+
+  66% {
+    color: rgba(195, 9, 147, 1);
+  }
+
+  100% {
+    color: rgba(25, 56, 215, 1);
+  }
+}
+
+ee {
+  font-size: 40px;
+  font-family: Titan One, sans-serif;
+  background: linear-gradient(-300deg, rgb(25, 56, 215), rgb(154, 28, 203), rgb(195, 9, 147), rgb(25, 56, 215));
+  background-size: 400%, 400%;
+  -webkit-text-stroke: #d6d6d6 1.5px;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: bean2 5s ease infinite;
+}
+
+@keyframes bean2 {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+
+.styles__inputContainer___t9pz0-camelCase {
+  border: 2px solid #a660fb;
+  border-radius: 6px;
+  max-width: 330px;
+  width: 80%;
+  height: 45px;
+  margin: auto auto 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.styles__input___2XTSp-camelCase {
+  border: none;
+  color: rgb(149, 84, 201);
+  margin: 5px 2px 5px 11px;
+  max-width: 260px;
+  width: calc(100% - 35px);
+  height: 35px;
+  font-size: 17px;
+  text-align: left;
+  font-family: Nunito, sans-serif;
+  background: -webkit-linear-gradient(45deg, rgba(11, 26, 102, 1) 0%, rgba(66, 12, 87, 1) 50%, rgba(102, 4, 77, 1) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  outline: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.styles__icon___358UQ-camelCase {
+  font-size: 25px;
+  background: -webkit-linear-gradient(45deg, rgba(11, 26, 102, 1) 0%, rgba(66, 12, 87, 1) 50%, rgba(102, 4, 77, 1) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  width: 28px;
+  height: 45px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  text-align: center;
+  margin-top: 20px;
+  padding-left: 10px;
+}
+.arts__modal___VpEAD-camelCase {
+    display: block;
+    position: fixed;
+    z-index: 15;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,.6);
+}

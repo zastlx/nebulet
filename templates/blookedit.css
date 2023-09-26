@@ -1,0 +1,14 @@
+.styles__header___153FZ-camelCase {
+    font-family: Nunito,sans-serif;
+    font-size: 44px;
+    font-weight: 700;
+    margin: 15px 5% 10px;
+    color: #ffffff;
+    text-shadow: 1px 1px 5px rgba(255,255,255,0.7);
+}
+.blookEditor{
+    width: 80%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, 0);
+}

@@ -6,7 +6,7 @@
   height: 100%;
   padding: 20px 10px 20px 0;
   box-sizing: border-box;
-  background-color: rgba(82, 3, 84, 0.7);
+  background-color: rgba(39, 3, 84, 0.7);
   box-shadow: inset -10px 0 rgba(0, 0, 0, .2);
   display: flex;
   flex-direction: column;
@@ -29,9 +29,10 @@
 
 @media only screen and (max-width: 850px) {
     .sidebar {
-      background-color: #4D147B;
+        background-color: #4D147B;
     }
 }
+
 .topIcon {
     color: white;
     margin-left: 10px !important;
@@ -147,10 +148,10 @@
 }
 
 .storeButton {
-    background-color: #700ca6;
+    background: linear-gradient(45deg, rgba(25, 56, 215, 1) 0%, rgba(154, 28, 203, 1) 50%, rgba(195, 9, 147, 1) 100%);
     border-radius: 5px;
     margin: 15px auto 0;
-    padding: 5px 20px;
+    padding: 7px 30px;
     font-size: 18px;
     font-weight: 700;
     color: #fff;
@@ -164,6 +165,7 @@
     cursor: pointer;
     outline: none;
     transition: .2s;
+    box-shadow: 0 0 15px rgb(0 0 0 / 70%);
 }
 
 .storeButton:hover {

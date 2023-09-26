@@ -36,15 +36,9 @@ class LogManager {
 const logManager = new LogManager();
 
 (() => {
-    function printWarn() {
-        // logManager.clear();
-        logManager.log("%cSTOP!", "font-size: 100px;color: red;");
-        logManager.log("%cAnything pasted here could harm your account.", "font-size:30px;");
-        logManager.log("%cIf you don't know what you're doing, close the Console now.", "font-size:22px;");
-    }
-    
-    let _setInterval = setInterval;
-    _setInterval(() => printWarn(), 750);    
+    logManager.log("%cSTOP!", "font-size: 100px;color: red;");
+    logManager.log("%cAnything pasted here could harm your account.", "font-size:30px;");
+    logManager.log("%cIf you don't know what you're doing, close the Console now.", "font-size:22px;");
 })();
 
 export default logManager;

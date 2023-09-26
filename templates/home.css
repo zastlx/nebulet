@@ -1,0 +1,186 @@
+.headerContainer {
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+body{
+    overflow: hidden !important;
+    margin: 0;
+    padding: 0;
+}
+.headerImage {
+    height: 100vh;
+    width: 52.5%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    object-fit: contain;
+    user-select: none;
+    z-index: -1;
+    filter: drop-shadow(0 0 1vw rgba(0,0,0,.7));
+}
+.headerSide {
+    background-color: rgba(0, 0, 0, 0.5);
+    box-shadow: -8px 0px rgba(0, 0, 0, 0.2) inset, 0px 0px 4px rgba(0, 0, 0, 0.15);
+    width: 70vw;
+    height: 131vh;
+    position: absolute;
+    top: -10vh;
+    left: -20vw;
+    transform: rotate(-15deg);
+    z-index: -1;
+}
+.topHeaderContainer {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    user-select: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.logoText {
+    font-size: 7.3vh;
+    font-family: 'Titan One', sans-serif;
+    text-shadow: 2px 2px 8px rgba(255, 255, 255,.7);
+    color: #fff;
+}
+.welcomeContainer {
+    position: absolute;
+    top: 22vh;
+    left: 5vw;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+}
+.welcomeText {
+    color: #fff;
+    font-size: 8.83vh;
+    line-height: 9.13vh;
+    text-shadow: 2px 2px 8px rgba(255, 255, 255,.7);
+    font-weight: bold;
+}
+.welcomeDesc {
+    font-size: 3.35vh;
+    margin: 3vh 0;
+    color: #fff;
+}
+.welcomeButton {
+    border-color: #fff;
+    border-style: solid;
+    border-radius: 6px;
+    border-width: .5vh;
+    font-size: 4.26vh;
+    width: 32vh;
+    line-height: 7vh;
+    text-align: center;
+    color: #fff;
+    outline: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 200ms;
+}
+.welcomeButton:hover{
+    scale: 1.1;
+}
+.welcomeButton:active{
+    scale: .95;
+}
+.pronounceButton {
+    color: #fff;
+    font-size: 3vh;
+    line-height: 4vh;
+    margin-top: 5vh;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+}
+.topButtonContainer {
+    position: absolute;
+    top: 3vh;
+    right: 1.5vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.top-button {
+    color: #fff;
+    font-size: 23px;
+    font-weight: 300;
+    padding: 1vh 3vw;
+    outline: #fff solid 0.35vh;
+    border-radius: 0.35vh;
+    cursor: pointer;
+    font-size: 3vh;
+    transition: all 0.2s;
+    text-decoration: none !important;
+}
+.top-button:hover{
+    scale: 1.1;
+}
+.top-button:active{
+    scale: 1;
+}
+.loginButton{
+    margin-right: 3vw;
+}
+@media only screen and (max-width: 1050px){
+    .loginButton {
+        margin-right: 5vw;
+    }
+    .topButtonContainer {
+        width: 100%;
+        top: 2vh;
+        left: 0;
+    }
+    .welcomeButton {
+        font-size: 3vh;
+        width: 20vh;
+        line-height: 4.5vh;
+    }
+    .pronounceButton {
+        font-size: 2vh;
+        line-height: 3vh;
+        margin-top: 1.5vh;
+    }
+    .headerContainer {
+        height: 100vh;
+    }
+    .welcomeDesc {
+        font-size: 2.2vh;
+        margin: 1.5vh 0 3vh;
+    }
+    .welcomeText {
+        font-size: 6vh;
+        line-height: 6.5vh;
+    }
+    .headerImage {
+        top: 6vh;
+        width: 100vw;
+        height: 42vh;
+    }
+    .headerSide {
+        width: 130vw;
+        height: 70vh;
+        top: 40vh;
+        left: -20vw;
+        transform: rotate(4deg);
+    }
+    .topHeaderContainer {
+        left: 5vw;
+        top: 41vh;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .welcomeContainer {
+        top: 57.5vh;
+    }
+}
+@media screen and (max-width: 1050px) and (orientation: landscape){
+    .headerImage{
+        width: 100vw;
+        height: 42vw;
+    }
+}

@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
-import ReactDOM from "react-dom/client";
-import pages from "./pages/pages";
+import { createRoot } from 'react-dom/client';
+import pages from "./pages";
 import eventManager from "./services/eventManager";
-import Hack from "./pages/testa";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
+/*
 class ErrorBoundary extends Component {
-    state = { hasError: false };
-
     constructor(props) {
         super(props);
+        this.state = { hasError: false };
     }
 
-    static getDerivedStateFromError(thrown) {
+    static getDerivedStateFromError(error) {
         return { hasError: true };
     }
 
@@ -72,34 +71,29 @@ class ErrorBoundary extends Component {
         return this.props.children;
     }
 }
+*/
 
 const App = () => {
-    const routes = [
-        { path: "/test", element: <Hack/> },
-        { path: "/terms", element: <pages.terms/> },
-        { path: "/register", element: <pages.auth type="register"/> },
-        { path: "/login", element: <pages.auth type="login"/> },
-        { path: "/logout", element: <pages.logout/> },
-        { path: "/stats", element: <pages.stats/> },
-        { path: "/leaderboard", element: <pages.leaderboard/> },
-        { path: "/chat", element: <pages.chat/> },
-        { path: "/galaxy", element: <pages.galaxy/> },
-        { path: "/inv", element: <pages.inv/> },
-        { path: "/plaza", element: <pages.plaza/> },
-        { path: "/quests", element: <pages.quests/> },
-        { path: "/panel", element: <pages.panel/> },
-        { path: "/settings", element: <pages.settings/> },
-        { path: "/credits", element: <pages.credits/> },
-        { path: "/store", element: <pages.store/> },
-        { path: "/particles", element: <pages.particles/> }
-    ];
-
     return (
         <BrowserRouter>
             <Routes>
-                {routes.map((route, index) => {
-                    return <Route key={index} path={route.path} element={route.element} />
-                })}
+                <Route path="/" element={<pages.home />} />
+                <Route path="/terms" element={<pages.terms />} />
+                <Route path="/register" element={<pages.auth type="register" />} />
+                <Route path="/login" element={<pages.auth type="login" />} />
+                <Route path="/logout" element={<pages.logout />} />
+                <Route path="/stats" element={<pages.stats />} />
+                <Route path="/leaderboard" element={<pages.leaderboard />} />
+                <Route path="/chat" element={<pages.chat />} />
+                <Route path="/galaxy" element={<pages.galaxy />} />
+                <Route path="/inv" element={<pages.inv />} />
+                <Route path="/plaza" element={<pages.plaza />} />
+                <Route path="/quests" element={<pages.quests />} />
+                <Route path="/panel" element={<pages.panel />} />
+                <Route path="/settings" element={<pages.settings />} />
+                <Route path="/credits" element={<pages.credits />} />
+                <Route path="/store" element={<pages.store />} />
+                <Route path="/particles" element={<pages.particles />} />
             </Routes>
         </BrowserRouter>
     );
@@ -109,10 +103,8 @@ document.addEventListener("keydown", (event) => {
     eventManager.dispatch("KEY_PRESS", event);
 });
 
-window.global = window;
+// window.global = window;
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-    <ErrorBoundary>
-        <App />
-    </ErrorBoundary>
+createRoot(document.getElementById('root')).render(
+    <App />
 );

@@ -43,6 +43,10 @@ class UserStore {
         return this.#users.find(user => user.id === userID);
     }
 
+    getUserFromUsername(username) {
+        return this.#users.find(user => user.username === username);
+    }
+
     getUsers() {
         return this.#users.reduce((userObject, user) => {
             userObject[user.id] = user;
@@ -113,6 +117,28 @@ class UserStore {
         return selfBlooks[selfBlooks.length * Math.random() | 0];
     }
 
+    async fetchUser(username) {
+        if (this.getUserFromUsername(username)) return this.getUserFromUsername(username);
+        const response = await APIManager.get(ENDPOINTS.USER.INFO(username));
+        const { status, data } = response;
+
+        switch (status) {
+            case 401:
+                authStore.forceLogout();
+                window.location.pathname = "/login";
+                break;
+            case 200: {
+                const user = new User(data, false);
+                eventManager.dispatch("USER_CREATE", user);
+                return user;
+                break;
+            }
+            default:
+                logManager.error(`[UserStore] Unknown status code received: ${status}`);
+                throw { status, data };
+        }
+    }
+
     async init() {
         try {
             this.loading = true;
@@ -137,9 +163,7 @@ class UserStore {
                         logManager.error(`[UserStore] Unknown status code received: ${status}`);
                         throw { status, data };
                 }
-            } else {
-                eventManager.dispatch("LOCAL_USER_INIT");
-            }
+            } else eventManager.dispatch("LOCAL_USER_INIT");
         } catch (error) {
             logManager.error(`[UserStore] Error occurred during initialization: ${error.message}`);
             throw error;

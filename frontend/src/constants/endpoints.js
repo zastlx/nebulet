@@ -71,7 +71,7 @@ export const ENDPOINTS = {
         CREATE_TRADE: (userID) => `${BASE_URL}/user${userID}/trade`,
     },
     SOCKETS: {
-        URL: "wss://nws.zastix.club/",
+        URL: `wss://${location.host}/ws/`,
     },
     PANEL: {
         PAGES: `${BASE_URL}/panel/pages`

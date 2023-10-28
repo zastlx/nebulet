@@ -11,7 +11,8 @@ app.use(express.json());
 app.set("trust proxy", 1);
 
 setupMiddlewares(app).then(() => {
-    setupRoutes(app).then(() => {
+    setupRoutes(app).then(async () => {
         app.listen(config.server.port, () => console.log(`Server started.`));
+        (await import('./ws/main.js')).default(app);
     })
 });

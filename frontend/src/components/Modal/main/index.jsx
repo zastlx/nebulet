@@ -3,8 +3,8 @@ import styles from "./index.module.css";
 
 export default ({title, desc, buttons, inputs = []}) => {
     const [hidden, setHidden] = useState(false);
-
     if (hidden) return (<></>);
+
     return (
         <div className={styles.modal}>
             <div className={styles.modal2}>

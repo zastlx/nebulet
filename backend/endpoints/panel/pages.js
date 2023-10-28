@@ -13,39 +13,48 @@ export default {
             const pages = [{
                 name: "Console",
                 icon: "faTerminal",
-                roles: ["Owner"]
+                roles: ["Owner"],
+                link: "/console"
             }, {
                 name: "Pack Editor",
                 icon: "faStore",
-                roles: ["Owner"]
+                roles: ["Owner"],
+                link: "/packs"
             }, {
                 name: "Item Editor",
                 icon: "faSuitcase",
-                roles: ["Owner"]
+                roles: ["Owner"],
+                link: "/items"
             }, {
                 name: "Badge Editor",
                 icon: "faAward",
-                roles: ["Owner"]
+                roles: ["Owner"],
+                link: "/badges"
             }, {
                 name: "Banner Editor",
                 icon: "faImages",
-                roles: ["Owner"]
+                roles: ["Owner"],
+                link: "/banners"
             }, {
                 name: "News Editor",
                 icon: "faNewspaper",
-                roles: ["Owner", "Admin"]
+                roles: ["Owner", "Admin"],
+                link: "/news"
             }, {
                 name: "Emoji Editor",
                 icon: "faSmile",
-                roles: ["Owner", "Admin"]
+                roles: ["Owner", "Admin"],
+                link: "/emojis"
             }, {
                 name: "User Manager",
                 icon: "faUserCog",
-                roles: ["Owner", "Admin", "Moderator", "Helper"]
+                roles: ["Owner", "Admin", "Moderator", "Helper"],
+                link: "/users"
             }, {
                 name: "Report Manager",
                 icon: "faFlag",
-                roles: ["Owner", "Admin", "Moderator", "Helper"]
+                roles: ["Owner", "Admin", "Moderator", "Helper"],
+                link: "/reports"
             }];
 
             let accessablePages = pages

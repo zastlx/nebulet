@@ -1,4 +1,3 @@
 export default {
-    masterPort: 1337,
-    socketIOPort: 9696
+    masterPort: 1337
 }

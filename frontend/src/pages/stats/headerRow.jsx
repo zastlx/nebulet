@@ -85,7 +85,7 @@ export default function HeaderRow({ setShowSelector, setSelectorType, states }) 
                                 setHidden(true);
                             }
                         }, {
-                            text: "View",
+                            text: "Close",
                             click: (setHidden) => setHidden(true)
                         }]} />;
                     }}/>

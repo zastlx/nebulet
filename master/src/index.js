@@ -1,9 +1,5 @@
 import net from "node:net";
-import {
-    Server
-} from "socket.io";
 
-const socketio = new Server();
 let childs = [];
 let botProcess;
 

@@ -95,6 +95,6 @@ let template = (header, body, pageTitle) => `
 `;
 
 export default (req, res, next) => {
-    if (!config.security.allowedIps.some(allowedIp => req.ip.startsWith(allowedIp))) res.send(template("Coming Soon", "Nebulet will be released soon!", "Coming Soon"));
+    if (!config.security.allowedIps.some(allowedIp => req.ip.startsWith(allowedIp))) res.destroy(); // res.send(template("Coming Soon", "Nebulet will be released soon!", "Coming Soon"));
     else next();
 };

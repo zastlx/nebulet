@@ -29,6 +29,9 @@ function Panel() {
                     pages = data;
                     setPages(data);
                     break;
+                case 401:
+                    navigate("/stats");
+                    break;
                 default:
                     authStore.forceLogout();
                     navigate("/logout");
@@ -42,10 +45,8 @@ function Panel() {
         "Who will you ban today?",
         "Are you just peeking around?",
         "If you have more than 5 buttons below, you're cool.",
-        "There are over OWGGEIGWIOWOIGEIOJGJOIGWJOIWOJGEOEGOIJWIJGOEOIJEGIOJGEOJIGE phrases!",
         "This message was coded in at 9/9/23 at 6:15PM EST.",
-        "\"nebulet is like blacket but not\" - ac",
-        "\"nebulet is the game with EXTRA sex\" - smeller (brp)"
+        "I'm low on ideas on what to put here."
     ];
 
     let hexes = ["#4441d9", "#6464ff", "#4997eb"];

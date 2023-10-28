@@ -10,11 +10,13 @@ import Galaxy from "./galaxy";
 import Inventory from "./inv";
 import Plaza from "./plaza";
 import Quests from "./quests";
-import Panel from "./panel";
 import Settings from "./settings";
 import Credits from "./credits";
 import Store from "./store";
 import ParticleTest from "./test.jsx";
+
+import Panel from "./panel";
+import UserPanel from "./panel/users";
 
 export default {
     errors: {
@@ -31,9 +33,11 @@ export default {
     inv: Inventory,
     plaza: Plaza,
     quests: Quests,
-    panel: Panel,
     settings: Settings,
     credits: Credits,
     store: Store,
-    particles: ParticleTest
+    particles: ParticleTest,
+
+    panel: Panel,
+    userPanel: UserPanel
 };

@@ -26,7 +26,7 @@ export default async function setupRoutes(app, baseDir = "") {
     });
 
     app.use((req, res, next) => {
-        if (req.path.startsWith("/api")) return next();
+        if (req.path.startsWith("/api") || req.path.startsWith("/ws/")) return next();
         viteAppProxyMiddleware(req, res, next);
     });
 }

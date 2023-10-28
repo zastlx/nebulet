@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import eventManager from "../../services/eventManager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLock } from "@fortawesome/free-solid-svg-icons";
+import Modal from "../../components/Modal/main";
 
 function Inventory() {
     const [packs, setPacks] = useState(packStore.getPacksArray());
@@ -38,6 +39,11 @@ function Inventory() {
 
         return () => subs.forEach((unsub) => unsub());
     }, []);
+
+    function searchUser(username) {
+        let userData = fetchUser(username);
+        console.log(userData);
+    }
 
     const rarityColors = {
         "Common": "white",
@@ -64,7 +70,25 @@ function Inventory() {
             <div className={styles.contentContainer}>
                 <div className={styles.pageTitle}>Inventory</div>
                 <div className={styles.buttonRow}>
-                    <HeaderButton color="#4441d9" name="View User Blooks" icon={faSearch} />
+                    <HeaderButton color="#4441d9" name="View User Blooks" icon={faSearch} click={() => {
+                        return ( <Modal title={"User Search"} inputs={[{
+                            placeHolder: "Username",
+                            binding: {
+                                manual: true,
+                                set: false,
+                                value: ""
+                            }
+                        }]} buttons={[{
+                            text: "Search",
+                            click: (setHidden) => {
+                                searchUser()
+                                setHidden(true)
+                            }
+                        }, {
+                            text: "Close",
+                            click: (setHidden) => setHidden(true)
+                        }]} /> );
+                    }} />
                     <HeaderButton color="#6464ff" name="Hide Packs" icon={faEyeSlash} onClick={() => setShowingPacks(!showingPacks)} />                    
                 </div>
 

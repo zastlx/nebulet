@@ -1,12 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "./styles/headerButton.module.css";
 
-export default function HeaderButton({color, name, icon, click}) {
-
+export default function HeaderButton({color, name, icon, click}) {    
     return (
-        <div className={styles.button} onClick={() => {
-            click();
-        }} role="button">
+        <div className={styles.button} onClick={click} role="button">
             <div className={styles.shadow}></div>
             <div
                 className={styles.edge}

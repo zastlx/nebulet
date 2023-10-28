@@ -89,11 +89,14 @@ const App = () => {
                 <Route path="/inv" element={<pages.inv />} />
                 <Route path="/plaza" element={<pages.plaza />} />
                 <Route path="/quests" element={<pages.quests />} />
-                <Route path="/panel" element={<pages.panel />} />
                 <Route path="/settings" element={<pages.settings />} />
                 <Route path="/credits" element={<pages.credits />} />
                 <Route path="/store" element={<pages.store />} />
                 <Route path="/particles" element={<pages.particles />} />
+                <Route path="*" element={<pages.errors.error404 />} />
+
+                <Route path="/panel" element={<pages.panel />} />
+                <Route path="/panel/users" element={<pages.userPanel />} />
             </Routes>
         </BrowserRouter>
     );
